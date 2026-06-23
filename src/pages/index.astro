@@ -1,0 +1,180 @@
+---
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ProductCard from "../components/ProductCard.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import {
+  categoryUrl,
+  formatPrice,
+  getCategories,
+  getProducts,
+  productUrl,
+  site
+} from "../lib/catalog";
+
+const categories = getCategories();
+const products = getProducts();
+const featured = products.slice(0, 12);
+const categoryHighlights = categories.map((category) => {
+  const product = products.find((item) => item.category_slug === category.slug);
+  const count = products.filter((item) => item.category_slug === category.slug).length;
+  return { category, product, count };
+});
+const heroMain = products.find((product) => product.slug === "lazernyy-uroven-4d-green") ?? products[0];
+const heroSecond = products.find((product) => product.slug === "multimetr-aneng-621a") ?? products[1];
+const heroThird = products.find((product) => product.slug === "tolshchinomer-etari-md-666") ?? products[2];
+const promoOne = products.find((product) => product.slug === "nasadka-dlya-moyki-kondicionerov") ?? products[3];
+const promoTwo = products.find((product) => product.slug === "ph-tds-metr-2v1") ?? products[4];
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  name: site.name,
+  legalName: site.legalName,
+  url: site.url,
+  telephone: site.phone,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.city,
+    addressCountry: "UZ"
+  }
+};
+---
+
+<MainLayout
+  title={site.title}
+  description={site.description}
+  canonical="/"
+  schema={organizationSchema}
+>
+  <section class="category-showcase" id="categories" aria-labelledby="categories-title">
+    <div class="category-showcase-head">
+      <div>
+        <Breadcrumbs items={[{ name: "Главная", href: "/" }]} />
+        <p class="eyebrow">Каталог 88.uz</p>
+        <h2 id="categories-title">Популярные разделы</h2>
+      </div>
+      <a class="showcase-link" href="#products">Смотреть товары</a>
+    </div>
+
+    <div class="category-showcase-track" aria-label="Категории товаров">
+      {categoryHighlights.map(({ category, product, count }, index) => (
+        <a class="category-showcase-card" href={categoryUrl(category)} style={`--delay: ${index * 45}ms`}>
+          <span class="category-thumb">
+            {product && (
+              <img
+                src={product.main_image}
+                alt=""
+                width="180"
+                height="140"
+                loading={index < 4 ? "eager" : "lazy"}
+              />
+            )}
+          </span>
+          <strong>{category.title}</strong>
+          <small>{count || "Подбор"} товаров</small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="shop-hero-grid" aria-labelledby="home-title">
+    <a class="hero-banner hero-banner-large" href={productUrl(heroMain)}>
+      <div class="banner-copy">
+        <span class="banner-kicker">Онлайн-доставка по Ташкенту</span>
+        <h1 id="home-title">Инструменты и измерительные приборы для мастеров</h1>
+        <p>
+          Лазерные уровни, мультиметры, дальномеры, толщиномеры, pH/TDS-метры и аксессуары для сервиса.
+          Напишите в Telegram, подтвердим наличие и отправим по городу.
+        </p>
+        <span class="banner-cta">Заказать сейчас</span>
+      </div>
+      <div class="banner-product">
+        <span class="sale-badge">Доставка сегодня</span>
+        <img src={heroMain.main_image} alt={heroMain.title} width="820" height="620" loading="eager" />
+      </div>
+    </a>
+
+    <div class="hero-side-banners">
+      <a class="hero-banner hero-banner-compact banner-dark" href={productUrl(heroSecond)}>
+        <div class="banner-copy">
+          <span class="banner-kicker">Точные замеры</span>
+          <h2>{heroSecond.title}</h2>
+          <span class="banner-price">{formatPrice(heroSecond)}</span>
+        </div>
+        <img src={heroSecond.main_image} alt={heroSecond.title} width="360" height="260" loading="eager" />
+      </a>
+      <a class="hero-banner hero-banner-compact banner-red" href={productUrl(heroThird)}>
+        <div class="banner-copy">
+          <span class="banner-kicker">Для авто и сервиса</span>
+          <h2>{heroThird.title}</h2>
+          <span class="banner-price">{formatPrice(heroThird)}</span>
+        </div>
+        <img src={heroThird.main_image} alt={heroThird.title} width="360" height="260" loading="eager" />
+      </a>
+    </div>
+  </section>
+
+  <div class="feature-strip" aria-label="Сервис 88.uz">
+    <span>Доставка прямо сейчас по г. Ташкент</span>
+    <span>Заказ через Telegram</span>
+    <span>Цены в UZS</span>
+    <span>Юр. лицо: {site.legalName}</span>
+  </div>
+
+  <section class="promo-grid" aria-label="Промо предложения">
+    <a class="promo-tile" href={productUrl(promoOne)}>
+      <div>
+        <span class="banner-kicker">Сервис кондиционеров</span>
+        <h2>Аксессуары для Karcher и мойки кондиционеров</h2>
+        <p>Насадки, переходники и полезные товары для выездных мастеров.</p>
+      </div>
+      <img src={promoOne.main_image} alt={promoOne.title} width="420" height="300" loading="lazy" />
+    </a>
+    <a class="promo-tile promo-tile-accent" href={productUrl(promoTwo)}>
+      <div>
+        <span class="banner-kicker">Вода и фильтры</span>
+        <h2>pH/TDS-метры и компактные тестеры</h2>
+        <p>Быстрый подбор приборов для воды, диагностики и бытового сервиса.</p>
+      </div>
+      <img src={promoTwo.main_image} alt={promoTwo.title} width="420" height="300" loading="lazy" />
+    </a>
+  </section>
+
+  <section class="section" id="products" aria-labelledby="products-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Витрина</p>
+        <h2 id="products-title">Популярные товары</h2>
+      </div>
+      <a class="button button-secondary" href={site.telegram}>Уточнить наличие</a>
+    </div>
+    <div class="category-rail" aria-label="Быстрые категории">
+      {categories.slice(0, 8).map((category) => (
+        <a class="category-pill" href={categoryUrl(category)}>{category.title}</a>
+      ))}
+    </div>
+    <div class="grid">
+      {featured.map((product, index) => (
+        <ProductCard product={product} priority={index < 4} />
+      ))}
+    </div>
+  </section>
+
+  <section class="service-band">
+    <div class="service-card">
+      <p class="eyebrow">Как магазин</p>
+      <h2>Каталог выглядит как интернет-магазин, заявки идут через Telegram</h2>
+      <p>
+        Покупатель видит категории, цены, фото и характеристики, затем быстро пишет в Telegram.
+        Так проще подтвердить наличие, фото товара и доставку по Ташкенту без сложной корзины.
+      </p>
+    </div>
+    <div class="service-card service-card-dark">
+      <p class="eyebrow">Сильная сторона</p>
+      <h2>Онлайн-доставка прямо сейчас по г. Ташкент</h2>
+      <p>
+        Главный акцент сайта: не просто каталог, а быстрый путь от выбора прибора до доставки мастеру в городе.
+      </p>
+      <a class="button button-primary" href={site.telegram}>Написать в Telegram</a>
+    </div>
+  </section>
+</MainLayout>

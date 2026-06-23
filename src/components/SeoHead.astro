@@ -1,0 +1,26 @@
+---
+import { absoluteUrl, site } from "../lib/catalog";
+
+const {
+  title = site.title,
+  description = site.description,
+  canonical = "/",
+  ogType = "website",
+  schema = []
+} = Astro.props;
+
+const schemaItems = Array.isArray(schema) ? schema.filter(Boolean) : [schema].filter(Boolean);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={absoluteUrl(canonical)} />
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={absoluteUrl(canonical)} />
+<meta name="twitter:card" content="summary_large_image" />
+{schemaItems.map((item) => (
+  <script type="application/ld+json" set:html={JSON.stringify(item)} />
+))}

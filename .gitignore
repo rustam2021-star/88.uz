@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.env
+.astro-dev*.log
+.tmp-*.png
+.DS_Store
+Thumbs.db

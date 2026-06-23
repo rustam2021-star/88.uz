@@ -1,0 +1,31 @@
+---
+import { getCategories, categoryUrl, site } from "../lib/catalog";
+import Logo from "./Logo.astro";
+
+const categories = getCategories();
+---
+
+<footer class="site-footer">
+  <div>
+    <a class="footer-brand" href="/" aria-label="88.uz">
+      <Logo id="footer-logo" compact />
+    </a>
+    <p>Hi-tech каталог измерительных приборов, гаджетов, автоинструментов и технических товаров для мастеров. Онлайн-заказ и доставка прямо сейчас по г. Ташкент.</p>
+    <small class="footer-legal">Юр. лицо: {site.legalName}</small>
+  </div>
+  <div>
+    <h2>Каталог</h2>
+    <div class="footer-links">
+      {categories.slice(0, 8).map((category) => (
+        <a href={categoryUrl(category)}>{category.title}</a>
+      ))}
+    </div>
+  </div>
+  <div>
+    <h2>Контакты</h2>
+    <div class="footer-links">
+      <a href={site.telegram}>Заказать доставку в Telegram</a>
+      <a href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,39 @@
+---
+import { formatPrice, getCategory, productUrl, site } from "../lib/catalog";
+
+const { product, priority = false } = Astro.props;
+const category = getCategory(product.category_slug);
+---
+
+<article class="product-card">
+  <a class="product-media" href={productUrl(product)} aria-label={product.title}>
+    <span class:list={["product-badge", product.in_stock ? "badge-ok" : "badge-wait"]}>
+      {product.in_stock ? "В наличии" : "Под заказ"}
+    </span>
+    <span class="quick-view" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M7 17 17 7M9 7h8v8" />
+      </svg>
+    </span>
+    <img
+      src={product.main_image}
+      alt={product.title}
+      loading={priority ? "eager" : "lazy"}
+      width="640"
+      height="480"
+      onerror="this.remove()"
+    />
+    <span class="media-fallback">{product.brand}</span>
+  </a>
+  <div class="product-body">
+    {category && <a class="product-category" href={`/${category.slug}/`}>{category.title}</a>}
+    <h3><a href={productUrl(product)}>{product.title}</a></h3>
+    <p>{product.short_description}</p>
+    <div class="product-meta">
+      <strong>{formatPrice(product)}</strong>
+      <a class="card-link" href={product.in_stock ? productUrl(product) : site.telegram}>
+        {product.in_stock ? "Подробнее" : "Уточнить"}
+      </a>
+    </div>
+  </div>
+</article>

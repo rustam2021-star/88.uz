@@ -1,0 +1,105 @@
+---
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import {
+  buildBreadcrumbSchema,
+  buildProductSchema,
+  categoryUrl,
+  formatPrice,
+  getCategory,
+  getProducts,
+  getRelatedProducts,
+  productUrl,
+  site
+} from "../../lib/catalog";
+
+export function getStaticPaths() {
+  return getProducts().map((product) => ({
+    params: { slug: product.slug },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+const category = getCategory(product.category_slug);
+const related = getRelatedProducts(product);
+const breadcrumbs = [
+  { name: "Главная", href: "/" },
+  ...(category ? [{ name: category.title, href: categoryUrl(category) }] : []),
+  { name: product.title, href: productUrl(product) }
+];
+const schema = [buildBreadcrumbSchema(breadcrumbs), buildProductSchema(product, category)];
+---
+
+<MainLayout
+  title={product.seo_title}
+  description={product.seo_description}
+  canonical={productUrl(product)}
+  ogType="product"
+  schema={schema}
+>
+  <section class="product-title">
+    <Breadcrumbs items={breadcrumbs} />
+    <p class="eyebrow">{category?.title ?? "Товар"}</p>
+    <h1>{product.title}</h1>
+    <p>{product.short_description}</p>
+    <div class="product-kpis">
+      <span class:list={["stock", product.in_stock ? "stock-ok" : "stock-wait"]}>
+        {product.in_stock ? "В наличии" : "Под заказ"}
+      </span>
+      <span class="chip">Доставка сейчас по Ташкенту</span>
+      <span class="chip">Онлайн-заказ</span>
+    </div>
+  </section>
+
+  <section class="product-detail">
+    <div class="product-gallery">
+      <img src={product.main_image} alt={product.title} width="760" height="570" onerror="this.remove()" />
+      <span class="media-fallback">{product.brand}</span>
+    </div>
+
+    <div class="product-summary">
+      <div class="contact-panel">
+        <p class="eyebrow">Цена</p>
+        <div class="price">{formatPrice(product)}</div>
+        <p>{product.description}</p>
+        <div class="actions">
+          <a class="button button-primary" href={site.telegram}>Заказать доставку</a>
+          <a class="button button-secondary" href={`tel:${site.phone.replaceAll(" ", "")}`}>
+            Позвонить
+          </a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <p class="eyebrow">Характеристики</p>
+        <h2>Технические данные</h2>
+        <div class="spec-list">
+          {Object.entries(product.specs).map(([label, value]) => (
+            <div class="spec-row">
+              <span class="spec-label">{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section" aria-labelledby="related-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Еще в категории</p>
+          <h2 id="related-title">Похожие товары</h2>
+        </div>
+      </div>
+      <div class="grid">
+        {related.map((item) => (
+          <ProductCard product={item} />
+        ))}
+      </div>
+    </section>
+  )}
+</MainLayout>
