@@ -1,5 +1,5 @@
 ---
-import { formatPrice, getCategory, productUrl, site } from "../lib/catalog";
+import { categoryUrl, formatPrice, getCategory, productUrl, site } from "../lib/catalog";
 
 const { product, priority = false } = Astro.props;
 const category = getCategory(product.category_slug);
@@ -31,7 +31,7 @@ const category = getCategory(product.category_slug);
     </div>
   </div>
   <div class="product-body">
-    {category && <a class="product-category" href={`/${category.slug}/`}>{category.title}</a>}
+    {category && <a class="product-category" href={categoryUrl(category)}>{category.title}</a>}
     <h3><a href={productUrl(product)}>{product.title}</a></h3>
     <p>{product.short_description}</p>
     <div class="product-meta">

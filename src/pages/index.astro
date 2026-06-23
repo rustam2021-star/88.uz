@@ -93,6 +93,8 @@ const organizationSchema = {
 
       if (categoryCarousel) {
         const scrollStep = () => Math.max(260, categoryCarousel.clientWidth * 0.72);
+        const dragThreshold = 8;
+        let pointerDown = false;
         let isDragging = false;
         let moved = false;
         let startX = 0;
@@ -118,28 +120,37 @@ const organizationSchema = {
 
         categoryCarousel.addEventListener("pointerdown", (event) => {
           if (event.button !== 0) return;
-          isDragging = true;
+          pointerDown = true;
+          isDragging = false;
           moved = false;
           startX = event.clientX;
           startScrollLeft = categoryCarousel.scrollLeft;
-          categoryCarousel.classList.add("is-dragging");
-          categoryCarousel.setPointerCapture(event.pointerId);
         });
 
         categoryCarousel.addEventListener("pointermove", (event) => {
-          if (!isDragging) return;
+          if (!pointerDown) return;
           const delta = event.clientX - startX;
-          if (Math.abs(delta) > 4) moved = true;
+          if (!isDragging && Math.abs(delta) < dragThreshold) return;
+          if (!isDragging) {
+            isDragging = true;
+            moved = true;
+            categoryCarousel.classList.add("is-dragging");
+            categoryCarousel.setPointerCapture(event.pointerId);
+          }
           categoryCarousel.scrollLeft = startScrollLeft - delta;
         });
 
         categoryCarousel.addEventListener("pointerup", (event) => {
+          pointerDown = false;
           isDragging = false;
           categoryCarousel.classList.remove("is-dragging");
-          categoryCarousel.releasePointerCapture(event.pointerId);
+          if (categoryCarousel.hasPointerCapture(event.pointerId)) {
+            categoryCarousel.releasePointerCapture(event.pointerId);
+          }
         });
 
         categoryCarousel.addEventListener("pointercancel", () => {
+          pointerDown = false;
           isDragging = false;
           categoryCarousel.classList.remove("is-dragging");
         });
