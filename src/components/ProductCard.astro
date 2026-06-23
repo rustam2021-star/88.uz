@@ -6,25 +6,30 @@ const category = getCategory(product.category_slug);
 ---
 
 <article class="product-card">
-  <a class="product-media" href={productUrl(product)} aria-label={product.title}>
+  <div class="product-media">
     <span class:list={["product-badge", product.in_stock ? "badge-ok" : "badge-wait"]}>
       {product.in_stock ? "В наличии" : "Под заказ"}
     </span>
-    <span class="quick-view" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <path d="M7 17 17 7M9 7h8v8" />
-      </svg>
-    </span>
-    <img
-      src={product.main_image}
-      alt={product.title}
-      loading={priority ? "eager" : "lazy"}
-      width="640"
-      height="480"
-      onerror="this.remove()"
-    />
-    <span class="media-fallback">{product.brand}</span>
-  </a>
+    <a class="media-image-link" href={productUrl(product)} aria-label={product.title}>
+      <img
+        src={product.main_image}
+        alt={product.title}
+        loading={priority ? "eager" : "lazy"}
+        width="640"
+        height="480"
+        onerror="this.remove()"
+      />
+      <span class="media-fallback">{product.brand}</span>
+    </a>
+    <div class="product-hover-actions" aria-label={`Быстрые действия для ${product.title}`}>
+      <a class="hover-order" href={site.telegram}>Заказать</a>
+      <a class="quick-view" href={productUrl(product)} aria-label={`Подробнее: ${product.title}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8" />
+        </svg>
+      </a>
+    </div>
+  </div>
   <div class="product-body">
     {category && <a class="product-category" href={`/${category.slug}/`}>{category.title}</a>}
     <h3><a href={productUrl(product)}>{product.title}</a></h3>

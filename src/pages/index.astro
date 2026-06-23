@@ -18,7 +18,7 @@ const categoryHighlights = categories.map((category) => {
   const product = products.find((item) => item.category_slug === category.slug);
   const count = products.filter((item) => item.category_slug === category.slug).length;
   return { category, product, count };
-});
+}).filter(({ count }) => count > 0);
 const heroMain = products.find((product) => product.slug === "lazernyy-uroven-4d-green") ?? products[0];
 const heroSecond = products.find((product) => product.slug === "multimetr-aneng-621a") ?? products[1];
 const heroThird = products.find((product) => product.slug === "tolshchinomer-etari-md-666") ?? products[2];
@@ -52,10 +52,22 @@ const organizationSchema = {
         <p class="eyebrow">Каталог 88.uz</p>
         <h2 id="categories-title">Популярные разделы</h2>
       </div>
-      <a class="showcase-link" href="#products">Смотреть товары</a>
+      <div class="category-showcase-actions">
+        <button class="carousel-button" type="button" aria-label="Прокрутить категории влево" data-category-prev>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <button class="carousel-button" type="button" aria-label="Прокрутить категории вправо" data-category-next>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+        <a class="showcase-link" href="#products">Смотреть товары</a>
+      </div>
     </div>
 
-    <div class="category-showcase-track" aria-label="Категории товаров">
+    <div class="category-showcase-track" aria-label="Категории товаров" data-category-carousel>
       {categoryHighlights.map(({ category, product, count }, index) => (
         <a class="category-showcase-card" href={categoryUrl(category)} style={`--delay: ${index * 45}ms`}>
           <span class="category-thumb">
@@ -74,6 +86,72 @@ const organizationSchema = {
         </a>
       ))}
     </div>
+    <script>
+      const categoryCarousel = document.querySelector("[data-category-carousel]");
+      const categoryPrev = document.querySelector("[data-category-prev]");
+      const categoryNext = document.querySelector("[data-category-next]");
+
+      if (categoryCarousel) {
+        const scrollStep = () => Math.max(260, categoryCarousel.clientWidth * 0.72);
+        let isDragging = false;
+        let moved = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        categoryPrev?.addEventListener("click", () => {
+          categoryCarousel.scrollBy({ left: -scrollStep(), behavior: "smooth" });
+        });
+
+        categoryNext?.addEventListener("click", () => {
+          categoryCarousel.scrollBy({ left: scrollStep(), behavior: "smooth" });
+        });
+
+        categoryCarousel.addEventListener(
+          "wheel",
+          (event) => {
+            if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+            event.preventDefault();
+            categoryCarousel.scrollBy({ left: event.deltaY, behavior: "auto" });
+          },
+          { passive: false }
+        );
+
+        categoryCarousel.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0) return;
+          isDragging = true;
+          moved = false;
+          startX = event.clientX;
+          startScrollLeft = categoryCarousel.scrollLeft;
+          categoryCarousel.classList.add("is-dragging");
+          categoryCarousel.setPointerCapture(event.pointerId);
+        });
+
+        categoryCarousel.addEventListener("pointermove", (event) => {
+          if (!isDragging) return;
+          const delta = event.clientX - startX;
+          if (Math.abs(delta) > 4) moved = true;
+          categoryCarousel.scrollLeft = startScrollLeft - delta;
+        });
+
+        categoryCarousel.addEventListener("pointerup", (event) => {
+          isDragging = false;
+          categoryCarousel.classList.remove("is-dragging");
+          categoryCarousel.releasePointerCapture(event.pointerId);
+        });
+
+        categoryCarousel.addEventListener("pointercancel", () => {
+          isDragging = false;
+          categoryCarousel.classList.remove("is-dragging");
+        });
+
+        categoryCarousel.addEventListener("click", (event) => {
+          if (!moved) return;
+          event.preventDefault();
+          event.stopPropagation();
+          moved = false;
+        });
+      }
+    </script>
   </section>
 
   <section class="shop-hero-grid" aria-labelledby="home-title">
