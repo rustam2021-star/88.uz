@@ -1,8 +1,9 @@
-node_modules/
-dist/
-.astro/
+reference_downloader/venv/
+reference_downloader/reference_tfamerce_full/
+reference_downloader/__pycache__/
+
+*.py[cod]
+
 .env
-.astro-dev*.log
-.tmp-*.png
 .DS_Store
 Thumbs.db

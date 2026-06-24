@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://88.uz/sitemap.xml
