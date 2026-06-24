@@ -1,0 +1,11 @@
+---
+import { categoryUrl } from "../lib/catalog";
+
+const { category, product, count = 0 } = Astro.props;
+---
+
+<a class="category-card" href={categoryUrl(category)}>
+  {product && <img src={product.main_image} alt="" width="220" height="150" loading="lazy" />}
+  <h3>{category.title}</h3>
+  <p>{count} товаров · Ташкент</p>
+</a>

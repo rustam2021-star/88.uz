@@ -1,0 +1,13 @@
+---
+import { categoryUrl, getCategories, site } from "../lib/catalog";
+
+const { limit = 12, compact = false } = Astro.props;
+const categories = getCategories().slice(0, limit);
+---
+
+<div class:list={["category-rail", compact && "category-rail-compact"]} id="categories">
+  {categories.map((category) => (
+    <a class="category-pill" href={categoryUrl(category)}>{category.title}</a>
+  ))}
+  <a class="category-pill" href={site.telegram}>Распродажа</a>
+</div>

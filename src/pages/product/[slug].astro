@@ -1,6 +1,8 @@
----
+﻿---
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import ProductCard from "../../components/ProductCard.astro";
+import ProductGallery from "../../components/ProductGallery.astro";
+import ProductGrid from "../../components/ProductGrid.astro";
+import SpecsTable from "../../components/SpecsTable.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import {
   buildBreadcrumbSchema,
@@ -25,7 +27,6 @@ export function getStaticPaths() {
 const { product } = Astro.props;
 const category = getCategory(product.category_slug);
 const related = getRelatedProducts(product);
-const gallery = product.gallery?.length ? product.gallery : [product.main_image];
 const breadcrumbs = [
   { name: "Главная", href: "/" },
   ...(category ? [{ name: category.title, href: categoryUrl(category) }] : []),
@@ -57,20 +58,7 @@ const phoneHref = `tel:${site.phone.replaceAll(" ", "")}`;
   </section>
 
   <section class="product-detail">
-    <div class="product-gallery" data-gallery>
-      <div class="gallery-main">
-        <img src={gallery[0]} alt={product.title} width="760" height="570" data-gallery-main />
-      </div>
-      {gallery.length > 1 && (
-        <div class="gallery-thumbs" aria-label="Галерея товара">
-          {gallery.map((image, index) => (
-            <button class="gallery-thumb" type="button" data-gallery-thumb={image} aria-label={`Фото ${index + 1}`}>
-              <img src={image} alt="" width="96" height="96" loading="lazy" />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+    <ProductGallery product={product} />
 
     <div class="product-summary">
       <div class="contact-panel">
@@ -93,14 +81,7 @@ const phoneHref = `tel:${site.phone.replaceAll(" ", "")}`;
       <div class="info-card">
         <p class="eyebrow">Характеристики</p>
         <h2>Технические данные</h2>
-        <div class="spec-list">
-          {Object.entries(product.specs ?? {}).map(([label, value]) => (
-            <div class="spec-row">
-              <span class="spec-label">{label}</span>
-              <strong>{value}</strong>
-            </div>
-          ))}
-        </div>
+        <SpecsTable specs={product.specs} />
       </div>
     </div>
   </section>
@@ -113,11 +94,7 @@ const phoneHref = `tel:${site.phone.replaceAll(" ", "")}`;
           <h2 id="related-title">Похожие товары</h2>
         </div>
       </div>
-      <div class="grid">
-        {related.map((item) => (
-          <ProductCard product={item} />
-        ))}
-      </div>
+      <ProductGrid products={related} priorityCount={0} />
     </section>
   )}
 
@@ -151,3 +128,4 @@ const phoneHref = `tel:${site.phone.replaceAll(" ", "")}`;
     });
   </script>
 </MainLayout>
+

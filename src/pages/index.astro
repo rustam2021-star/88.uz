@@ -1,7 +1,12 @@
 ---
-import ProductCard from "../components/ProductCard.astro";
+import Benefits from "../components/Benefits.astro";
+import CategoryCard from "../components/CategoryCard.astro";
+import CategoryNav from "../components/CategoryNav.astro";
+import Hero from "../components/Hero.astro";
 import MainLayout from "../layouts/MainLayout.astro";
-import { categoryUrl, getCategories, getProducts, productUrl, site, telegramOrderUrl } from "../lib/catalog";
+import ProductGrid from "../components/ProductGrid.astro";
+import PromoCards from "../components/PromoCards.astro";
+import { getCategories, getProducts, site } from "../lib/catalog";
 
 const categories = getCategories();
 const products = getProducts();
@@ -41,51 +46,15 @@ const organizationSchema = {
   canonical="/"
   schema={organizationSchema}
 >
-  <section class="category-showcase" id="categories" aria-label="Категории товаров">
-    <div class="category-rail">
-      {categories.slice(0, 12).map((category) => (
-        <a class="category-pill" href={categoryUrl(category)}>{category.title}</a>
-      ))}
-      <a class="category-pill" href={site.telegram}>Распродажа</a>
-    </div>
+  <section class="category-showcase" aria-label="Категории товаров">
+    <CategoryNav />
   </section>
 
-  <section class="home-hero" aria-labelledby="home-title">
-    <div class="hero-panel">
-      <div>
-        <p class="eyebrow">Полезные товары, которые выручают</p>
-        <h1 id="home-title">Инструменты, гаджеты и полезные товары в Ташкенте</h1>
-        <p>Практичные товары для дома, авто, ремонта и диагностики. Подберем прибор, подтвердим наличие и оформим заказ через Telegram.</p>
-        <div class="actions">
-          <a class="button button-primary" href="#products">Смотреть каталог</a>
-          <a class="button button-telegram" href={telegramOrderUrl(heroProduct)}>Заказать в Telegram</a>
-        </div>
-      </div>
-      <a class="hero-media" href={productUrl(heroProduct)} aria-label={heroProduct.title}>
-        <img src={heroProduct.main_image} alt={heroProduct.title} width="640" height="480" loading="eager" />
-      </a>
-    </div>
-  </section>
+  <Hero product={heroProduct} />
 
-  <section class="promo-grid" aria-label="Популярные подборки">
-    {promoProducts.map((product, index) => (
-      <a class="promo-card" href={productUrl(product)}>
-        <div>
-          <p class="eyebrow">{index === 0 ? "Тепловизоры и мультиметры" : index === 1 ? "Автоинструменты" : "Гаджеты для дома"}</p>
-          <h2>{product.title}</h2>
-          <p>{product.short_description}</p>
-        </div>
-        <img src={product.main_image} alt={product.title} width="240" height="180" loading="lazy" />
-      </a>
-    ))}
-  </section>
+  <PromoCards products={promoProducts} />
 
-  <section class="benefits-row" aria-label="Преимущества 88.uz">
-    <div class="benefit">Быстрая доставка</div>
-    <div class="benefit">Проверенные товары</div>
-    <div class="benefit">Помощь с выбором</div>
-    <div class="benefit">Заказ через Telegram</div>
-  </section>
+  <Benefits />
 
   <section class="section" aria-labelledby="popular-categories-title">
     <div class="section-heading">
@@ -96,11 +65,7 @@ const organizationSchema = {
     </div>
     <div class="category-grid">
       {categoryHighlights.map(({ category, product, count }) => (
-        <a class="category-card" href={categoryUrl(category)}>
-          {product && <img src={product.main_image} alt="" width="220" height="150" loading="lazy" />}
-          <h3>{category.title}</h3>
-          <p>{count} товаров · Ташкент</p>
-        </a>
+        <CategoryCard category={category} product={product} count={count} />
       ))}
     </div>
   </section>
@@ -113,11 +78,7 @@ const organizationSchema = {
       </div>
       <a class="button button-secondary" href={site.telegram}>Уточнить наличие</a>
     </div>
-    <div class="grid">
-      {featured.map((product, index) => (
-        <ProductCard product={product} priority={index < 4} />
-      ))}
-    </div>
+    <ProductGrid products={featured} />
   </section>
 
   <section class="content-band">

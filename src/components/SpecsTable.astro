@@ -1,0 +1,12 @@
+---
+const { specs = {} } = Astro.props;
+---
+
+<div class="spec-list">
+  {Object.entries(specs).map(([label, value]) => (
+    <div class="spec-row">
+      <span class="spec-label">{label}</span>
+      <strong>{value}</strong>
+    </div>
+  ))}
+</div>

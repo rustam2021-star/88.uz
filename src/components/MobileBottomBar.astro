@@ -1,0 +1,10 @@
+---
+import { site } from "../lib/catalog";
+---
+
+<nav class="mobile-bottom-bar" aria-label="Быстрые действия">
+  <a href="/#categories">Каталог</a>
+  <a href="#site-search">Поиск</a>
+  <a href={site.telegram}>Telegram</a>
+  <a href={`tel:${site.phone.replaceAll(" ", "")}`}>Позвонить</a>
+</nav>

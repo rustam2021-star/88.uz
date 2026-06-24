@@ -1,7 +1,9 @@
----
+﻿---
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import ProductCard from "../components/ProductCard.astro";
+import CategoryNav from "../components/CategoryNav.astro";
+import FAQ from "../components/FAQ.astro";
 import MainLayout from "../layouts/MainLayout.astro";
+import ProductGrid from "../components/ProductGrid.astro";
 import {
   buildBreadcrumbSchema,
   buildCollectionSchema,
@@ -39,11 +41,7 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildCollectionSchema(catego
     <p class="eyebrow">Категория 88.uz</p>
     <h1>{category.h1}</h1>
     <p>{category.description_top}</p>
-    <div class="chips">
-      {categories.slice(0, 8).map((item) => (
-        <a class="chip" href={categoryUrl(item)}>{item.title}</a>
-      ))}
-    </div>
+    <CategoryNav limit={8} compact />
   </section>
 
   <section class="section" aria-labelledby="category-products-title">
@@ -70,11 +68,7 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildCollectionSchema(catego
           <a class="button button-secondary" href={site.telegram}>Заказать подбор</a>
         </div>
         {products.length > 0 ? (
-          <div class="grid">
-            {products.map((product, index) => (
-              <ProductCard product={product} priority={index < 4} />
-            ))}
-          </div>
+          <ProductGrid products={products} />
         ) : (
           <div class="contact-panel">
             <h2>Товары скоро появятся</h2>
@@ -91,25 +85,7 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildCollectionSchema(catego
       <h2>Что важно в этом разделе</h2>
       <p>{category.description_bottom}</p>
     </div>
-    {category.faq?.length > 0 && (
-      <div class="faq-list" aria-label="FAQ">
-        {category.faq.map((item) => (
-          <details class="faq-item">
-            <summary>{item.question}</summary>
-            <p>{item.answer}</p>
-          </details>
-        ))}
-      </div>
-    )}
+    <FAQ items={category.faq} />
   </section>
-
-  <script>
-    const filterOpen = document.querySelector("[data-filter-open]");
-    const filterClose = document.querySelector("[data-filter-close]");
-    filterOpen?.addEventListener("click", () => document.body.classList.add("filter-sheet-open"));
-    filterClose?.addEventListener("click", () => document.body.classList.remove("filter-sheet-open"));
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") document.body.classList.remove("filter-sheet-open");
-    });
-  </script>
 </MainLayout>
+
