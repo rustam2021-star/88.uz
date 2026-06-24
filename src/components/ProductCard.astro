@@ -1,15 +1,33 @@
 ---
-import { categoryUrl, formatPrice, getCategory, productUrl, site } from "../lib/catalog";
+import { categoryUrl, formatPrice, getCategory, productUrl, telegramOrderUrl } from "../lib/catalog";
 
 const { product, priority = false } = Astro.props;
 const category = getCategory(product.category_slug);
+const badges = product.badges?.length
+  ? product.badges
+  : [product.in_stock ? "В наличии" : "Под заказ", product.id % 5 === 0 ? "Новинка" : product.id % 3 === 0 ? "Хит" : ""].filter(Boolean);
+const oldPrice = product.old_price;
+const firstSpec = Object.entries(product.specs ?? {})[0];
+const specLine = firstSpec ? `${firstSpec[0]}: ${firstSpec[1]}` : product.short_description;
 ---
 
 <article class="product-card">
   <div class="product-media">
-    <span class:list={["product-badge", product.in_stock ? "badge-ok" : "badge-wait"]}>
-      {product.in_stock ? "В наличии" : "Под заказ"}
-    </span>
+    <div class="product-badges" aria-label="Метки товара">
+      {badges.map((badge) => (
+        <span
+          class:list={[
+            "product-badge",
+            badge.includes("%") && "badge-sale",
+            badge === "Хит" && "badge-hit",
+            badge === "Новинка" && "badge-new",
+            badge === "Под заказ" && "badge-wait"
+          ]}
+        >
+          {badge}
+        </span>
+      ))}
+    </div>
     <a class="media-image-link" href={productUrl(product)} aria-label={product.title}>
       <img
         src={product.main_image}
@@ -19,25 +37,23 @@ const category = getCategory(product.category_slug);
         height="480"
         onerror="this.remove()"
       />
-      <span class="media-fallback">{product.brand}</span>
     </a>
-    <div class="product-hover-actions" aria-label={`Быстрые действия для ${product.title}`}>
-      <a class="hover-order" href={site.telegram}>Заказать</a>
-      <a class="quick-view" href={productUrl(product)} aria-label={`Подробнее: ${product.title}`}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M7 17 17 7M9 7h8v8" />
-        </svg>
-      </a>
-    </div>
   </div>
   <div class="product-body">
     {category && <a class="product-category" href={categoryUrl(category)}>{category.title}</a>}
     <h3><a href={productUrl(product)}>{product.title}</a></h3>
-    <p>{product.short_description}</p>
-    <div class="product-meta">
-      <strong>{formatPrice(product)}</strong>
-      <a class="card-link" href={product.in_stock ? productUrl(product) : site.telegram}>
-        {product.in_stock ? "Подробнее" : "Уточнить"}
+    <p class="product-spec">{specLine}</p>
+    <div class="price-row">
+      <strong class="price">{formatPrice(product)}</strong>
+      {oldPrice && <span class="old-price">{formatPrice({ ...product, price: oldPrice })}</span>}
+    </div>
+    <span class:list={["stock", !product.in_stock && "stock-wait"]}>
+      {product.in_stock ? "В наличии" : "Под заказ"}
+    </span>
+    <div class="product-card-actions">
+      <a class="button button-primary" href={telegramOrderUrl(product)}>Заказать</a>
+      <a class="button button-secondary" href={telegramOrderUrl(product)} aria-label={`Написать в Telegram: ${product.title}`}>
+        TG
       </a>
     </div>
   </div>

@@ -1,12 +1,6 @@
 ---
 import Logo from "./Logo.astro";
-import {
-  categoryUrl,
-  getCategories,
-  getProducts,
-  productUrl,
-  site
-} from "../lib/catalog";
+import { categoryUrl, getCategories, getProducts, productUrl, site } from "../lib/catalog";
 
 const categories = getCategories();
 const products = getProducts();
@@ -24,11 +18,7 @@ const searchItems = [
     type: "Товар",
     title: product.title,
     href: productUrl(product),
-    meta: `${product.brand} ${product.model} · ${
-      product.price
-        ? new Intl.NumberFormat("ru-RU").format(product.price) + " " + product.currency
-        : "Цена по запросу"
-    }`,
+    meta: `${product.brand} ${product.model}`,
     search: [
       product.title,
       product.brand,
@@ -44,15 +34,10 @@ const searchItems = [
 
 <header class="site-header">
   <div class="topbar">
-    <div class="topbar-group">
+    <div class="topbar-inner">
+      <span>Доставка по Ташкенту с 19:00 до 22:00</span>
+      <a href={site.telegram}>Telegram</a>
       <a href={phoneHref}>{site.phone}</a>
-      <a href={site.telegram}>Написать в Telegram</a>
-      <span>Доставка прямо сейчас по г. Ташкент</span>
-    </div>
-    <div class="topbar-group topbar-meta" aria-label="Параметры магазина">
-      <span>Ташкент</span>
-      <span>UZS</span>
-      <span>RU</span>
     </div>
   </div>
 
@@ -64,112 +49,82 @@ const searchItems = [
     <div class="desktop-search" data-search-root>
       <label class="sr-only" for="desktop-catalog-search">Поиск по каталогу</label>
       <div class="search-shell">
-        <select aria-label="Выбрать категорию поиска">
-          <option>Все категории</option>
-          {categories.map((category) => <option>{category.title}</option>)}
-        </select>
-        <span class="search-divider" aria-hidden="true"></span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />
         </svg>
         <input
           id="desktop-catalog-search"
           type="search"
-          placeholder="Мультиметр, Karcher, pH, лазерный уровень..."
+          placeholder="Мультиметр, тепловизор, дальномер..."
           autocomplete="off"
           data-catalog-search
         />
-        <button type="button" class="search-submit" aria-label="Искать товар" data-search-submit>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />
-          </svg>
-          <span>Поиск</span>
-        </button>
+        <button type="button" class="search-submit" data-search-submit>Поиск</button>
       </div>
       <div class="catalog-search-results" data-catalog-search-results hidden aria-live="polite"></div>
     </div>
 
-    <div class="header-tools">
-      <a class="tool-link" href={phoneHref}>
-        <span>Позвонить</span>
-        <strong>{site.phone}</strong>
-      </a>
-      <a class="tool-link" href={site.telegram}>
-        <span>Telegram</span>
-        <strong>Быстрый заказ</strong>
-      </a>
+    <div class="header-actions">
+      <a class="header-action secondary" href={phoneHref}>Позвонить</a>
+      <a class="header-action" href={site.telegram}>Telegram</a>
+      <button
+        class="mobile-menu-toggle"
+        type="button"
+        aria-label="Открыть каталог"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-mobile-menu-toggle
+      >
+        <span></span>
+      </button>
     </div>
+  </div>
 
-    <button
-      class="mobile-menu-toggle"
-      type="button"
-      aria-label="Открыть меню каталога"
-      aria-controls="mobile-menu"
-      aria-expanded="false"
-      data-mobile-menu-toggle
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <div class="search-row" id="site-search" data-search-root>
+    <label class="sr-only" for="mobile-catalog-search">Поиск по каталогу</label>
+    <div class="mobile-search-field">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />
+      </svg>
+      <input
+        id="mobile-catalog-search"
+        type="search"
+        placeholder="Найти товар..."
+        autocomplete="off"
+        data-catalog-search
+      />
+      <button type="button" class="search-submit" data-search-submit>Найти</button>
+    </div>
+    <div class="catalog-search-results" data-catalog-search-results hidden aria-live="polite"></div>
   </div>
 
   <div class="commerce-nav">
-    <a class="browse-button" href="#categories">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-      Каталог товаров
-    </a>
+    <a class="browse-button" href="/#categories">Каталог</a>
     <nav class="main-nav" aria-label="Основная навигация">
       {desktopCategories.map((category) => (
         <a href={categoryUrl(category)}>{category.title}</a>
       ))}
     </nav>
-    <a class="special-offer" href={site.telegram}>Доставка сегодня</a>
+    <a class="special-offer" href={site.telegram}>Заказать в Telegram</a>
   </div>
 
   <div class="mobile-menu-overlay" data-mobile-menu-close></div>
 
-  <aside class="mobile-menu" id="mobile-menu" aria-hidden="true" aria-label="Мобильное меню каталога">
-    <div class="mobile-menu-head">
-      <div>
-        <strong>Каталог 88.uz</strong>
-        <span>поиск товаров и доставка по Ташкенту</span>
-      </div>
+  <aside class="mobile-menu" id="mobile-menu" aria-hidden="true" aria-label="Мобильный каталог">
+    <div>
+      <p class="eyebrow">Каталог 88.uz</p>
+      <strong>Выберите раздел или напишите в Telegram</strong>
     </div>
-
-    <div class="mobile-search" data-search-root>
-      <label class="mobile-search-label" for="mobile-catalog-search">Поиск по каталогу</label>
-      <div class="mobile-search-field">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />
-        </svg>
-        <input
-          id="mobile-catalog-search"
-          type="search"
-          placeholder="Мультиметр, Karcher, pH..."
-          autocomplete="off"
-          data-catalog-search
-        />
-      </div>
-      <div class="catalog-search-results mobile-search-results" data-catalog-search-results hidden aria-live="polite"></div>
+    <div class="mobile-category-list">
+      {categories.map((category) => (
+        <a href={categoryUrl(category)} data-mobile-menu-link>
+          <span>{category.title}</span>
+          <small>{category.seo_description}</small>
+        </a>
+      ))}
     </div>
-
-    <div class="mobile-menu-section">
-      <h2>Категории</h2>
-      <div class="mobile-category-list">
-        {categories.map((category) => (
-          <a href={categoryUrl(category)} data-mobile-menu-link>
-            <span>{category.title}</span>
-            <small>{category.seo_description}</small>
-          </a>
-        ))}
-      </div>
-    </div>
-
-    <div class="mobile-menu-actions">
-      <a class="button button-primary" href={site.telegram} data-mobile-menu-link>Заказать доставку</a>
+    <div class="actions">
+      <a class="button button-telegram" href={site.telegram} data-mobile-menu-link>Заказать в Telegram</a>
       <a class="button button-secondary" href={phoneHref} data-mobile-menu-link>Позвонить</a>
     </div>
   </aside>
@@ -179,11 +134,9 @@ const searchItems = [
     const toggle = document.querySelector("[data-mobile-menu-toggle]");
     const menu = document.querySelector("#mobile-menu");
     const overlay = document.querySelector("[data-mobile-menu-close].mobile-menu-overlay");
-    const menuLinks = document.querySelectorAll("[data-mobile-menu-link]");
     const dataNode = document.querySelector("#catalog-search-data");
     const searchItems = dataNode ? JSON.parse(dataNode.textContent || "[]") : [];
     const searchRoots = document.querySelectorAll("[data-search-root]");
-
     const normalize = (value) => String(value || "").toLowerCase().replaceAll("ё", "е").trim();
 
     function resultMarkup(item) {
@@ -220,43 +173,34 @@ const searchItems = [
     function submitSearch(root) {
       const input = root.querySelector("[data-catalog-search]");
       const query = input?.value || "";
-      const normalizedQuery = normalize(query);
-
-      if (!normalizedQuery) {
-        input?.focus();
-        return;
-      }
-
-      const firstMatch = searchItems.find((item) => normalize(item.search).includes(normalizedQuery));
+      const firstMatch = searchItems.find((item) => normalize(item.search).includes(normalize(query)));
       if (firstMatch) {
         window.location.href = firstMatch.href;
         return;
       }
-
       renderResults(root, query);
       input?.focus();
-    }
-
-    function openMenu() {
-      document.body.classList.add("mobile-menu-open");
-      toggle?.setAttribute("aria-expanded", "true");
-      toggle?.setAttribute("aria-label", "Закрыть меню каталога");
-      menu?.setAttribute("aria-hidden", "false");
     }
 
     function closeMenu() {
       document.body.classList.remove("mobile-menu-open");
       toggle?.setAttribute("aria-expanded", "false");
-      toggle?.setAttribute("aria-label", "Открыть меню каталога");
       menu?.setAttribute("aria-hidden", "true");
     }
 
     toggle?.addEventListener("click", () => {
-      document.body.classList.contains("mobile-menu-open") ? closeMenu() : openMenu();
+      const open = document.body.classList.toggle("mobile-menu-open");
+      toggle.setAttribute("aria-expanded", String(open));
+      menu?.setAttribute("aria-hidden", String(!open));
     });
 
-    menuLinks.forEach((link) => link.addEventListener("click", closeMenu));
     overlay?.addEventListener("click", closeMenu);
+    document.addEventListener("click", (event) => {
+      if (event.target.closest("[data-mobile-menu-link]")) closeMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
 
     searchRoots.forEach((root) => {
       const input = root.querySelector("[data-catalog-search]");
@@ -273,22 +217,9 @@ const searchItems = [
       submit?.addEventListener("click", () => submitSearch(root));
       root.addEventListener("focusout", () => {
         window.setTimeout(() => {
-          if (!root.contains(document.activeElement) && results) {
-            results.hidden = true;
-          }
+          if (!root.contains(document.activeElement) && results) results.hidden = true;
         }, 120);
       });
-    });
-
-    document.addEventListener("click", (event) => {
-      const link = event.target.closest("[data-mobile-menu-link]");
-      if (link) closeMenu();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && document.body.classList.contains("mobile-menu-open")) {
-        closeMenu();
-      }
     });
   </script>
 </header>

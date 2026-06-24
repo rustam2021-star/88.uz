@@ -9,7 +9,8 @@ export const site = {
     "Онлайн-каталог мультиметров, лазерных уровней, дальномеров, толщиномеров, pH/TDS-метров, аксессуаров Karcher и технических товаров для мастеров. Заказ онлайн и доставка прямо сейчас по г. Ташкент.",
   url: "https://88.uz",
   phone: "+998 97 733 44 83",
-  telegram: "https://t.me/eighty_eight_uz",
+  telegramUsername: "Senditme",
+  telegram: "https://t.me/Senditme",
   city: "Ташкент"
 };
 
@@ -34,6 +35,17 @@ export function getProductsByCategory(slug) {
 }
 
 export function getRelatedProducts(product, limit = 4) {
+  if (product.related_products?.length) {
+    const related = product.related_products
+      .map((slug) => getProduct(slug))
+      .filter(Boolean)
+      .slice(0, limit);
+
+    if (related.length) {
+      return related;
+    }
+  }
+
   return products
     .filter((item) => item.slug !== product.slug && item.category_slug === product.category_slug)
     .slice(0, limit);
@@ -57,6 +69,29 @@ export function categoryUrl(category) {
 
 export function productUrl(product) {
   return `/product/${product.slug}/`;
+}
+
+export function telegramOrderText(product) {
+  if (!product) {
+    return "Здравствуйте! Хочу уточнить наличие и оформить заказ на 88.uz.";
+  }
+
+  return [
+    "Здравствуйте! Хочу заказать товар с 88.uz.",
+    "",
+    `Товар: ${product.title}`,
+    product.brand ? `Бренд: ${product.brand}` : "",
+    product.model ? `Модель: ${product.model}` : "",
+    product.price ? `Цена на сайте: ${formatPrice(product)}` : "",
+    `Ссылка: ${absoluteUrl(productUrl(product))}`,
+    "",
+    "Подскажите, пожалуйста, есть ли в наличии и когда возможна доставка по Ташкенту?"
+  ].filter(Boolean).join("\n");
+}
+
+export function telegramOrderUrl(product) {
+  const text = encodeURIComponent(telegramOrderText(product));
+  return `https://t.me/${site.telegramUsername}?text=${text}`;
 }
 
 export function buildBreadcrumbSchema(items) {

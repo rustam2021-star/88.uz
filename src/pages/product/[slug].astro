@@ -11,7 +11,8 @@ import {
   getProducts,
   getRelatedProducts,
   productUrl,
-  site
+  site,
+  telegramOrderUrl
 } from "../../lib/catalog";
 
 export function getStaticPaths() {
@@ -24,12 +25,14 @@ export function getStaticPaths() {
 const { product } = Astro.props;
 const category = getCategory(product.category_slug);
 const related = getRelatedProducts(product);
+const gallery = product.gallery?.length ? product.gallery : [product.main_image];
 const breadcrumbs = [
   { name: "Главная", href: "/" },
   ...(category ? [{ name: category.title, href: categoryUrl(category) }] : []),
   { name: product.title, href: productUrl(product) }
 ];
 const schema = [buildBreadcrumbSchema(breadcrumbs), buildProductSchema(product, category)];
+const phoneHref = `tel:${site.phone.replaceAll(" ", "")}`;
 ---
 
 <MainLayout
@@ -45,38 +48,53 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildProductSchema(product, 
     <h1>{product.title}</h1>
     <p>{product.short_description}</p>
     <div class="product-kpis">
-      <span class:list={["stock", product.in_stock ? "stock-ok" : "stock-wait"]}>
+      <span class:list={["stock", !product.in_stock && "stock-wait"]}>
         {product.in_stock ? "В наличии" : "Под заказ"}
       </span>
-      <span class="chip">Доставка сейчас по Ташкенту</span>
-      <span class="chip">Онлайн-заказ</span>
+      <span class="chip">Доставка по Ташкенту</span>
+      <span class="chip">Заказ через Telegram</span>
     </div>
   </section>
 
   <section class="product-detail">
-    <div class="product-gallery">
-      <img src={product.main_image} alt={product.title} width="760" height="570" onerror="this.remove()" />
-      <span class="media-fallback">{product.brand}</span>
+    <div class="product-gallery" data-gallery>
+      <div class="gallery-main">
+        <img src={gallery[0]} alt={product.title} width="760" height="570" data-gallery-main />
+      </div>
+      {gallery.length > 1 && (
+        <div class="gallery-thumbs" aria-label="Галерея товара">
+          {gallery.map((image, index) => (
+            <button class="gallery-thumb" type="button" data-gallery-thumb={image} aria-label={`Фото ${index + 1}`}>
+              <img src={image} alt="" width="96" height="96" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
 
     <div class="product-summary">
       <div class="contact-panel">
         <p class="eyebrow">Цена</p>
         <div class="price">{formatPrice(product)}</div>
+        {product.old_price && <div class="old-price">{formatPrice({ ...product, price: product.old_price })}</div>}
         <p>{product.description}</p>
-        <div class="actions">
-          <a class="button button-primary" href={site.telegram}>Заказать доставку</a>
-          <a class="button button-secondary" href={`tel:${site.phone.replaceAll(" ", "")}`}>
-            Позвонить
-          </a>
+        <div class="sticky-product-cta">
+          <a class="button button-telegram" href={telegramOrderUrl(product)}>Заказать в Telegram</a>
+          <a class="button button-secondary" href={phoneHref}>Позвонить</a>
         </div>
+      </div>
+
+      <div class="delivery-card">
+        <p class="eyebrow">Доставка</p>
+        <h2>Доставка по Ташкенту с 19:00 до 22:00</h2>
+        <p>Напишите в Telegram, чтобы подтвердить наличие, цену, комплектацию и удобное время доставки.</p>
       </div>
 
       <div class="info-card">
         <p class="eyebrow">Характеристики</p>
         <h2>Технические данные</h2>
         <div class="spec-list">
-          {Object.entries(product.specs).map(([label, value]) => (
+          {Object.entries(product.specs ?? {}).map(([label, value]) => (
             <div class="spec-row">
               <span class="spec-label">{label}</span>
               <strong>{value}</strong>
@@ -102,4 +120,34 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildProductSchema(product, 
       </div>
     </section>
   )}
+
+  <section class="content-band">
+    <div class="info-card">
+      <p class="eyebrow">Описание</p>
+      <h2>{product.title} в каталоге 88.uz</h2>
+      <p>
+        {product.description} Заказ оформляется через Telegram или по телефону. Это помогает быстро уточнить наличие,
+        совместимость, комплектацию и условия доставки по Ташкенту.
+      </p>
+    </div>
+    <div class="info-card">
+      <p class="eyebrow">Подбор</p>
+      <h2>Нужна помощь с выбором?</h2>
+      <p>Напишите задачу: дом, авто, ремонт, сервис или диагностика. Подскажем подходящий товар из каталога.</p>
+      <div class="actions">
+        <a class="button button-telegram" href={telegramOrderUrl(product)}>Написать в Telegram</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+      const main = gallery.querySelector("[data-gallery-main]");
+      gallery.querySelectorAll("[data-gallery-thumb]").forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+          if (main) main.src = thumb.getAttribute("data-gallery-thumb");
+        });
+      });
+    });
+  </script>
 </MainLayout>

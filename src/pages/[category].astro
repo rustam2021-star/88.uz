@@ -19,6 +19,7 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
+const categories = getCategories();
 const products = getProductsByCategory(category.slug);
 const breadcrumbs = [
   { name: "Главная", href: "/" },
@@ -39,37 +40,53 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildCollectionSchema(catego
     <h1>{category.h1}</h1>
     <p>{category.description_top}</p>
     <div class="chips">
-      <span class="chip">{products.length} товаров</span>
-      <span class="chip">Ташкент</span>
-      <span class="chip">Заказ через Telegram</span>
-      <span class="chip">Доставка сейчас по Ташкенту</span>
+      {categories.slice(0, 8).map((item) => (
+        <a class="chip" href={categoryUrl(item)}>{item.title}</a>
+      ))}
     </div>
   </section>
 
   <section class="section" aria-labelledby="category-products-title">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Товары</p>
-        <h2 id="category-products-title">{category.title}</h2>
-      </div>
-      <a class="button button-secondary" href={site.telegram}>Заказать доставку</a>
+    <div class="filter-actions">
+      <button class="filter-chip" type="button" data-filter-open>Фильтры</button>
+      <a class="filter-chip" href="#category-products-title">Сортировка</a>
     </div>
-    {products.length > 0 ? (
-      <div class="grid">
-        {products.map((product, index) => (
-          <ProductCard product={product} priority={index < 4} />
-        ))}
+    <div class="category-layout">
+      <aside class="filter-card" aria-label="Фильтры каталога">
+        <h2>Фильтры</h2>
+        <span class="chip">{products.length} товаров</span>
+        <span class="chip">В наличии</span>
+        <span class="chip">Ташкент</span>
+        <span class="chip">Заказ через Telegram</span>
+        <button class="button button-primary" type="button" data-filter-close>Показать товары</button>
+      </aside>
+
+      <div>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Товары</p>
+            <h2 id="category-products-title">{category.title}</h2>
+          </div>
+          <a class="button button-secondary" href={site.telegram}>Заказать подбор</a>
+        </div>
+        {products.length > 0 ? (
+          <div class="grid">
+            {products.map((product, index) => (
+              <ProductCard product={product} priority={index < 4} />
+            ))}
+          </div>
+        ) : (
+          <div class="contact-panel">
+            <h2>Товары скоро появятся</h2>
+            <p>Раздел уже готов под SEO. Напишите в Telegram, если нужен товар из этой категории.</p>
+          </div>
+        )}
       </div>
-    ) : (
-      <div class="contact-panel">
-        <h2>Товары скоро появятся</h2>
-        <p>Раздел уже готов под SEO и каталог. Добавьте товары в products.json.</p>
-      </div>
-    )}
+    </div>
   </section>
 
   <section class="content-band">
-    <div class="info-card text-content">
+    <div class="info-card">
       <p class="eyebrow">Как выбрать</p>
       <h2>Что важно в этом разделе</h2>
       <p>{category.description_bottom}</p>
@@ -77,12 +94,22 @@ const schema = [buildBreadcrumbSchema(breadcrumbs), buildCollectionSchema(catego
     {category.faq?.length > 0 && (
       <div class="faq-list" aria-label="FAQ">
         {category.faq.map((item) => (
-          <article class="faq-item">
-            <h2>{item.question}</h2>
+          <details class="faq-item">
+            <summary>{item.question}</summary>
             <p>{item.answer}</p>
-          </article>
+          </details>
         ))}
       </div>
     )}
   </section>
+
+  <script>
+    const filterOpen = document.querySelector("[data-filter-open]");
+    const filterClose = document.querySelector("[data-filter-close]");
+    filterOpen?.addEventListener("click", () => document.body.classList.add("filter-sheet-open"));
+    filterClose?.addEventListener("click", () => document.body.classList.remove("filter-sheet-open"));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") document.body.classList.remove("filter-sheet-open");
+    });
+  </script>
 </MainLayout>

@@ -1,29 +1,25 @@
 ---
-import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProductCard from "../components/ProductCard.astro";
 import MainLayout from "../layouts/MainLayout.astro";
-import {
-  categoryUrl,
-  formatPrice,
-  getCategories,
-  getProducts,
-  productUrl,
-  site
-} from "../lib/catalog";
+import { categoryUrl, getCategories, getProducts, productUrl, site, telegramOrderUrl } from "../lib/catalog";
 
 const categories = getCategories();
 const products = getProducts();
-const featured = products.slice(0, 12);
-const categoryHighlights = categories.map((category) => {
-  const product = products.find((item) => item.category_slug === category.slug);
-  const count = products.filter((item) => item.category_slug === category.slug).length;
-  return { category, product, count };
-}).filter(({ count }) => count > 0);
-const heroMain = products.find((product) => product.slug === "lazernyy-uroven-4d-green") ?? products[0];
-const heroSecond = products.find((product) => product.slug === "multimetr-aneng-621a") ?? products[1];
-const heroThird = products.find((product) => product.slug === "tolshchinomer-etari-md-666") ?? products[2];
-const promoOne = products.find((product) => product.slug === "nasadka-dlya-moyki-kondicionerov") ?? products[3];
-const promoTwo = products.find((product) => product.slug === "ph-tds-metr-2v1") ?? products[4];
+const featured = products.slice(0, 10);
+const heroProduct = products.find((product) => product.slug === "teplovizor-uni-t-uti260b") ?? products[0];
+const promoProducts = [
+  products.find((product) => product.slug === "aneng-621a-multimetr"),
+  products.find((product) => product.slug === "tolshchinomer-avtomobilnyy-kraski"),
+  products.find((product) => product.slug === "robot-dlya-moyki-okon")
+].filter(Boolean);
+const categoryHighlights = categories
+  .map((category) => ({
+    category,
+    count: products.filter((product) => product.category_slug === category.slug).length,
+    product: products.find((product) => product.category_slug === category.slug)
+  }))
+  .filter((item) => item.count > 0)
+  .slice(0, 8);
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Store",
@@ -40,192 +36,73 @@ const organizationSchema = {
 ---
 
 <MainLayout
-  title={site.title}
-  description={site.description}
+  title="88.uz — полезные товары, инструменты и гаджеты в Ташкенте"
+  description="Практичные товары для дома, авто, ремонта и диагностики. Тепловизоры, мультиметры, дальномеры, толщиномеры, pH/TDS-метры и гаджеты с заказом через Telegram."
   canonical="/"
   schema={organizationSchema}
 >
-  <section class="category-showcase" id="categories" aria-labelledby="categories-title">
-    <div class="category-showcase-head">
+  <section class="category-showcase" id="categories" aria-label="Категории товаров">
+    <div class="category-rail">
+      {categories.slice(0, 12).map((category) => (
+        <a class="category-pill" href={categoryUrl(category)}>{category.title}</a>
+      ))}
+      <a class="category-pill" href={site.telegram}>Распродажа</a>
+    </div>
+  </section>
+
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="hero-panel">
       <div>
-        <Breadcrumbs items={[{ name: "Главная", href: "/" }]} />
-        <p class="eyebrow">Каталог 88.uz</p>
-        <h2 id="categories-title">Популярные разделы</h2>
+        <p class="eyebrow">Полезные товары, которые выручают</p>
+        <h1 id="home-title">Инструменты, гаджеты и полезные товары в Ташкенте</h1>
+        <p>Практичные товары для дома, авто, ремонта и диагностики. Подберем прибор, подтвердим наличие и оформим заказ через Telegram.</p>
+        <div class="actions">
+          <a class="button button-primary" href="#products">Смотреть каталог</a>
+          <a class="button button-telegram" href={telegramOrderUrl(heroProduct)}>Заказать в Telegram</a>
+        </div>
       </div>
-      <div class="category-showcase-actions">
-        <button class="carousel-button" type="button" aria-label="Прокрутить категории влево" data-category-prev>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-        </button>
-        <button class="carousel-button" type="button" aria-label="Прокрутить категории вправо" data-category-next>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </button>
-        <a class="showcase-link" href="#products">Смотреть товары</a>
+      <a class="hero-media" href={productUrl(heroProduct)} aria-label={heroProduct.title}>
+        <img src={heroProduct.main_image} alt={heroProduct.title} width="640" height="480" loading="eager" />
+      </a>
+    </div>
+  </section>
+
+  <section class="promo-grid" aria-label="Популярные подборки">
+    {promoProducts.map((product, index) => (
+      <a class="promo-card" href={productUrl(product)}>
+        <div>
+          <p class="eyebrow">{index === 0 ? "Тепловизоры и мультиметры" : index === 1 ? "Автоинструменты" : "Гаджеты для дома"}</p>
+          <h2>{product.title}</h2>
+          <p>{product.short_description}</p>
+        </div>
+        <img src={product.main_image} alt={product.title} width="240" height="180" loading="lazy" />
+      </a>
+    ))}
+  </section>
+
+  <section class="benefits-row" aria-label="Преимущества 88.uz">
+    <div class="benefit">Быстрая доставка</div>
+    <div class="benefit">Проверенные товары</div>
+    <div class="benefit">Помощь с выбором</div>
+    <div class="benefit">Заказ через Telegram</div>
+  </section>
+
+  <section class="section" aria-labelledby="popular-categories-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Каталог</p>
+        <h2 id="popular-categories-title">Популярные категории</h2>
       </div>
     </div>
-
-    <div class="category-showcase-track" aria-label="Категории товаров" data-category-carousel>
-      {categoryHighlights.map(({ category, product, count }, index) => (
-        <a class="category-showcase-card" href={categoryUrl(category)} style={`--delay: ${index * 45}ms`}>
-          <span class="category-thumb">
-            {product && (
-              <img
-                src={product.main_image}
-                alt=""
-                width="180"
-                height="140"
-                loading={index < 4 ? "eager" : "lazy"}
-              />
-            )}
-          </span>
-          <strong>{category.title}</strong>
-          <small>{count || "Подбор"} товаров</small>
+    <div class="category-grid">
+      {categoryHighlights.map(({ category, product, count }) => (
+        <a class="category-card" href={categoryUrl(category)}>
+          {product && <img src={product.main_image} alt="" width="220" height="150" loading="lazy" />}
+          <h3>{category.title}</h3>
+          <p>{count} товаров · Ташкент</p>
         </a>
       ))}
     </div>
-    <script>
-      const categoryCarousel = document.querySelector("[data-category-carousel]");
-      const categoryPrev = document.querySelector("[data-category-prev]");
-      const categoryNext = document.querySelector("[data-category-next]");
-
-      if (categoryCarousel) {
-        const scrollStep = () => Math.max(260, categoryCarousel.clientWidth * 0.72);
-        const dragThreshold = 8;
-        let pointerDown = false;
-        let isDragging = false;
-        let moved = false;
-        let startX = 0;
-        let startScrollLeft = 0;
-
-        categoryPrev?.addEventListener("click", () => {
-          categoryCarousel.scrollBy({ left: -scrollStep(), behavior: "smooth" });
-        });
-
-        categoryNext?.addEventListener("click", () => {
-          categoryCarousel.scrollBy({ left: scrollStep(), behavior: "smooth" });
-        });
-
-        categoryCarousel.addEventListener(
-          "wheel",
-          (event) => {
-            if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-            event.preventDefault();
-            categoryCarousel.scrollBy({ left: event.deltaY, behavior: "auto" });
-          },
-          { passive: false }
-        );
-
-        categoryCarousel.addEventListener("pointerdown", (event) => {
-          if (event.button !== 0) return;
-          pointerDown = true;
-          isDragging = false;
-          moved = false;
-          startX = event.clientX;
-          startScrollLeft = categoryCarousel.scrollLeft;
-        });
-
-        categoryCarousel.addEventListener("pointermove", (event) => {
-          if (!pointerDown) return;
-          const delta = event.clientX - startX;
-          if (!isDragging && Math.abs(delta) < dragThreshold) return;
-          if (!isDragging) {
-            isDragging = true;
-            moved = true;
-            categoryCarousel.classList.add("is-dragging");
-            categoryCarousel.setPointerCapture(event.pointerId);
-          }
-          categoryCarousel.scrollLeft = startScrollLeft - delta;
-        });
-
-        categoryCarousel.addEventListener("pointerup", (event) => {
-          pointerDown = false;
-          isDragging = false;
-          categoryCarousel.classList.remove("is-dragging");
-          if (categoryCarousel.hasPointerCapture(event.pointerId)) {
-            categoryCarousel.releasePointerCapture(event.pointerId);
-          }
-        });
-
-        categoryCarousel.addEventListener("pointercancel", () => {
-          pointerDown = false;
-          isDragging = false;
-          categoryCarousel.classList.remove("is-dragging");
-        });
-
-        categoryCarousel.addEventListener("click", (event) => {
-          if (!moved) return;
-          event.preventDefault();
-          event.stopPropagation();
-          moved = false;
-        });
-      }
-    </script>
-  </section>
-
-  <section class="shop-hero-grid" aria-labelledby="home-title">
-    <a class="hero-banner hero-banner-large" href={productUrl(heroMain)}>
-      <div class="banner-copy">
-        <span class="banner-kicker">Онлайн-доставка по Ташкенту</span>
-        <h1 id="home-title">Инструменты и измерительные приборы для мастеров</h1>
-        <p>
-          Лазерные уровни, мультиметры, дальномеры, толщиномеры, pH/TDS-метры и аксессуары для сервиса.
-          Напишите в Telegram, подтвердим наличие и отправим по городу.
-        </p>
-        <span class="banner-cta">Заказать сейчас</span>
-      </div>
-      <div class="banner-product">
-        <span class="sale-badge">Доставка сегодня</span>
-        <img src={heroMain.main_image} alt={heroMain.title} width="820" height="620" loading="eager" />
-      </div>
-    </a>
-
-    <div class="hero-side-banners">
-      <a class="hero-banner hero-banner-compact banner-dark" href={productUrl(heroSecond)}>
-        <div class="banner-copy">
-          <span class="banner-kicker">Точные замеры</span>
-          <h2>{heroSecond.title}</h2>
-          <span class="banner-price">{formatPrice(heroSecond)}</span>
-        </div>
-        <img src={heroSecond.main_image} alt={heroSecond.title} width="360" height="260" loading="eager" />
-      </a>
-      <a class="hero-banner hero-banner-compact banner-red" href={productUrl(heroThird)}>
-        <div class="banner-copy">
-          <span class="banner-kicker">Для авто и сервиса</span>
-          <h2>{heroThird.title}</h2>
-          <span class="banner-price">{formatPrice(heroThird)}</span>
-        </div>
-        <img src={heroThird.main_image} alt={heroThird.title} width="360" height="260" loading="eager" />
-      </a>
-    </div>
-  </section>
-
-  <div class="feature-strip" aria-label="Сервис 88.uz">
-    <span>Доставка прямо сейчас по г. Ташкент</span>
-    <span>Заказ через Telegram</span>
-    <span>Цены в UZS</span>
-    <span>Юр. лицо: {site.legalName}</span>
-  </div>
-
-  <section class="promo-grid" aria-label="Промо предложения">
-    <a class="promo-tile" href={productUrl(promoOne)}>
-      <div>
-        <span class="banner-kicker">Сервис кондиционеров</span>
-        <h2>Аксессуары для Karcher и мойки кондиционеров</h2>
-        <p>Насадки, переходники и полезные товары для выездных мастеров.</p>
-      </div>
-      <img src={promoOne.main_image} alt={promoOne.title} width="420" height="300" loading="lazy" />
-    </a>
-    <a class="promo-tile promo-tile-accent" href={productUrl(promoTwo)}>
-      <div>
-        <span class="banner-kicker">Вода и фильтры</span>
-        <h2>pH/TDS-метры и компактные тестеры</h2>
-        <p>Быстрый подбор приборов для воды, диагностики и бытового сервиса.</p>
-      </div>
-      <img src={promoTwo.main_image} alt={promoTwo.title} width="420" height="300" loading="lazy" />
-    </a>
   </section>
 
   <section class="section" id="products" aria-labelledby="products-title">
@@ -236,11 +113,6 @@ const organizationSchema = {
       </div>
       <a class="button button-secondary" href={site.telegram}>Уточнить наличие</a>
     </div>
-    <div class="category-rail" aria-label="Быстрые категории">
-      {categories.slice(0, 8).map((category) => (
-        <a class="category-pill" href={categoryUrl(category)}>{category.title}</a>
-      ))}
-    </div>
     <div class="grid">
       {featured.map((product, index) => (
         <ProductCard product={product} priority={index < 4} />
@@ -248,22 +120,27 @@ const organizationSchema = {
     </div>
   </section>
 
-  <section class="service-band">
-    <div class="service-card">
-      <p class="eyebrow">Как магазин</p>
-      <h2>Каталог выглядит как интернет-магазин, заявки идут через Telegram</h2>
+  <section class="content-band">
+    <div class="info-card">
+      <p class="eyebrow">SEO каталог</p>
+      <h2>88.uz — статический каталог полезных товаров в Ташкенте</h2>
       <p>
-        Покупатель видит категории, цены, фото и характеристики, затем быстро пишет в Telegram.
-        Так проще подтвердить наличие, фото товара и доставку по Ташкенту без сложной корзины.
+        В каталоге 88.uz собраны измерительные приборы, автоинструменты, электроника, гаджеты и товары для дома.
+        Основной сценарий простой: покупатель выбирает товар, пишет в Telegram или звонит, после чего мы подтверждаем наличие,
+        характеристики и доставку по Ташкенту.
       </p>
     </div>
-    <div class="service-card service-card-dark">
-      <p class="eyebrow">Сильная сторона</p>
-      <h2>Онлайн-доставка прямо сейчас по г. Ташкент</h2>
+    <div class="info-card">
+      <p class="eyebrow">Как заказать</p>
+      <h2>Без корзины и оплаты на сайте</h2>
       <p>
-        Главный акцент сайта: не просто каталог, а быстрый путь от выбора прибора до доставки мастеру в городе.
+        MVP не использует личные кабинеты, онлайн-оплату и backend. Основной контент отдается статическим HTML,
+        а заявки идут через Telegram и телефон.
       </p>
-      <a class="button button-primary" href={site.telegram}>Написать в Telegram</a>
+      <div class="actions">
+        <a class="button button-telegram" href={site.telegram}>Написать в Telegram</a>
+        <a class="button button-secondary" href={`tel:${site.phone.replaceAll(" ", "")}`}>Позвонить</a>
+      </div>
     </div>
   </section>
 </MainLayout>
