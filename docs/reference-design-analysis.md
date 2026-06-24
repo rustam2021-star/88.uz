@@ -2,7 +2,7 @@
 
 ## 1. Short Analysis
 
-The local reference in `reference_downloader/reference_tfamerce/` is a polished electronics ecommerce template. It uses a strong utility header, a wide search field, horizontal category navigation, large promo banners, compact product cards, badges, hover actions, and repeated trust/service strips. The overall feeling is light, commercial, fast to scan, and built around product discovery.
+The local reference in `reference_downloader/reference_tfamerce_full/` is a polished electronics ecommerce template. It uses a strong utility header, a wide search field, horizontal category navigation, large promo banners, compact product cards, badges, hover actions, and repeated trust/service strips. The overall feeling is light, commercial, fast to scan, and built around product discovery.
 
 The reference is also template-heavy: it includes Bootstrap, Swiper, animation libraries, jQuery plugins, fashion/beauty menu items, ThemeForest/Themesflat branding, sample payment logos, and many demo-only widgets. Those parts are not appropriate for the 88.uz MVP.
 
