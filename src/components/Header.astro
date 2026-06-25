@@ -6,7 +6,7 @@ import categories from "../data/categories.json";
     <div class="row">
       <div class="col-6">
         <div class="tf-list">
-          <a class="text-white link" href="tel:0112348888">(+01) 1234 8888</a>
+          <a class="text-white link" href="tel:+998977334483">+998 97 733 44 83</a>
           <a class="text-decoration-underline text-white link" href="#">Наш магазин</a>
           <a class="text-white link" href="#">Контакты</a>
         </div>
@@ -111,6 +111,28 @@ import categories from "../data/categories.json";
                 </a>
                 <div class="sub-menu mega-menu_home_v2 home-type_2">
                   <ul class="sub-menu_list">
+                    <li class="has-menu-lv2">
+                      <div class="menu-heading-lv2">
+                        <span class="cus-text">Каталог</span>
+                        <i class="icon icon-CaretRightThin"></i>
+                      </div>
+                      <ul class="sub-menu-lv2">
+                        <li><a class="sub-menu_link has-text" href="/learn-more/"><span class="cus-text">Все товары</span></a></li>
+                        <li><a class="sub-menu_link has-text" href="/smart-watches/"><span class="cus-text">Смарт-часы</span></a></li>
+                        <li><a class="sub-menu_link has-text" href="/headphone/"><span class="cus-text">Наушники</span></a></li>
+                      </ul>
+                    </li>
+                    <li class="has-menu-lv2">
+                      <div class="menu-heading-lv2">
+                        <span class="cus-text">Помощь</span>
+                        <i class="icon icon-CaretRightThin"></i>
+                      </div>
+                      <ul class="sub-menu-lv2">
+                        <li><a class="sub-menu_link has-text" href="/shipping/"><span class="cus-text">Доставка</span></a></li>
+                        <li><a class="sub-menu_link has-text" href="/return-and-refund/"><span class="cus-text">Возврат</span></a></li>
+                        <li><a class="sub-menu_link has-text" href="/contact/"><span class="cus-text">Контакты</span></a></li>
+                      </ul>
+                    </li>
                     <li><a class="sub-menu_link has-text" href="/"><span class="cus-text">Электроника</span></a></li>
                     <li><a class="sub-menu_link has-text" href="/learn-more/"><span class="cus-text">Все товары</span><span class="demo-label type-hot">Хит</span></a></li>
                     <li><a class="sub-menu_link has-text" href="/smart-watches/"><span class="cus-text">Смарт-часы</span><span class="demo-label type-new">Новое</span></a></li>
@@ -170,15 +192,47 @@ import categories from "../data/categories.json";
 </header>
 <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
   <div class="canvas-header">
-    <div class="logo-site">
-      <img alt="88.uz" height="30" src="/assets/theme/assets/images/logo/logo.svg" width="150" />
-    </div>
-    <button aria-label="Закрыть" class="icon-close-popup" data-bs-dismiss="offcanvas"></button>
+    <span class="icon-close-popup" data-bs-dismiss="offcanvas">
+      <i class="icon icon-X2"></i>
+    </span>
+    <form class="form-search-nav" action="/learn-more/">
+      <fieldset>
+        <input placeholder="Что вы ищете?" required type="text" />
+      </fieldset>
+      <button class="btn-action" type="submit">
+        <i class="icon icon-MagnifyingGlass"></i>
+      </button>
+    </form>
   </div>
   <div class="canvas-body">
-    <ul class="nav-ul-mb">
-      <li class="nav-mb-item"><a class="mb-menu-link" href="/">Главная</a></li>
-      {categories.map((category) => <li class="nav-mb-item"><a class="mb-menu-link" href={`/${category.slug}/`}>{category.title}</a></li>)}
-    </ul>
+    <div class="mb-content-top">
+      <ul class="nav-ul-mb" id="wrapper-menu-navigation"></ul>
+    </div>
+    <div class="need-help-wrap">
+      <p class="nd-title h6 fw-medium mb-16">Нужна помощь?</p>
+      <p class="lh-26 cl-text-2 mb-4">Ташкент, Узбекистан</p>
+      <a class="text-decoration-underline text-primary lh-26 mb-16" href="#" target="_blank">Открыть в картах</a>
+      <a class="cl-text-2 link mb-8" href="https://t.me/Senditme" target="_blank">@Senditme</a>
+      <a class="cl-text-2 link" href="tel:+998977334483">+998 97 733 44 83</a>
+    </div>
+  </div>
+  <div class="canvas-footer">
+    <div class="d-flex justify-content-center border-end">
+      <div class="tf-currencies">
+        <select class="tf-dropdown-select style-default type-currencies">
+          <option selected>UZS сум</option>
+          <option>USD $</option>
+        </select>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="tf-languages">
+        <select class="tf-dropdown-select style-default type-languages">
+          <option>Русский</option>
+          <option>Uzbek</option>
+          <option>English</option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>
