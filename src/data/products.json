@@ -14,12 +14,14 @@
     "main_image": "/assets/theme/assets/images/product/electronics/product-1.jpg",
     "hover_image": "/assets/theme/assets/images/product/electronics/product-1.jpg",
     "gallery": [
-      "/assets/theme/assets/images/product/electronics/product-1.jpg",
-      "/assets/theme/assets/images/product/electronics/product-2.jpg",
-      "/assets/theme/assets/images/product/electronics/product-3.jpg",
-      "/assets/theme/assets/images/product/electronics/product-4.jpg",
-      "/assets/theme/assets/images/product/electronics/product-5.jpg",
-      "/assets/theme/assets/images/product/electronics/product-6.jpg"
+      "/assets/theme/assets/images/product/single/detail-1.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_2.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_3.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_4.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_5.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_6.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_7.jpg",
+      "/assets/theme/assets/images/product/single/detail-1_8.jpg"
     ],
     "short_description": "Демо-товар с изображениями из скачанного шаблона.",
     "description": "Демо-описание товара из шаблона. Этот текст показывает, как будет выглядеть карточка товара с описанием, характеристиками и изображениями.",

@@ -6,6 +6,8 @@ const formatPrice = (value) => `$${Number(value).toFixed(2).replace(".", ",")}`;
 const price = formatPrice(product.price);
 const oldPrice = product.old_price ? formatPrice(product.old_price) : "";
 const gallery = product.gallery?.length ? product.gallery : [product.main_image];
+const galleryColors = ["green", "green", "green", "green", "gray", "gray", "black", "black"];
+const gallerySizes = ["L", "S", "M", "XL", "M", "M", "L", "L"];
 const related = relatedProducts.length ? relatedProducts : recentlyProducts;
 const recently = recentlyProducts.length ? recentlyProducts : related;
 ---
@@ -39,7 +41,7 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
               <div class="swiper tf-product-media-main" data-spacing="0" dir="ltr" id="gallery-swiper-started">
                 <div class="swiper-wrapper">
                   {gallery.map((image, index) => (
-                    <div class="swiper-slide" data-color={index < 2 ? "green" : "gray"} data-size={["L", "S", "M", "XL"][index] || "M"}>
+                    <div class="swiper-slide" data-color={galleryColors[index] || "green"} data-size={gallerySizes[index] || "M"}>
                       <a class="item" data-pswp-height="768px" data-pswp-width="576px" href={image} target="_blank">
                         <img alt="Товар" class="tf-image-zoom" data-zoom={image} height="768" loading="lazy" src={image} width="576" />
                       </a>
