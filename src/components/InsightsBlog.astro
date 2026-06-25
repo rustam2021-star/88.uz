@@ -1,0 +1,62 @@
+---
+const posts = [
+  {
+    image: "/assets/theme/assets/images/blog/blog-10.jpg",
+    date: "13 August",
+    title: "The Small Daily Rituals That Truly Change Your Day",
+    description: "Sometimes balance comes from the simplest things a few deep breaths, a quiet cup of tea.",
+    delay: ""
+  },
+  {
+    image: "/assets/theme/assets/images/blog/blog-11.jpg",
+    date: "15 August",
+    title: "Finding Your Everyday Calm in Life's Quiet Moments",
+    description: "You don't need a retreat to feel peace. It's hidden in the small pauses a slow breath, a short walk.",
+    delay: "0.1s"
+  },
+  {
+    image: "/assets/theme/assets/images/blog/blog-12.jpg",
+    date: "18 August",
+    title: "How Gentle Mornings Can Transform Your Entire Day",
+    description: "Starting your day slowly sets the tone for calm. A few mindful minutes, soft sunlight.",
+    delay: "0.2s"
+  }
+];
+---
+<section class="flat-spacing pt-0">
+  <div class="container">
+    <div class="sect-heading type-2 text-center wow fadeInUp">
+      <h3 class="s-title">
+        Insights For A Better You
+      </h3>
+      <p class="s-desc text-body-1 cl-text-2">
+        Explore mindful habits, wellness routines, and everyday calm.
+      </p>
+    </div>
+    <div class="swiper tf-swiper" data-mobile="1" data-mobile-sm="2" data-pagination="1" data-pagination-lg="3" data-pagination-md="2" data-pagination-sm="2" data-preview="3" data-space="10" data-space-lg="30" data-space-md="20" data-tablet="2" dir="ltr">
+      <div class="swiper-wrapper">
+        {posts.map((post) => (
+          <div class="swiper-slide">
+            <article class="article-blog hover-img wow fadeInUp" data-wow-delay={post.delay || undefined}>
+              <a class="blog-image img-style" href="#">
+                <img alt="Изображение" height="560" loading="lazy" src={post.image} width="450" />
+              </a>
+              <div class="blog-content">
+                <p class="entry-date text-caption-01 fw-semibold cl-text-3">{post.date}</p>
+                <h5 class="entry-title">
+                  <a class="link-underline link" href="#">
+                    {post.title}
+                  </a>
+                </h5>
+                <p class="entry-desc cl-text-2">
+                  {post.description}
+                </p>
+              </div>
+            </article>
+          </div>
+        ))}
+      </div>
+      <div class="sw-line-default style-2 tf-sw-pagination"></div>
+    </div>
+  </div>
+</section>

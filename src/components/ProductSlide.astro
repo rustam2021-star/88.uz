@@ -1,0 +1,32 @@
+---
+const { product } = Astro.props;
+const formatPrice = (value) => `$${Number(value).toFixed(2).replace(".", ",")}`;
+const price = formatPrice(product.price);
+const oldPrice = product.old_price ? formatPrice(product.old_price) : "";
+---
+<div class="swiper-slide">
+  <div class="card-product">
+    <div class="card-product_wrapper">
+      <a class="product-img" href={`/product/${product.slug}/`}>
+        <img alt="Товар" class="img-product" height="440" loading="lazy" src={product.main_image} width="330" />
+        <img alt="Товар" class="img-hover" height="440" loading="lazy" src={product.hover_image || product.main_image} width="330" />
+      </a>
+      <ul class="product-action_list">
+        <li class="wishlist"><a class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
+        <li class="compare"><a class="hover-tooltip tooltip-left box-icon" data-bs-toggle="offcanvas" href="#compare"><span class="icon icon-ArrowsLeftRight"></span><span class="tooltip">Сравнить</span></a></li>
+        <li><a class="hover-tooltip tooltip-left box-icon" href={`/product/${product.slug}/`}><span class="icon icon-Eye"></span><span class="tooltip">Быстрый просмотр</span></a></li>
+      </ul>
+      {product.badges?.length > 0 && <ul class="product-badge_list">{product.badges.map((badge) => <li class="product-badge_item text-caption-01 new">{badge}</li>)}</ul>}
+      <div class="product-action_bot"><a class="tf-btn btn-white small w-100" href={`/product/${product.slug}/`}>Быстро добавить</a></div>
+    </div>
+    <div class="card-product_info">
+      <a class="name-product lh-24 fw-medium link-underline-text" href={`/product/${product.slug}/`}>{product.title}</a>
+      <div class="star-wrap d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
+      <div class="price-wrap"><span class="price-new text-primary fw-semibold">{price}</span>{oldPrice && <span class="price-old text-caption-01 cl-text-3">{oldPrice}</span>}</div>
+      <ul class="product-color_list">
+        <li class="product-color-item color-swatch hover-tooltip tooltip-bot active"><span class="tooltip color-filter">Коричневый</span><span class="swatch-value bg-warm-beige"></span><img alt="Изображение" data-src={product.main_image} src={product.main_image} /></li>
+        <li class="product-color-item color-swatch hover-tooltip tooltip-bot"><span class="tooltip color-filter">Тёмно-синий</span><span class="swatch-value bg-midnight-blue"></span><img alt="Изображение" data-src={product.hover_image || product.main_image} src={product.hover_image || product.main_image} /></li>
+      </ul>
+    </div>
+  </div>
+</div>

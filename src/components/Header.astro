@@ -1,0 +1,184 @@
+---
+import categories from "../data/categories.json";
+---
+<div class="tf-topbar topbar-s2 d-none d-md-flex bg-dark">
+  <div class="container-full">
+    <div class="row">
+      <div class="col-6">
+        <div class="tf-list">
+          <a class="text-white link" href="tel:0112348888">(+01) 1234 8888</a>
+          <a class="text-decoration-underline text-white link" href="#">Наш магазин</a>
+          <a class="text-white link" href="#">Контакты</a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="d-flex justify-content-end">
+          <div class="tf-list list-currenci">
+            <div class="tf-languages">
+              <select class="tf-dropdown-select style-default color-white type-languages">
+                <option>Uzbek</option>
+                <option>Русский</option>
+                <option>English</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<header class="tf-header header-s3 has-by-category">
+  <div class="br-line fake-class bottom-0 d-xl-none"></div>
+  <div class="header-inner_wrap">
+    <div class="container-full">
+      <div class="header-inner">
+        <div class="box-open-menu-mobile d-xl-none">
+          <a class="btn-open-menu" data-bs-toggle="offcanvas" href="#mobileMenu" aria-label="Открыть меню">
+            <i class="icon icon-List"></i>
+          </a>
+        </div>
+        <div class="box-open-header-bottom">
+          <div class="btn-open-header-bottom cs-pointer">
+            <i class="icon icon-List fs-24"></i>
+          </div>
+        </div>
+        <div class="header-left">
+          <a href="/" class="logo-site">
+            <img alt="88.uz" height="30" loading="lazy" src="/assets/theme/assets/images/logo/logo.svg" width="150" />
+          </a>
+        </div>
+        <div class="header-center d-none d-xl-block">
+          <form action="/learn-more/" class="form_search-product">
+            <div class="select-category">
+              <select class="dropdown_product_cate" id="product_cate" name="product_cate">
+                <option selected="selected" value="">Все категории</option>
+                {categories.map((category) => <option class="level-0" value={category.slug}>{category.title}</option>)}
+              </select>
+            </div>
+            <span class="br-line type-vertical"></span>
+            <fieldset class="fieldset-search">
+              <input class="ipt" placeholder="Поиск товаров" required type="text" />
+              <button class="btn-action" type="submit">
+                <i class="icon icon-MagnifyingGlass"></i>
+              </button>
+            </fieldset>
+          </form>
+        </div>
+        <div class="header-right">
+          <ul class="nav-icon-list">
+            <li class="d-none d-sm-block d-xl-none">
+              <a class="nav-icon-item link" data-bs-toggle="modal" href="#search">
+                <i class="icon icon-MagnifyingGlass"></i>
+              </a>
+            </li>
+            <li class="d-none d-sm-block">
+              <a class="nav-icon-item link" href="#;">
+                <i class="icon icon-HeartStraight"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-bottom_wrap d-none d-xl-block">
+    <div class="container-full">
+      <div class="header-bottom">
+        <div class="col-left">
+          <div class="nav-category-wrap main-action-active">
+            <div class="btn-nav-drop btn-active text-nowrap gap-12">
+              <i class="icon icon-List fs-24"></i>
+              <span class="name-category fw-medium">Категории</span>
+              <i class="icon icon-CaretDown"></i>
+            </div>
+            <ul class="box-nav-category active-item">
+              {categories.map((category) => (
+                <li>
+                  <a class="nav-category_link" href={`/${category.slug}/`}>
+                    {category.title}
+                    <i class="icon icon-CaretRightThin"></i>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <nav class="box-navigation">
+            <ul class="box-nav-menu">
+              <li class="menu-item position-relative">
+                <a class="item-link" href="/">
+                  <span class="text cus-text">Главная</span>
+                  <i class="icon icon-CaretDown"></i>
+                </a>
+                <div class="sub-menu mega-menu_home_v2 home-type_2">
+                  <ul class="sub-menu_list">
+                    <li><a class="sub-menu_link has-text" href="/"><span class="cus-text">Электроника</span></a></li>
+                    <li><a class="sub-menu_link has-text" href="/learn-more/"><span class="cus-text">Все товары</span><span class="demo-label type-hot">Хит</span></a></li>
+                    <li><a class="sub-menu_link has-text" href="/smart-watches/"><span class="cus-text">Смарт-часы</span><span class="demo-label type-new">Новое</span></a></li>
+                  </ul>
+                  <div class="image-preview">
+                    <img alt="Изображение" height="264" loading="lazy" src="/assets/theme/assets/images/section/amerce-html.jpg" width="300" />
+                  </div>
+                </div>
+              </li>
+              <li class="menu-item">
+                <a class="item-link" href="/learn-more/">
+                  <span class="text cus-text">Магазин</span>
+                  <i class="icon icon-CaretDown"></i>
+                </a>
+                <div class="sub-menu mega-menu">
+                  <div class="container-full">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="mega-menu-item menu-lv-2">
+                          <p class="menu-heading">ВИТРИНА</p>
+                          <ul class="sub-menu_list">
+                            {categories.slice(0, 4).map((category) => <li><a class="sub-menu_link has-text" href={`/${category.slug}/`}><span class="cus-text">{category.title}</span></a></li>)}
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="mega-menu-item menu-lv-2">
+                          <p class="menu-heading">РАЗДЕЛЫ</p>
+                          <ul class="sub-menu_list">
+                            {categories.slice(4).map((category) => <li><a class="sub-menu_link has-text" href={`/${category.slug}/`}><span class="cus-text">{category.title}</span></a></li>)}
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <img alt="Изображение" height="264" loading="lazy" src="/assets/theme/assets/images/section/amerce-html.jpg" width="300" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              {categories.slice(1, 5).map((category) => (
+                <li class="menu-item position-relative">
+                  <a class="item-link" href={`/${category.slug}/`}>
+                    <span class="text cus-text">{category.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        <div class="col-right">
+          <p class="text-caption-01 cl-text-2">Бесплатная доставка для заказов от $99</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
+  <div class="canvas-header">
+    <div class="logo-site">
+      <img alt="88.uz" height="30" src="/assets/theme/assets/images/logo/logo.svg" width="150" />
+    </div>
+    <button aria-label="Закрыть" class="icon-close-popup" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="canvas-body">
+    <ul class="nav-ul-mb">
+      <li class="nav-mb-item"><a class="mb-menu-link" href="/">Главная</a></li>
+      {categories.map((category) => <li class="nav-mb-item"><a class="mb-menu-link" href={`/${category.slug}/`}>{category.title}</a></li>)}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+---
+import categories from "../data/categories.json";
+---
+<section class="py-30">
+  <div class="container-full">
+    <div class="swiper tf-swiper" data-laptop="8" data-mobile="2" data-mobile-sm="3" data-pagination="2" data-pagination-lg="8" data-pagination-md="4" data-pagination-sm="3" data-preview="6" data-space="10" data-space-lg="20" data-space-md="15" data-tablet="4" dir="ltr">
+      <div class="swiper-wrapper">
+        {categories.map((category) => (
+          <div class="swiper-slide">
+            <a class="category-v02 style-3 hover-img wow fadeInUp" href={`/${category.slug}/`}>
+              <div class="cate-image img-style">
+                <img alt="Изображение" height="100" loading="lazy" src={category.image} width="100" />
+              </div>
+              <div class="cate-content text-center">
+                <h6 class="cate_name link">{category.title}</h6>
+                <p class="cate_quantity cl-text-2">{category.quantity}</p>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
+      <div class="sw-line-default style-2 tf-sw-pagination"></div>
+    </div>
+  </div>
+</section>

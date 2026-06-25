@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "learn-more",
+    "title": "Все товары",
+    "quantity": "12 товаров",
+    "image": "/assets/theme/assets/images/category/electric/cate-1.jpg",
+    "seo_title": "Все товары - 88.uz",
+    "seo_description": "Демо-страница категории, собранная из JSON.",
+    "description_top": "Демо-категория интернет-магазина на основе скачанного HTML-шаблона.",
+    "description_bottom": "Этот текст оставляет страницу категории статичной и управляемой через JSON.",
+    "faq": []
+  },
+  {
+    "slug": "smart-watches",
+    "title": "Смарт-часы",
+    "quantity": "18 товаров",
+    "image": "/assets/theme/assets/images/category/electric/cate-2.jpg",
+    "seo_title": "Смарт-часы - 88.uz",
+    "seo_description": "Демо-категория смарт-часов из JSON.",
+    "description_top": "Подборка смарт-часов с демо-товарами и изображениями шаблона.",
+    "description_bottom": "Все товары на странице рендерятся как статический HTML из products.json.",
+    "faq": []
+  },
+  {
+    "slug": "earphone",
+    "title": "Наушники-вкладыши",
+    "quantity": "26 товаров",
+    "image": "/assets/theme/assets/images/category/electric/cate-3.jpg",
+    "seo_title": "Наушники-вкладыши - 88.uz",
+    "seo_description": "Демо-категория наушников из JSON.",
+    "description_top": "Демо-категория наушников-вкладышей из шаблона.",
+    "description_bottom": "Демо-контент готов к замене позже.",
+    "faq": []
+  },
+  {
+    "slug": "headphone",
+    "title": "Наушники",
+    "quantity": "26 товаров",
+    "image": "/assets/theme/assets/images/category/electric/cate-4.jpg",
+    "seo_title": "Наушники - 88.uz",
+    "seo_description": "Демо-категория наушников из JSON.",
+    "description_top": "Демо-категория полноразмерных наушников из шаблона.",
+    "description_bottom": "Визуальная структура повторяет скачанный HTML-шаблон.",
+    "faq": []
+  },
+  {
+    "slug": "speaker",
+    "title": "Колонки",
+    "quantity": "16 товаров",
+    "image": "/assets/theme/assets/images/category/electric/cate-5.jpg",
+    "seo_title": "Колонки - 88.uz",
+    "seo_description": "Демо-категория колонок из JSON.",
+    "description_top": "Демо-категория колонок из шаблона.",
+    "description_bottom": "Статическая страница категории на JSON-данных.",
+    "faq": []
+  },
+  {
+    "slug": "smart-lamp",
+    "title": "Умные лампы",
+    "quantity": "32 товара",
+    "image": "/assets/theme/assets/images/category/electric/cate-6.jpg",
+    "seo_title": "Умные лампы - 88.uz",
+    "seo_description": "Демо-категория умных ламп из JSON.",
+    "description_top": "Демо-категория умных ламп из шаблона.",
+    "description_bottom": "Сгенерировано Astro как статический HTML.",
+    "faq": []
+  },
+  {
+    "slug": "cable",
+    "title": "Кабели",
+    "quantity": "18 товаров",
+    "image": "/assets/theme/assets/images/category/electric/cate-7.jpg",
+    "seo_title": "Кабели - 88.uz",
+    "seo_description": "Демо-категория кабелей из JSON.",
+    "description_top": "Демо-категория кабелей из шаблона.",
+    "description_bottom": "Только демо-данные шаблона.",
+    "faq": []
+  },
+  {
+    "slug": "accessories",
+    "title": "Аксессуары",
+    "quantity": "21 товар",
+    "image": "/assets/theme/assets/images/category/electric/cate-8.jpg",
+    "seo_title": "Аксессуары - 88.uz",
+    "seo_description": "Демо-категория аксессуаров из JSON.",
+    "description_top": "Демо-категория аксессуаров из шаблона.",
+    "description_bottom": "Страница сохраняет структуру и классы скачанного шаблона.",
+    "faq": []
+  }
+]

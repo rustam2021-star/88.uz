@@ -1,0 +1,156 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import categories from "../data/categories.json";
+import products from "../data/products.json";
+
+export function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.props;
+const categoryProducts = products.filter((product) => product.category_slug === category.slug);
+const visibleProducts = categoryProducts.length ? categoryProducts : products;
+const formatPrice = (value) => `$${Number(value).toFixed(2).replace(".", ",")}`;
+---
+<MainLayout title={category.seo_title} description={category.seo_description}>
+  <section class="section-page-title text-center flat-spacing-2 pb-0">
+    <div class="container">
+      <div class="main-page-title">
+        <div class="breadcrumbs">
+          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
+          <i class="icon icon-CaretRightThin cl-text-3"></i>
+          <p class="text-caption-01">{category.title}</p>
+        </div>
+        <h3>{category.title}</h3>
+        <p class="text-body-1 cl-text-2">{category.description_top}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="flat-spacing">
+    <div class="container">
+      <div class="tf-shop-control sticky-top no-offset sticky-top no-offset">
+        <a class="tf-btn-filter" data-bs-toggle="offcanvas" href="#filterShop">
+          <span class="icon icon-filter"></span>
+          <span class="text">Показать фильтры</span>
+        </a>
+        <ul class="tf-control-layout">
+          <li class="tf-view-layout-switch sw-layout-list list-layout" data-value-layout="list"><i class="icon-List"></i></li>
+          <li class="tf-view-layout-switch sw-layout-2" data-value-layout="tf-col-2"><i class="icon-grid-2"></i></li>
+          <li class="tf-view-layout-switch sw-layout-3 d-none d-md-flex" data-value-layout="tf-col-3"><i class="icon-grid-3"></i></li>
+          <li class="tf-view-layout-switch sw-layout-4 active d-none d-lg-flex" data-value-layout="tf-col-4"><i class="icon-grid-4"></i></li>
+        </ul>
+        <div class="tf-control-sorting">
+          <div class="tf-dropdown-sort" data-bs-toggle="dropdown">
+            <div class="btn-select">
+              <span class="text-sort-value">Популярные</span>
+              <span class="icon icon-CaretDown"></span>
+            </div>
+            <div class="dropdown-menu">
+              <div class="select-item active remove-all-filters" data-sort-value="best-selling"><span class="text-value-item">Популярные</span></div>
+              <div class="select-item" data-sort-value="a-z"><span class="text-value-item">По алфавиту, А-Я</span></div>
+              <div class="select-item" data-sort-value="z-a"><span class="text-value-item">По алфавиту, Я-А</span></div>
+              <div class="select-item" data-sort-value="price-low-high"><span class="text-value-item">Цена: сначала дешевле</span></div>
+              <div class="select-item" data-sort-value="price-high-low"><span class="text-value-item">Цена: сначала дороже</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrapper-control-shop gridLayout-wrapper">
+        <div class="meta-filter-shop">
+          <div class="count-text text-caption-01" id="product-count-list"></div>
+          <div class="count-text text-caption-01" id="product-count-grid"></div>
+          <div class="br-line type-vertical"></div>
+          <div id="applied-filters"></div>
+          <button class="remove-all-filters" id="remove-all" style="display: none;">
+            <i class="icon icon-X2"></i>
+            Очистить всё
+          </button>
+        </div>
+
+        <div class="tf-list-layout wrapper-shop" id="listLayout" style="display: none;">
+          {visibleProducts.map((product) => (
+            <div class="card-product product-style_list" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
+              <div class="card-product_wrapper">
+                <a class="product-img" href={`/product/${product.slug}/`}>
+                  <img alt="Товар" class="img-product" height="440" loading="lazy" src={product.main_image} width="330" />
+                  <img alt="Товар" class="img-hover" height="440" loading="lazy" src={product.hover_image || product.main_image} width="330" />
+                </a>
+              </div>
+              <div class="card-product_info">
+                <a class="name-product lh-24 fw-medium link-underline-text" href={`/product/${product.slug}/`}>{product.title}</a>
+                <div class="star-wrap d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
+                <div class="price-wrap">
+                  <span class="price-new text-primary fw-semibold">{formatPrice(product.price)}</span>
+                  {product.old_price && <span class="price-old text-caption-01 cl-text-3">{formatPrice(product.old_price)}</span>}
+                </div>
+                <p class="description text-caption-01 mb-10">{product.description}</p>
+                <a class="tf-btn btn-fill" href={`/product/${product.slug}/`}>Смотреть товар</a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="wrapper-shop tf-grid-layout tf-col-4" id="gridLayout">
+          {visibleProducts.map((product) => (
+            <div class="card-product grid" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
+              <div class="card-product_wrapper">
+                <a class="product-img" href={`/product/${product.slug}/`}>
+                  <img alt="Товар" class="img-product" height="440" loading="lazy" src={product.main_image} width="330" />
+                  <img alt="Товар" class="img-hover" height="440" loading="lazy" src={product.hover_image || product.main_image} width="330" />
+                </a>
+                <ul class="product-action_list">
+                  <li class="wishlist"><a class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
+                  <li class="compare"><a class="hover-tooltip tooltip-left box-icon" data-bs-toggle="offcanvas" href="#compare"><span class="icon icon-ArrowsLeftRight"></span><span class="tooltip">Сравнить</span></a></li>
+                  <li><a class="hover-tooltip tooltip-left box-icon" href={`/product/${product.slug}/`}><span class="icon icon-Eye"></span><span class="tooltip">Быстрый просмотр</span></a></li>
+                </ul>
+                {product.badges?.length > 0 && <ul class="product-badge_list">{product.badges.map((badge) => <li class="product-badge_item text-caption-01 new">{badge}</li>)}</ul>}
+                <div class="product-action_bot"><a class="tf-btn btn-white small w-100" href={`/product/${product.slug}/`}>Быстро добавить</a></div>
+              </div>
+              <div class="card-product_info">
+                <a class="name-product lh-24 fw-medium link-underline-text" href={`/product/${product.slug}/`}>{product.title}</a>
+                <div class="star-wrap d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
+                <div class="price-wrap">
+                  <span class="price-new text-primary fw-semibold">{formatPrice(product.price)}</span>
+                  {product.old_price && <span class="price-old text-caption-01 cl-text-3">{formatPrice(product.old_price)}</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-start canvas-filter" id="filterShop">
+    <div class="canvas-wrapper">
+      <div class="canvas-header">
+        <h5>Фильтры</h5>
+        <span class="icon-close-popup" data-bs-dismiss="offcanvas"><i class="icon icon-X2"></i></span>
+      </div>
+      <div class="canvas-body">
+        <div class="widget-facet">
+          <h6>Наличие</h6>
+          <ul class="list-categoris current-scrollbar">
+            <li class="cate-item"><a href="#"><span>В наличии</span></a></li>
+            <li class="cate-item"><a href="#"><span>Нет в наличии</span></a></li>
+          </ul>
+        </div>
+        <div class="widget-facet">
+          <h6>Бренды</h6>
+          <ul class="list-categoris current-scrollbar"><li class="cate-item"><a href="#"><span>88.uz</span></a></li></ul>
+        </div>
+        <div class="widget-facet">
+          <h6>Категория</h6>
+          <ul class="list-categoris current-scrollbar">
+            {categories.map((item) => <li class="cate-item"><a href={`/${item.slug}/`}><span>{item.title}</span></a></li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>

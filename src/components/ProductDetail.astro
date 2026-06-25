@@ -1,0 +1,202 @@
+---
+import ProductSlide from "./ProductSlide.astro";
+
+const { product, category, relatedProducts = [], recentlyProducts = [] } = Astro.props;
+const formatPrice = (value) => `$${Number(value).toFixed(2).replace(".", ",")}`;
+const price = formatPrice(product.price);
+const oldPrice = product.old_price ? formatPrice(product.old_price) : "";
+const gallery = product.gallery?.length ? product.gallery : [product.main_image];
+const related = relatedProducts.length ? relatedProducts : recentlyProducts;
+const recently = recentlyProducts.length ? recentlyProducts : related;
+---
+
+<div class="section-page-title-single flat-spacing-3">
+  <div class="container">
+    <div class="main-page-title">
+      <div class="breadcrumbs">
+        <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
+        <i class="icon icon-CaretRightThin cl-text-3"></i>
+        <a class="text-caption-01 cl-text-3 link" href={`/${category.slug}/`}>Магазин</a>
+        <i class="icon icon-CaretRightThin cl-text-3"></i>
+        <p class="text-caption-01">{product.title}</p>
+      </div>
+      <div class="nav-post-list">
+        <a class="link nav-post-item nav-post-prev" href={`/product/${recently[0]?.slug || product.slug}/`}><i class="icon icon-CaretLeft"></i></a>
+        <a class="link nav-all-post nav-post-link" href={`/${category.slug}/`}><i class="icon icon-SquaresFour"></i></a>
+        <a class="link nav-post-item nav-post-next" href={`/product/${recently[1]?.slug || product.slug}/`}><i class="icon icon-CaretRightThin"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section-product-single tf-main-product section-image-zoom">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="tf-product-media-wrap sticky-top">
+          <div class="product-thumbs-slider style-row row_left">
+            <div class="flat-wrap-media-product">
+              <div class="swiper tf-product-media-main" data-spacing="0" dir="ltr" id="gallery-swiper-started">
+                <div class="swiper-wrapper">
+                  {gallery.map((image, index) => (
+                    <div class="swiper-slide" data-color={index < 2 ? "green" : "gray"} data-size={["L", "S", "M", "XL"][index] || "M"}>
+                      <a class="item" data-pswp-height="768px" data-pswp-width="576px" href={image} target="_blank">
+                        <img alt="Товар" class="tf-image-zoom" data-zoom={image} height="768" loading="lazy" src={image} width="576" />
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div class="swiper tf-product-media-thumbs other-image-zoom" data-direction="vertical" data-preview="7" dir="ltr">
+              <div class="swiper-wrapper stagger-wrap">
+                {gallery.map((image) => (
+                  <div class="swiper-slide stagger-item">
+                    <div class="item">
+                      <img alt="Изображение" height="110" loading="lazy" src={image} width="82" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="tf-product-info-wrap position-relative mt-md-0">
+          <div class="tf-zoom-main sticky-top"></div>
+          <div class="tf-product-info-list other-image-zoom">
+            <div class="tf-product-info-heading">
+              <p class="product-infor-cate text-caption-01 mb-4">{category.title}</p>
+              <h3 class="product-infor-name mb-12">{product.title}</h3>
+              <div class="product-infor-meta mb-20">
+                <div class="meta_rate">
+                  <div class="star-wrap normal d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
+                  <span class="text-caption-01 cl-text-2">(134 отзывов)</span>
+                </div>
+                <div class="br-line type-vertical"></div>
+                <div class="meta_sold">
+                  <i class="icon icon-Lightning text-primary"></i>
+                  <span class="text-caption-01 cl-text-2">18 продано за последние 32 часа</span>
+                </div>
+                <div class="br-line type-vertical"></div>
+                <div class="meta_prd_code text-caption-01"><span class="cl-text-2">SKU:</span><span>{product.specs?.SKU}</span></div>
+              </div>
+              <div class="product-infor-price mb-12">
+                <h4 class="price-on-sale">{price}</h4>
+                {oldPrice && <><div class="br-line type-vertical"></div><p class="cl-text-3 text-decoration-line-through">{oldPrice}</p></>}
+                {product.badges?.[0] && <span class="badge-sale text-white fw-semibold text-caption-02">{product.badges[0]}</span>}
+              </div>
+              <p class="product-infor-desc cl-text-2 mb-12">{product.description}</p>
+              <div class="product-infor-reality lh-24">
+                <div class="ic d-flex"><i class="icon icon-Eye"></i></div>
+                <span class="text-caption-01">28 человек сейчас смотрят этот товар</span>
+              </div>
+            </div>
+
+            <div class="br-line"></div>
+            <div class="tf-product-variant">
+              <div class="variant-picker-item variant-color">
+                <div class="variant-picker-label">
+                  <div>Цвета: <span class="variant-picker-label-value value-currentColor text-capitalize fw-medium">Серый</span></div>
+                </div>
+                <div class="variant-picker-values">
+                  {gallery.slice(0, 3).map((image, index) => (
+                    <div class={`hover-tooltip tooltip-bot color-btn style-image ${index === 0 ? "active" : ""}`} data-color={["green", "gray", "black"][index] || "gray"}>
+                      <div class="img"><img alt="Товар" data-src={image} height="60" loading="lazy" src={image} width="60" /></div>
+                      <span class="tooltip">{["Зелёный", "Серый", "Чёрный"][index] || "Серый"}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div class="variant-picker-item variant-size">
+                <div class="variant-picker-label">
+                  <div>Размер: <span class="variant-picker-label-value value-currentSize text-capitalize fw-medium">M</span></div>
+                  <a class="tf-btn-line-2 style-primary text-caption-01 fw-semibold" data-bs-toggle="modal" href="#findSize">Таблица размеров</a>
+                </div>
+                <div class="variant-picker-values">
+                  <span class="size-btn" data-price="39.99" data-size="S">S</span>
+                  <span class="size-btn active" data-price="59.99" data-size="M">M</span>
+                  <span class="size-btn" data-price="79.99" data-size="L">L</span>
+                  <span class="size-btn" data-price="89.99" data-size="XL">XL</span>
+                  <span class="size-btn disabled" data-price="99.99" data-size="XX">XXL</span>
+                </div>
+              </div>
+              <div class="tf-product-total-quantity">
+                <p>Количество:</p>
+                <div class="group-action">
+                  <div class="wg-quantity">
+                    <button class="btn-quantity btn-decrease"><i class="icon icon-minus"></i></button>
+                    <input class="quantity-product" name="number" type="text" value="1" />
+                    <button class="btn-quantity btn-increase"><i class="icon icon-plus"></i></button>
+                  </div>
+                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" data-bs-toggle="offcanvas" href="#shoppingCart">В корзину <span class="d-none d-sm-block d-md-none d-lg-block"> - </span><span class="price-add d-none d-sm-block d-md-none d-lg-block">{price}</span></a>
+                </div>
+                <a class="tf-btn type-xl btn-primary animate-btn w-100" href="#checkout">Купить сейчас</a>
+              </div>
+            </div>
+
+            <div class="tf-product-extra-link">
+              <a class="product-extra-icon link" data-bs-toggle="offcanvas" href="#compare"><i class="icon icon-ArrowsLeftRight"></i>Сравнить</a>
+              <a class="product-extra-icon link" data-bs-toggle="modal" href="#ask"><i class="icon icon-Question"></i>Задать вопрос</a>
+              <a class="product-extra-icon link" data-bs-toggle="modal" href="#findSize"><i class="icon icon-Ruler"></i>Таблица размеров</a>
+              <a class="product-extra-icon link" data-bs-toggle="modal" href="#share"><i class="icon icon-ShareNetwork"></i>Поделиться</a>
+            </div>
+            <div class="br-line"></div>
+            <div class="tf-product-delivery-return">
+              <div class="product-delivery"><i class="icon icon-Timer"></i><p>Ориентировочная доставка: <span class="fw-semibold">12-26 дней</span> (международная), <span class="fw-semibold">3-6 дней</span> (США)</p></div>
+              <div class="product-delivery return"><i class="icon icon-ArrowClockwise"></i><p>Возврат в течение <span class="fw-semibold">45 дней</span> после покупки. Пошлины и налоги не возвращаются.</p></div>
+            </div>
+            <div class="tf-product-trust-seal">
+              <p class="h6 text-seal">Безопасная оплата:</p>
+              <ul class="list-card">
+                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/visa.svg" width="50" /></li>
+                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/master-card.svg" width="50" /></li>
+                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/amex.svg" width="50" /></li>
+                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/paypal.svg" width="50" /></li>
+                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/water.svg" width="50" /></li>
+                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/discover.svg" width="50" /></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-product-description flat-spacing flat-animate-tab">
+  <div class="container">
+    <ul class="tab-btn-wrap-v1" role="tablist">
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#description" role="tab"><span class="h5 fw-medium">Описание</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#customer-reviews" role="tab"><span class="h5 fw-medium">Отзывы покупателей</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#shipping-returns" role="tab"><span class="h5 fw-medium">Доставка и возврат</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#return-policies" role="tab"><span class="h5 fw-medium">Правила возврата</span></a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active show" id="description" role="tabpanel">
+        <div class="tab-content_desc tf-grid-layout md-col-2">
+          <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info"><p class="cl-text-2">{product.description}</p><p class="cl-text-2">{product.short_description}</p></div></div>
+          <div class="box-desc"><h5 class="desc_title">Характеристики</h5><ul class="list">{Object.entries(product.specs || {}).map(([key, value]) => <li class="cl-text-2">- {key}: {value}</li>)}</ul></div>
+        </div>
+      </div>
+      <div class="tab-pane" id="customer-reviews" role="tabpanel"><div class="product-desc_review write-cancel-review-wrap"><div class="box-rating mb-0"><div class="rating-ratio"><p class="text-display fw-medium">4.8</p><div class="star-wrap normal d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div><p class="rate-number">(1,968 оценок)</p></div></div></div></div>
+      <div class="tab-pane" id="shipping-returns" role="tabpanel"><div class="tab-content_desc desc-2 tf-grid-layout sm-col-2 xl-col-4"><div class="box-desc"><h5 class="desc_title">Мы позаботились о вас</h5><p class="cl-text-2">Бесплатный возврат в течение 14 дней.</p></div><div class="box-desc"><h5 class="desc_title">Информация о доставке</h5><p class="cl-text-2">Сроки доставки зависят от выбранного региона и способа отправки.</p></div></div></div>
+      <div class="tab-pane" id="return-policies" role="tabpanel"><div class="tab-content_desc desc-3 d-grid"><div class="box-desc"><h5 class="desc_title">Правила возврата</h5><p class="desc_info cl-text-2">Если товар вам не подошёл, можно оформить возврат в течение 30 дней после доставки.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="flat-spacing flat-animate-tab pt-0">
+  <div class="container">
+    <ul class="tab-btn-wrap-v1 style-2 justify-content-sm-center" role="tablist">
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#related" role="tab"><span class="h4 fw-medium">Похожие товары</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#recently" role="tab"><span class="h4 fw-medium">Недавно смотрели</span></a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active show" id="related" role="tabpanel"><div class="swiper tf-swiper wrap-sw-over" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="20" data-tablet="3" dir="ltr"><div class="swiper-wrapper">{related.slice(0, 4).map((item) => <ProductSlide product={item} />)}</div><div class="sw-line-default style-2 tf-sw-pagination"></div></div></div>
+      <div class="tab-pane" id="recently" role="tabpanel"><div class="swiper tf-swiper wrap-sw-over" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="20" data-tablet="3" dir="ltr"><div class="swiper-wrapper">{recently.slice(0, 4).map((item) => <ProductSlide product={item} />)}</div><div class="sw-line-default style-2 tf-sw-pagination"></div></div></div>
+    </div>
+  </div>
+</div>

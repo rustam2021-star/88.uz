@@ -1,0 +1,40 @@
+---
+const faqs = [
+  { question: "Как оформить заказ?", answer: "Выберите товар, добавьте его в корзину и оформите заказ через форму на сайте." },
+  { question: "Как быстро доставляете?", answer: "Демо-текст: срок доставки зависит от региона и выбранного способа." },
+  { question: "Можно ли вернуть товар?", answer: "Да, возврат доступен по правилам магазина." },
+  { question: "Есть ли поддержка?", answer: "Да, команда поддержки готова помочь с вопросами по заказу." },
+  { question: "Как узнать статус заказа?", answer: "Статус заказа можно уточнить через контакты магазина." }
+];
+---
+<section class="themesFlat">
+  <div class="container">
+    <div class="section-faq style-2">
+      <div class="col-left">
+        <div class="sect-heading wow fadeInUp">
+          <h3 class="s-title">
+            Есть вопрос? <br />
+            Мы рядом и готовы помочь.
+          </h3>
+          <a class="tf-btn animate-btn" href="/learn-more/">Купить сейчас</a>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="tf-accordion accordion" id="accordionFaq">
+          {faqs.map((item, index) => (
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class={`accordion-button ${index === 0 ? "" : "collapsed"}`} data-bs-toggle="collapse" data-bs-target={`#faq-${index}`}>
+                  {item.question}
+                </button>
+              </h2>
+              <div id={`faq-${index}`} class={`accordion-collapse collapse ${index === 0 ? "show" : ""}`} data-bs-parent="#accordionFaq">
+                <div class="accordion-body">{item.answer}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

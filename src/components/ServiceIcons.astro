@@ -1,0 +1,31 @@
+---
+const items = [
+  { icon: "icon-ArrowUDownLeft", title: "Возврат 14 дней", text: "Покупайте спокойно: возврат простой." },
+  { icon: "icon-Package", title: "Бесплатная доставка", text: "Без скрытых расходов: только цена на экране." },
+  { icon: "icon-Headset", title: "Поддержка 24/7", text: "Поддержка 24/7, мы всегда на связи." },
+  { icon: "icon-SealPercent", title: "Скидки для клиентов", text: "Специальные цены для постоянных покупателей." }
+];
+---
+<div class="flat-spacing">
+  <div class="container">
+    <div class="position-relative flat-spacing pb-0">
+      <div class="br-line fake-class top-0"></div>
+      <div class="swiper tf-swiper" data-mobile="1" data-mobile-sm="2" data-pagination="1" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="20" data-tablet="3" dir="ltr">
+        <div class="swiper-wrapper">
+          {items.map((item) => (
+            <div class="swiper-slide">
+              <div class="box-icon_V01 style-2 wow fadeInLeft">
+                <span class="icon"><i class={item.icon}></i></span>
+                <div class="content">
+                  <h5 class="title">{item.title}</h5>
+                  <p class="text cl-text-2">{item.text}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="sw-line-default style-2 tf-sw-pagination"></div>
+      </div>
+    </div>
+  </div>
+</div>

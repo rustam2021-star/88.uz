@@ -1,0 +1,57 @@
+---
+import ProductCard from "./ProductCard.astro";
+import products from "../data/products.json";
+
+const tabs = [
+  { id: "headphone", label: "Наушники", items: products.slice(0, 4) },
+  { id: "mouse", label: "Мыши", items: products.slice(1, 5) },
+  { id: "keyboard", label: "Клавиатуры", items: products.slice(2, 6) },
+  { id: "mousepad", label: "Коврики", items: products.slice(3, 7) },
+  { id: "cables", label: "Кабели", items: products.slice(4, 8) },
+  { id: "networking", label: "Сеть", items: products.slice(0, 4).reverse() }
+];
+---
+<section class="flat-spacing pt-0 flat-animate-tab">
+  <div class="container">
+    <div class="sect-heading d-block d-md-flex type-2 has-col-right wow fadeInUp">
+      <div>
+        <h3 class="s-title">Хиты продаж</h3>
+        <div class="overflow-auto">
+          <ul class="tab-btn-wrap-v3" role="tablist">
+            {tabs.map((tab, index) => (
+              <>
+                {index > 0 && <li class="spread">/</li>}
+                <li class="nav-tab-item" role="presentation">
+                  <a class={`tf-btn-tab ${index === 0 ? "active" : ""}`} data-bs-toggle="tab" href={`#${tab.id}`} role="tab">
+                    <span class="fw-medium">{tab.label}</span>
+                  </a>
+                </li>
+              </>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div class="col-right">
+        <a class="tf-btn-line-2 py-4 style-primary" href="/learn-more/">
+          <span class="fw-semibold">Смотреть все товары</span>
+        </a>
+      </div>
+    </div>
+    <div class="tab-content">
+      {tabs.map((tab, index) => (
+        <div class={`tab-pane ${index === 0 ? "active show" : ""}`} id={tab.id} role="tabpanel">
+          <div class="swiper tf-swiper wrap-sw-over" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="15" data-tablet="3" dir="ltr">
+            <div class="swiper-wrapper">
+              {tab.items.map((product) => (
+                <div class="swiper-slide">
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+            <div class="sw-dot-default tf-sw-pagination"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

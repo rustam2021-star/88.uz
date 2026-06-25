@@ -1,0 +1,104 @@
+---
+import products from "../data/products.json";
+
+const slides = [
+  {
+    image: "/assets/theme/assets/images/collection/cls-13.jpg",
+    thumb: "/assets/theme/assets/images/collection/cls-13.jpg",
+    product: products[0],
+    name: "iPhone 17 Pro Max",
+    price: "$79,99",
+    oldPrice: "$99,99"
+  },
+  {
+    image: "/assets/theme/assets/images/collection/cls-14.jpg",
+    thumb: "/assets/theme/assets/images/collection/cls-14.jpg",
+    product: products[1],
+    name: "Apple Watch Series 10",
+    price: "$79,99",
+    oldPrice: "$99,99"
+  },
+  {
+    image: "/assets/theme/assets/images/collection/cls-15.jpg",
+    thumb: "/assets/theme/assets/images/collection/cls-15.jpg",
+    product: products[2],
+    name: "Wireless Master & Dynamic MC100",
+    price: "$79,99",
+    oldPrice: "$99,99"
+  },
+  {
+    image: "/assets/theme/assets/images/collection/cls-16.jpg",
+    thumb: "/assets/theme/assets/images/collection/cls-16.jpg",
+    product: products[3],
+    name: "Wireless JVC HA-S36W",
+    price: "$79,99",
+    oldPrice: "$99,99"
+  }
+];
+---
+<section class="themesFlat">
+  <div class="container">
+    <div class="banner-thumbs-product slider-thumb-wrap">
+      <div class="col-left text-center flat-spacing">
+        <div class="sect-heading type-2 wow fadeInUp">
+          <h3 class="s-title">
+            Продуманная техника <br class="d-none d-xl-block" />
+            для современной жизни
+          </h3>
+          <p class="s-desc text-body-1 cl-text-2">
+            Откройте для себя полезные устройства с умными функциями.
+          </p>
+        </div>
+        <div class="img-list wow fadeInUp">
+          {slides.map((slide, index) => (
+            <div class={`img_item btn-thumbs cs-pointer ${index === 0 ? "active" : ""}`}>
+              <img alt="Изображение" height="120" src={slide.thumb} width="120" />
+            </div>
+          ))}
+        </div>
+        <div class="wow fadeInUp">
+          <a class="tf-btn animate-btn" href="/learn-more/">
+            Смотреть все товары
+          </a>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="swiper slider-content-thumb swiper-tesimonial" dir="ltr">
+          <div class="swiper-wrapper">
+            {slides.map((slide) => {
+              const price = slide.price;
+              const oldPrice = slide.oldPrice;
+              return (
+                <div class="swiper-slide">
+                  <div class="wg-thumb-v1">
+                    <div class="thumb-image">
+                      <img alt="Изображение" height="546" loading="lazy" src={slide.image} width="705" />
+                    </div>
+                    <div class="thumb-prd">
+                      <div class="prd_image">
+                        <img alt="Изображение" height="88" loading="lazy" src={slide.product.main_image} width="88" />
+                      </div>
+                      <div class="prd_info">
+                        <a class="name fw-medium link lh-24 text-line-clamp-2" href={`/product/${slide.product.slug}/`}>
+                          {slide.name}
+                        </a>
+                        <div class="price-wrap">
+                          <span class="price-new text-primary fw-semibold">{price}</span>
+                          {oldPrice && <span class="price-old text-caption-01 cl-text-3">{oldPrice}</span>}
+                        </div>
+                      </div>
+                      <a class="btn-action hover-tooltip" data-bs-toggle="offcanvas" href="#shoppingCart">
+                        <span class="tooltip">В корзину</span>
+                        <i class="icon icon-Handbag"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

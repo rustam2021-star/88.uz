@@ -1,0 +1,99 @@
+---
+const testimonials = [
+  {
+    thumb: "/assets/theme/assets/images/testimonial/thumbs/thumb-1.jpg",
+    productImage: "/assets/theme/assets/images/product/electronics/product-10.jpg",
+    product: "DeePoon M2 Virtual Reality Headset - Super AMOLED display",
+    price: "$29.99"
+  },
+  {
+    thumb: "/assets/theme/assets/images/testimonial/thumbs/thumb-2.jpg",
+    productImage: "/assets/theme/assets/images/product/electronics/product-1.jpg",
+    product: "DeePoon M2 Virtual Reality Headset - Super AMOLED display",
+    price: "$29.99"
+  },
+  {
+    thumb: "/assets/theme/assets/images/testimonial/thumbs/thumb-3.jpg",
+    productImage: "/assets/theme/assets/images/product/electronics/product-2.jpg",
+    product: "DeePoon M2 Virtual Reality Headset - Super AMOLED display",
+    price: "$29.99"
+  }
+];
+---
+<section class="section-testimonial-thumbs flat-spacing tf-sw-thumbs">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xl-5">
+        <div class="col-left">
+          <div class="swiper sw-thumb" dir="ltr">
+            <div class="swiper-wrapper">
+              {testimonials.map((item) => (
+                <div class="swiper-slide">
+                  <div class="sw-image">
+                    <img alt="Изображение" height="520" loading="lazy" src={item.thumb} width="520" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-6">
+        <div class="col-right tes_thumb">
+          <div class="swiper sw-main-thumb" dir="ltr">
+            <div class="swiper-wrapper">
+              {testimonials.map((item) => (
+                <div class="swiper-slide">
+                  <div class="testimonial-v01 style-5">
+                    <div class="tes-content">
+                      <div class="star-wrap d-flex align-items-center">
+                        <i class="icon icon-Star fs-24"></i>
+                        <i class="icon icon-Star fs-24"></i>
+                        <i class="icon icon-Star fs-24"></i>
+                        <i class="icon icon-Star fs-24"></i>
+                        <i class="icon icon-Star fs-24"></i>
+                      </div>
+                      <div class="tes_author">
+                        <h5 class="author-name">Sophia Ramirez</h5>
+                        <div class="br-line"></div>
+                        <div class="author-verified">
+                          <i class="icon icon-CheckCircle1"></i>
+                          <span class="cl-text-2">Проверенный покупатель</span>
+                        </div>
+                      </div>
+                      <p class="tes_text h4 text-capitalize">
+                        The MW09 is stunning, sports simple controls, and has tons of
+                        fit options. There's also an excellent sound profile, powerful
+                        noise cancellation, and a battery that doesn't give up on you.
+                      </p>
+                      <div class="tes_product">
+                        <div class="product-image flex-shrink-0">
+                          <img alt="Изображение" height="60" loading="lazy" src={item.productImage} width="60" />
+                        </div>
+                        <div class="product-infor">
+                          <a class="link fw-medium lh-24 text-line-clamp-2" href="/product/apple-iphone-17-pro-max/">
+                            {item.product}
+                          </a>
+                          <p class="prd_price fw-semibold text-primary">{item.price}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class="sw-line-default style-2 sw-pg-thumb d-xxl-none mt-30"></div>
+          </div>
+          <div class="group-action-nav">
+            <div class="tf-sw-nav-2 nav-prev-swiper">
+              <i class="icon icon-ArrowLeft"></i>
+            </div>
+            <div class="tf-sw-nav-2 nav-next-swiper">
+              <i class="icon icon-ArrowRight"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+---
+import ProductCard from "./ProductCard.astro";
+const { products, title = "Популярные товары" } = Astro.props;
+---
+<section class="flat-spacing">
+  <div class="container">
+    <div class="flat-title wow fadeInUp">
+      <h4 class="title">{title}</h4>
+    </div>
+    <div class="tf-grid-layout tf-col-2 lg-col-4">
+      {products.map((product) => <ProductCard product={product} />)}
+    </div>
+  </div>
+</section>

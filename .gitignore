@@ -1,3 +1,7 @@
+node_modules/
+dist/
+.astro/
+
 reference_downloader/venv/
 reference_downloader/reference_tfamerce_full/
 reference_downloader/__pycache__/

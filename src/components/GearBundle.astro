@@ -1,0 +1,97 @@
+---
+import ProductCard from "./ProductCard.astro";
+import products from "../data/products.json";
+
+const bundleItems = [
+  { product: products[4], short: "MW09 Active...", price: "$69,99", oldPrice: "" },
+  { product: products[6], short: "USB-C to USB-C...", price: "$39,99", oldPrice: "$59,99" },
+  { product: products[7], short: "Samsung Galaxy...", price: "$49,99", oldPrice: "$59,99" }
+];
+---
+<section class="section-gear-bundle flat-spacing">
+  <div class="container">
+    <div class="sect-heading type-2 has-col-right wow fadeInUp">
+      <div>
+        <h3 class="s-title">
+          Personalize Your Own Gear Bundle
+        </h3>
+        <p class="s-desc cl-text-2 text-body-1">
+          Mindful choices for everyday wellbeing.
+        </p>
+      </div>
+      <div class="col-right">
+        <a class="tf-btn-line-2 py-4 style-primary" href="/learn-more/">
+          <span class="fw-semibold">Смотреть все товары</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="main-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 col-xl-8">
+          <div class="col-left">
+            <div class="swiper tf-swiper swiper-2row" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="3" data-pagination-md="3" data-pagination-sm="2" data-preview="3" data-space="10" data-space-lg="20" data-space-md="15" data-tablet="2" dir="ltr">
+              <div class="swiper-wrapper">
+                {products.slice(4, 8).map((product) => (
+                  <div class="swiper-slide">
+                    <div class="list-2row wow fadeInUp">
+                      <ProductCard product={product} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div class="sw-dot-default tf-sw-pagination"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-xl-4">
+          <div class="col-right">
+            <div class="bundle-wrap">
+              <ul class="bundle-list">
+                {bundleItems.map((item) => (
+                  <li class="bundle-prd file-delete">
+                    <div class="prd-image">
+                      <img alt="Изображение" height="80" loading="lazy" src={item.product.main_image} width="80" />
+                    </div>
+                    <div class="prd-info">
+                      <a class="info_name link text-body-1" href={`/product/${item.product.slug}/`}>{item.short}</a>
+                      <div class="price-wrap">
+                        <span class="price-new">{item.price}</span>
+                        {item.oldPrice && <span class="price-old text-caption-01 cl-text-2">{item.oldPrice}</span>}
+                      </div>
+                      <div class="info_typo text-caption-01 cl-text-3">
+                        XL/Blue
+                      </div>
+                    </div>
+                    <div class="prd-action">
+                      <a class="tf-btn-line-3 type-primary remove" href="#">
+                        <span class="fw-semibold text-caption-01">Удалить</span>
+                      </a>
+                      <div class="wg-quantity-v2">
+                        <input class="quantity-product" name="number" type="text" value="1" />
+                        <p class="group-action">
+                          <button class="btn-quantity plus-btn"><i class="icon icon-CaretTopThin"></i></button>
+                          <button class="btn-quantity minus-btn"><i class="icon icon-CaretBottomThin"></i></button>
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div class="bottom">
+                <div class="d-flex align-items-center justify-content-between mb-16">
+                  <h4>Итого</h4>
+                  <h4>$186,99</h4>
+                </div>
+                <a class="tf-btn animate-btn w-100" data-bs-toggle="offcanvas" href="#shoppingCart">
+                  Add To Cart
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
