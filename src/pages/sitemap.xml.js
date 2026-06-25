@@ -6,6 +6,7 @@ const site = "https://example.com";
 export function GET() {
   const urls = [
     "/",
+    "/wishlist/",
     ...categories.map((category) => `/${category.slug}/`),
     ...products.map((product) => `/product/${product.slug}/`)
   ];
