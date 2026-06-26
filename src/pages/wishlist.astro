@@ -1,0 +1,35 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+<MainLayout
+  title="Избранное - 88.uz"
+  description="Сохраненные товары 88.uz. Избранное работает локально в браузере без бэкенда."
+>
+  <section class="section-page-title text-center flat-spacing-2 pb-0">
+    <div class="container">
+      <div class="main-page-title">
+        <div class="breadcrumbs">
+          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
+          <i class="icon icon-CaretRightThin cl-text-3"></i>
+          <p class="text-caption-01">Избранное</p>
+        </div>
+        <h3>Избранное</h3>
+        <p class="text-body-1 cl-text-2">
+          Здесь хранятся товары, которые вы отметили сердечком.
+          <br class="d-none d-lg-block" />
+          Список сохраняется только в этом браузере.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-wishlist flat-spacing">
+    <div class="container">
+      <div class="tf-grid-layout tf-col-2 md-col-3 xl-col-4 wrapper-wishlist" data-wishlist-root>
+        <div class="tf-wishlist-empty text-center wd-full" style="grid-column: 1 / -1;">
+          <p class="text-notice cl-text-2 mb-20">Загрузка избранного...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
