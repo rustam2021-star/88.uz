@@ -4,12 +4,6 @@ import { BLOG_URL, CATALOG_URL, STORE_PHONE } from "../lib/catalog.js";
 
 const primaryCategories = categories.slice(0, 4);
 const secondaryCategories = categories.slice(4);
-const marqueeItems = [
-  "Подбор приборов под задачу",
-  "Заказ через Telegram и телефон",
-  "Доставка и получение по договоренности",
-  "Проверяйте характеристики перед покупкой"
-];
 ---
 <div class="tf-topbar topbar-construction bg-dark">
   <div class="container">
@@ -155,19 +149,6 @@ const marqueeItems = [
   </div>
 </header>
 
-<div class="infiniteSlide-text-v03 header-policy-strip">
-  <div class="infiniteSlide-element">
-    <div class="infiniteSlide infiniteSlide-wrapper" data-clone="3">
-      {marqueeItems.map((item) => (
-        <div class="infiniteSlide-slide">
-          <p class="text-caption-01 fw-semibold text-uppercase">{item}</p>
-          <i class="icon icon-Star"></i>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
-
 <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
   <div class="canvas-header">
     <span class="icon-close-popup" data-bs-dismiss="offcanvas">
@@ -279,39 +260,7 @@ const marqueeItems = [
     object-fit: cover;
   }
 
-  .header-policy-strip {
-    overflow: hidden;
-    border-bottom: 1px solid var(--line);
-    background: var(--white);
-  }
-
-  .header-policy-strip .infiniteSlide-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    padding: 14px 0;
-  }
-
-  .header-policy-strip .infiniteSlide-slide {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    white-space: nowrap;
-  }
-
-  .header-policy-strip p {
-    margin-bottom: 0;
-  }
-
-  .header-policy-strip .icon-Star {
-    font-size: 18px;
-  }
-
   @media (max-width: 1199px) {
-    .header-policy-strip {
-      display: none;
-    }
-
     .header-construction .header-inner {
       min-height: 74px;
     }

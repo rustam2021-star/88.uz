@@ -1,145 +1,178 @@
 ---
 import ProductCard from "./ProductCard.astro";
-import { getProductImage } from "../lib/catalog.js";
 import categories from "../data/categories.json";
 import products from "../data/products.json";
 
-const tabs = categories
-  .map((category) => ({
-    id: category.slug,
-    label: category.title,
-    items: products.filter((product) => product.category_slug === category.slug).slice(0, 4)
-  }))
-  .filter((tab) => tab.items.length > 0)
-  .slice(0, 5)
-  .map((tab) => ({
-    ...tab,
-    image: getProductImage(tab.items[0])
-  }));
+const tabSlugs = ["measuring-tools", "thermal-detectors", "auto-service", "tools-equipment"];
+const fallbackProducts = products.filter((product) => product.in_stock !== false);
+
+const tabCopy = {
+  "measuring-tools": {
+    title: "Точные приборы для работы",
+    desc: "Измерение, диагностика и контроль для ремонта, дома и мастерской."
+  },
+  "thermal-detectors": {
+    title: "Тепловизоры и детекторы",
+    desc: "Поиск утечек, перегрева, скрытой проводки, газа и радиационного фона."
+  },
+  "auto-service": {
+    title: "Автоинструменты",
+    desc: "Тестеры, TPMS, UV-фонари и приборы для проверки автомобиля."
+  },
+  "tools-equipment": {
+    title: "Инструменты и оборудование",
+    desc: "Практичные решения для ремонта, монтажа и ежедневных задач."
+  }
+};
+
+function getTabProducts(categorySlug) {
+  const categoryProducts = fallbackProducts.filter((product) => product.category_slug === categorySlug);
+  const extras = fallbackProducts.filter((product) => product.category_slug !== categorySlug);
+
+  return [...categoryProducts, ...extras].slice(0, 8);
+}
+
+const tabs = tabSlugs
+  .map((slug) => {
+    const category = categories.find((item) => item.slug === slug);
+
+    if (!category) {
+      return null;
+    }
+
+    return {
+      id: category.slug,
+      label: category.title,
+      url: `/${category.slug}/`,
+      banner: tabCopy[category.slug] || {
+        title: category.title,
+        desc: category.description_top
+      },
+      items: getTabProducts(category.slug)
+    };
+  })
+  .filter(Boolean);
 ---
-<section class="section-best-seller-office flat-spacing flat-animate-tab">
+<section class="section-top-pick-v02 section-best-sellers-construction flat-spacing flat-animate-tab">
   <div class="container">
-    <div class="sect-heading text-center wow fadeInUp">
-      <h3 class="s-title">Хиты продаж</h3>
-      <p class="s-desc text-body-1 cl-text-2">Популярные товары собраны по основным разделам каталога.</p>
+    <div class="sect-heading type-2 has-col-right">
+      <div class="wow fadeInUp">
+        <h3 class="s-title">Хиты продаж</h3>
+        <p class="s-desc text-body-1 cl-text-2">
+          Популярные товары собраны по основным разделам каталога.
+        </p>
+      </div>
+
+      <div class="col-right wow fadeInUp" data-wow-delay="0.1s">
+        <ul class="tab-btn-wrap-v2 best-sellers-tabs" role="tablist">
+          {tabs.map((tab, index) => (
+            <li class="nav-tab-item" role="presentation">
+              <a
+                class={`tf-btn-tab ${index === 0 ? "active" : ""}`}
+                data-bs-toggle="tab"
+                href={`#top-pick-${tab.id}`}
+                role="tab"
+              >
+                <span class="fw-semibold">{tab.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
 
-    <div class="best-seller-office-layout">
-      <ul class="tab-btn-wrap-v4 best-seller-category-tabs" role="tablist">
-        {tabs.map((tab, index) => (
-          <li class="nav-tab-item" role="presentation">
-            <a class={`tf-btn-tab ${index === 0 ? "active" : ""}`} data-bs-toggle="tab" href={`#best-${tab.id}`} role="tab">
-              <span class="img">
-                <img alt={tab.label} height="56" loading="lazy" src={tab.image} width="56" />
-              </span>
-              <span class="best-seller-tab-text fw-medium">{tab.label}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div class="tab-content">
+      {tabs.map((tab, index) => (
+        <div class={`tab-pane ${index === 0 ? "active show" : ""}`} id={`top-pick-${tab.id}`} role="tabpanel">
+          <div class="wrap-prd">
+            <div class="col-prd-1">
+              <div class="banner-image-text type-abs style-18 v2 mb-20 best-sellers-banner">
+                <a class="bn-image img-style" href={tab.url}>
+                  <img
+                    alt={tab.banner.title}
+                    height="608"
+                    loading="lazy"
+                    src="/assets/theme/assets/images/section/banner-54.jpg"
+                    width="450"
+                  />
+                </a>
+                <div class="bn-content wow fadeInUp">
+                  <a class="title text-white h3 fw-medium link mb-8" href={tab.url}>{tab.banner.title}</a>
+                  <p class="desc text-body-1 text-white mb-28">{tab.banner.desc}</p>
+                  <a class="tf-btn btn-white hv-primary" href={tab.url}>Смотреть раздел</a>
+                </div>
+              </div>
 
-      <div class="tab-content best-seller-products">
-        {tabs.map((tab, index) => (
-          <div class={`tab-pane ${index === 0 ? "active show" : ""}`} id={`best-${tab.id}`} role="tabpanel">
-            <div class="best-seller-products-grid">
-              {tab.items.map((product) => (
-                <ProductCard className="best-seller-product-card wow fadeInUp" product={product} />
-              ))}
+              <div class="tf-grid-layout tf-col-2 gap-20">
+                {tab.items.slice(0, 2).map((product) => (
+                  <ProductCard className="product-style_stroke wow fadeInUp" product={product} />
+                ))}
+              </div>
+            </div>
+
+            <div class="col-prd-2">
+              <div class="tf-grid-layout tf-col-2 lg-col-3 gap-20">
+                {tab.items.slice(2, 8).map((product) => (
+                  <ProductCard className="product-style_stroke wow fadeInUp" product={product} />
+                ))}
+              </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .section-best-seller-office {
-    background: var(--bg);
+  .section-best-sellers-construction {
+    background: var(--white);
   }
 
-  .section-best-seller-office .sect-heading {
-    margin-bottom: 42px;
+  .section-best-sellers-construction .sect-heading {
+    margin-bottom: 40px;
   }
 
-  .best-seller-office-layout {
-    display: grid;
-    gap: 30px;
+  .section-best-sellers-construction .sect-heading.has-col-right {
+    align-items: flex-end;
+    gap: 24px;
   }
 
-  .best-seller-category-tabs {
-    margin-bottom: 0;
-    align-self: start;
-    overflow: hidden;
-  }
-
-  .best-seller-category-tabs .nav-tab-item {
+  .section-best-sellers-construction .sect-heading.has-col-right > :first-child {
+    flex: 1 1 420px;
     min-width: 0;
   }
 
-  .best-seller-category-tabs .tf-btn-tab {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 12px;
-    color: var(--text);
-  }
-
-  .tab-btn-wrap-v4.best-seller-category-tabs .tf-btn-tab .best-seller-tab-text {
-    min-width: 0;
-    flex: 1 1 auto;
-    color: var(--text);
-    font-size: 18px;
-    line-height: 1.25;
-    letter-spacing: 0;
-    display: block;
+  .section-best-sellers-construction .col-right {
+    flex: 1 1 620px;
+    margin-left: auto;
     overflow: visible;
+  }
+
+  .best-sellers-tabs {
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .best-sellers-tabs .tf-btn-tab {
     white-space: normal;
-    word-break: normal;
+    text-align: center;
   }
 
-  .best-seller-category-tabs .img {
-    width: 56px;
-    height: 56px;
-    flex: 0 0 56px;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-  }
-
-  .best-seller-category-tabs .img img {
-    width: 100%;
-    height: 100%;
+  .best-sellers-banner .bn-image img {
     object-fit: cover;
-    border-radius: 6px;
   }
 
-  .best-seller-products {
-    min-width: 0;
+  .best-sellers-banner .title {
+    max-width: 360px;
   }
 
-  .best-seller-products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 16px;
+  .best-sellers-banner .desc {
+    max-width: 360px;
   }
 
-  .section-best-seller-office .card-product {
-    min-width: 0;
-  }
-
-  .section-best-seller-office .card-product_wrapper {
-    background: #f0f0f0;
-    border-radius: 12px;
-  }
-
-  .section-best-seller-office .card-product_wrapper .product-img {
-    height: 100%;
-    display: block;
-    background: #f0f0f0;
-  }
-
-  .section-best-seller-office .card-product_info .name-product {
+  :global(.section-best-sellers-construction .card-product_info .name-product) {
     display: -webkit-box;
     min-height: 48px;
     overflow: hidden;
@@ -147,50 +180,28 @@ const tabs = categories
     -webkit-line-clamp: 2;
   }
 
-  @media (min-width: 768px) {
-    .best-seller-products-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 30px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .best-seller-office-layout {
-      grid-template-columns: 326px minmax(0, 1fr);
-    }
-
-    .best-seller-products-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .best-seller-category-tabs .tf-btn-tab {
-      padding: 10px 14px;
-      min-height: 70px;
-    }
-  }
-
-  @media (max-width: 1199px) {
-    .best-seller-category-tabs {
-      overflow-x: auto;
-    }
-
-    .tab-btn-wrap-v4.best-seller-category-tabs .tf-btn-tab .best-seller-tab-text {
-      font-size: 16px;
-      white-space: normal;
-    }
-  }
-
-  @media (max-width: 575px) {
-    .section-best-seller-office .sect-heading {
+  @media (max-width: 767px) {
+    .section-best-sellers-construction .sect-heading {
       margin-bottom: 28px;
     }
 
-    .best-seller-products-grid {
-      gap: 24px 10px;
+    .section-best-sellers-construction .sect-heading.has-col-right {
+      align-items: flex-start;
+      gap: 20px;
     }
 
-    .section-best-seller-office .card-product_info .name-product {
-      min-height: 44px;
+    .section-best-sellers-construction .col-right {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .best-sellers-tabs {
+      justify-content: flex-start;
+    }
+
+    .best-sellers-banner .title,
+    .best-sellers-banner .desc {
+      max-width: 280px;
     }
   }
 </style>
