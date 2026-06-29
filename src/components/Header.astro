@@ -1,201 +1,179 @@
 ---
 import categories from "../data/categories.json";
+import { BLOG_URL, CATALOG_URL, STORE_PHONE } from "../lib/catalog.js";
+
+const primaryCategories = categories.slice(0, 4);
+const secondaryCategories = categories.slice(4);
+const marqueeItems = [
+  "Подбор приборов под задачу",
+  "Заказ через Telegram и телефон",
+  "Доставка и получение по договоренности",
+  "Проверяйте характеристики перед покупкой"
+];
 ---
-<div class="tf-topbar topbar-s2 d-none d-md-flex bg-dark">
-  <div class="container-full">
-    <div class="row">
-      <div class="col-6">
-        <div class="tf-list">
-          <a class="text-white link" href="tel:+998977334483">+998 97 733 44 83</a>
-          <a class="text-decoration-underline text-white link" href="#">Наш магазин</a>
-          <a class="text-white link" href="#">Контакты</a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="d-flex justify-content-end">
-          <div class="tf-list list-currenci">
-            <div class="tf-languages">
-              <select class="tf-dropdown-select style-default color-white type-languages">
-                <option>Uzbek</option>
-                <option>Русский</option>
-                <option>English</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="tf-topbar topbar-construction bg-dark">
+  <div class="container">
+    <p class="topbar-text text-center text-white fw-semibold">
+      Спецпредложения на измерительные приборы и оборудование - уточняйте наличие перед заказом
+    </p>
   </div>
 </div>
-<header class="tf-header header-s3 has-by-category">
-  <div class="br-line fake-class bottom-0 d-xl-none"></div>
-  <div class="header-inner_wrap">
-    <div class="container-full">
-      <div class="header-inner">
-        <div class="box-open-menu-mobile d-xl-none">
-          <a class="btn-open-menu" data-bs-toggle="offcanvas" href="#mobileMenu" aria-label="Открыть меню">
-            <i class="icon icon-List"></i>
-          </a>
-        </div>
-        <div class="box-open-header-bottom">
-          <div class="btn-open-header-bottom cs-pointer">
-            <i class="icon icon-List fs-24"></i>
-          </div>
-        </div>
-        <div class="header-left">
-          <a href="/" class="logo-site">
-            <img alt="88.uz" height="28" loading="lazy" src="/assets/theme/assets/images/logo/logo-transparent.png" width="132" />
-          </a>
-        </div>
-        <div class="header-center d-none d-xl-block">
-          <form action="/learn-more/" class="form_search-product">
-            <div class="select-category">
-              <select class="dropdown_product_cate" id="product_cate" name="product_cate">
-                <option selected="selected" value="">Все категории</option>
-                {categories.map((category) => <option class="level-0" value={category.slug}>{category.title}</option>)}
-              </select>
-            </div>
-            <span class="br-line type-vertical"></span>
-            <fieldset class="fieldset-search">
-              <input class="ipt" placeholder="Поиск товаров" required type="text" />
-              <button class="btn-action" type="submit">
-                <i class="icon icon-MagnifyingGlass"></i>
-              </button>
-            </fieldset>
-          </form>
-        </div>
-        <div class="header-right">
-          <ul class="nav-icon-list">
-            <li class="d-none d-sm-block d-xl-none">
-              <a class="nav-icon-item link" data-bs-toggle="modal" href="#search">
-                <i class="icon icon-MagnifyingGlass"></i>
-              </a>
-            </li>
-            <li class="d-none d-sm-block">
-              <a class="nav-icon-item link" href="/wishlist/">
-                <i class="icon icon-HeartStraight"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
+
+<header class="tf-header header-s2 header-construction">
+  <div class="container">
+    <div class="header-inner">
+      <div class="box-open-menu-mobile d-xl-none">
+        <a class="btn-open-menu" data-bs-toggle="offcanvas" href="#mobileMenu" aria-label="Открыть меню">
+          <i class="icon icon-List"></i>
+        </a>
       </div>
-    </div>
-  </div>
-  <div class="header-bottom_wrap d-none d-xl-block">
-    <div class="container-full">
-      <div class="header-bottom">
-        <div class="col-left">
-          <div class="nav-category-wrap main-action-active">
-            <div class="btn-nav-drop btn-active text-nowrap gap-12">
-              <i class="icon icon-List fs-24"></i>
-              <span class="name-category fw-medium">Категории</span>
+
+      <div class="header-left">
+        <a href="/" class="logo-site">
+          <img alt="88.uz" height="28" loading="lazy" src="/assets/theme/assets/images/logo/logo-transparent.png" width="132" />
+        </a>
+      </div>
+
+      <nav class="header-center d-none d-xl-flex justify-content-center">
+        <ul class="box-nav-menu">
+          <li class="menu-item position-relative">
+            <a class="item-link" href="/">
+              <span class="text cus-text">Главная</span>
               <i class="icon icon-CaretDown"></i>
+            </a>
+            <div class="sub-menu">
+              <ul class="sub-menu_list">
+                <li><a class="sub-menu_link has-text" href="/"><span class="cus-text">Главная страница</span></a></li>
+                <li><a class="sub-menu_link has-text" href={CATALOG_URL}><span class="cus-text">Каталог товаров</span></a></li>
+                <li><a class="sub-menu_link has-text" href={BLOG_URL}><span class="cus-text">Блог</span></a></li>
+              </ul>
             </div>
-            <ul class="box-nav-category active-item">
-              {categories.map((category) => (
-                <li>
-                  <a class="nav-category_link" href={`/${category.slug}/`}>
-                    {category.title}
-                    <i class="icon icon-CaretRightThin"></i>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <nav class="box-navigation">
-            <ul class="box-nav-menu">
-              <li class="menu-item position-relative">
-                <a class="item-link" href="/">
-                  <span class="text cus-text">Главная</span>
-                  <i class="icon icon-CaretDown"></i>
-                </a>
-                <div class="sub-menu mega-menu_home_v2 home-type_2">
-                  <ul class="sub-menu_list">
-                    <li class="has-menu-lv2">
-                      <div class="menu-heading-lv2">
-                        <span class="cus-text">Каталог</span>
-                        <i class="icon icon-CaretRightThin"></i>
-                      </div>
-                      <ul class="sub-menu-lv2">
-                        <li><a class="sub-menu_link has-text" href="/learn-more/"><span class="cus-text">Все товары</span></a></li>
-                        <li><a class="sub-menu_link has-text" href="/smart-watches/"><span class="cus-text">Смарт-часы</span></a></li>
-                        <li><a class="sub-menu_link has-text" href="/headphone/"><span class="cus-text">Наушники</span></a></li>
+          </li>
+
+          <li class="menu-item">
+            <a class="item-link" href={CATALOG_URL}>
+              <span class="text cus-text">Магазин</span>
+              <i class="icon icon-CaretDown"></i>
+            </a>
+            <div class="sub-menu mega-menu">
+              <div class="container">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="mega-menu-item menu-lv-2">
+                      <p class="menu-heading">Основные разделы</p>
+                      <ul class="sub-menu_list">
+                        {primaryCategories.map((category) => (
+                          <li>
+                            <a class="sub-menu_link has-text" href={`/${category.slug}/`}>
+                              <span class="cus-text">{category.title}</span>
+                            </a>
+                          </li>
+                        ))}
                       </ul>
-                    </li>
-                    <li class="has-menu-lv2">
-                      <div class="menu-heading-lv2">
-                        <span class="cus-text">Помощь</span>
-                        <i class="icon icon-CaretRightThin"></i>
-                      </div>
-                      <ul class="sub-menu-lv2">
-                        <li><a class="sub-menu_link has-text" href="/shipping/"><span class="cus-text">Доставка</span></a></li>
-                        <li><a class="sub-menu_link has-text" href="/return-and-refund/"><span class="cus-text">Возврат</span></a></li>
-                        <li><a class="sub-menu_link has-text" href="/contact/"><span class="cus-text">Контакты</span></a></li>
-                      </ul>
-                    </li>
-                    <li><a class="sub-menu_link has-text" href="/"><span class="cus-text">Электроника</span></a></li>
-                    <li><a class="sub-menu_link has-text" href="/learn-more/"><span class="cus-text">Все товары</span><span class="demo-label type-hot">Хит</span></a></li>
-                    <li><a class="sub-menu_link has-text" href="/smart-watches/"><span class="cus-text">Смарт-часы</span><span class="demo-label type-new">Новое</span></a></li>
-                  </ul>
-                  <div class="image-preview">
-                    <img alt="Изображение" height="264" loading="lazy" src="/assets/theme/assets/images/section/amerce-html.jpg" width="300" />
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <a class="item-link" href="/learn-more/">
-                  <span class="text cus-text">Магазин</span>
-                  <i class="icon icon-CaretDown"></i>
-                </a>
-                <div class="sub-menu mega-menu">
-                  <div class="container-full">
-                    <div class="row">
-                      <div class="col-3">
-                        <div class="mega-menu-item menu-lv-2">
-                          <p class="menu-heading">ВИТРИНА</p>
-                          <ul class="sub-menu_list">
-                            {categories.slice(0, 4).map((category) => <li><a class="sub-menu_link has-text" href={`/${category.slug}/`}><span class="cus-text">{category.title}</span></a></li>)}
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="mega-menu-item menu-lv-2">
-                          <p class="menu-heading">РАЗДЕЛЫ</p>
-                          <ul class="sub-menu_list">
-                            {categories.slice(4).map((category) => <li><a class="sub-menu_link has-text" href={`/${category.slug}/`}><span class="cus-text">{category.title}</span></a></li>)}
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="col-6">
-                        <img alt="Изображение" height="264" loading="lazy" src="/assets/theme/assets/images/section/amerce-html.jpg" width="300" />
-                      </div>
+                  <div class="col-4">
+                    <div class="mega-menu-item menu-lv-2">
+                      <p class="menu-heading">Дополнительно</p>
+                      <ul class="sub-menu_list">
+                        {secondaryCategories.map((category) => (
+                          <li>
+                            <a class="sub-menu_link has-text" href={`/${category.slug}/`}>
+                              <span class="cus-text">{category.title}</span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="header-menu-preview">
+                      <img alt="Оборудование 88.uz" height="240" loading="lazy" src="/assets/theme/assets/images/section/amerce-html.jpg" width="320" />
                     </div>
                   </div>
                 </div>
-              </li>
-              {categories.slice(1, 5).map((category) => (
-                <li class="menu-item position-relative">
-                  <a class="item-link" href={`/${category.slug}/`}>
-                    <span class="text cus-text">{category.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-        <div class="col-right">
-          <p class="text-caption-01 cl-text-2">Бесплатная доставка от 500 000 сум</p>
-        </div>
+              </div>
+            </div>
+          </li>
+
+          {primaryCategories.slice(1, 3).map((category) => (
+            <li class="menu-item position-relative">
+              <a class="item-link" href={`/${category.slug}/`}>
+                <span class="text cus-text">{category.title}</span>
+              </a>
+            </li>
+          ))}
+
+          <li class="menu-item position-relative">
+            <a class="item-link" href={BLOG_URL}>
+              <span class="text cus-text">Блог</span>
+              <i class="icon icon-CaretDown"></i>
+            </a>
+            <div class="sub-menu">
+              <ul class="sub-menu_list">
+                <li><a class="sub-menu_link has-text" href={BLOG_URL}><span class="cus-text">Все статьи</span></a></li>
+                <li><a class="sub-menu_link has-text" href="/blog/kak-vybrat-izmeritelnyi-pribor/"><span class="cus-text">Как выбрать прибор</span></a></li>
+                <li><a class="sub-menu_link has-text" href="/blog/teplovizor-dlya-diagnostiki/"><span class="cus-text">Тепловизоры</span></a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="menu-item position-relative">
+            <a class="item-link" href={CATALOG_URL}>
+              <span class="text cus-text">Все товары</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        <ul class="nav-icon-list">
+          <li>
+            <a class="nav-icon-item link" data-bs-toggle="modal" href="#search" aria-label="Поиск">
+              <i class="icon icon-MagnifyingGlass"></i>
+            </a>
+          </li>
+          <li class="d-none d-sm-block">
+            <a class="nav-icon-item link" href={`tel:${STORE_PHONE}`} aria-label="Позвонить">
+              <i class="icon icon-User"></i>
+            </a>
+          </li>
+          <li class="d-none d-sm-block">
+            <a class="nav-icon-item link" href="/wishlist/" aria-label="Избранное">
+              <i class="icon icon-HeartStraight"></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-icon-item link position-relative" href={CATALOG_URL} aria-label="Каталог">
+              <i class="icon icon-Handbag"></i>
+              <span class="count">40</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </header>
+
+<div class="infiniteSlide-text-v03 header-policy-strip">
+  <div class="infiniteSlide-element">
+    <div class="infiniteSlide infiniteSlide-wrapper" data-clone="3">
+      {marqueeItems.map((item) => (
+        <div class="infiniteSlide-slide">
+          <p class="text-caption-01 fw-semibold text-uppercase">{item}</p>
+          <i class="icon icon-Star"></i>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
 <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
   <div class="canvas-header">
     <span class="icon-close-popup" data-bs-dismiss="offcanvas">
       <i class="icon icon-X2"></i>
     </span>
-    <form class="form-search-nav" action="/learn-more/">
+    <form class="form-search-nav" action={CATALOG_URL}>
       <fieldset>
         <input placeholder="Что вы ищете?" required type="text" />
       </fieldset>
@@ -206,14 +184,20 @@ import categories from "../data/categories.json";
   </div>
   <div class="canvas-body">
     <div class="mb-content-top">
-      <ul class="nav-ul-mb" id="wrapper-menu-navigation"></ul>
+      <ul class="nav-ul-mb">
+        <li class="nav-mb-item"><a class="mb-menu-link" href="/">Главная</a></li>
+        <li class="nav-mb-item"><a class="mb-menu-link" href={CATALOG_URL}>Все товары</a></li>
+        {categories.map((category) => (
+          <li class="nav-mb-item"><a class="mb-menu-link" href={`/${category.slug}/`}>{category.title}</a></li>
+        ))}
+        <li class="nav-mb-item"><a class="mb-menu-link" href={BLOG_URL}>Блог</a></li>
+      </ul>
     </div>
     <div class="need-help-wrap">
       <p class="nd-title h6 fw-medium mb-16">Нужна помощь?</p>
       <p class="lh-26 cl-text-2 mb-4">Ташкент, Узбекистан</p>
-      <a class="text-decoration-underline text-primary lh-26 mb-16" href="#" target="_blank">Открыть в картах</a>
-      <a class="cl-text-2 link mb-8" href="https://t.me/Senditme" target="_blank">@Senditme</a>
-      <a class="cl-text-2 link" href="tel:+998977334483">+998 97 733 44 83</a>
+      <a class="cl-text-2 link mb-8" href="https://t.me/Senditme" rel="noopener" target="_blank">@Senditme</a>
+      <a class="cl-text-2 link" href={`tel:${STORE_PHONE}`}>+998 97 733 44 83</a>
     </div>
   </div>
   <div class="canvas-footer">
@@ -236,3 +220,106 @@ import categories from "../data/categories.json";
     </div>
   </div>
 </div>
+
+<style>
+  .topbar-construction {
+    padding: 12px 0;
+  }
+
+  .topbar-construction .topbar-text {
+    margin-bottom: 0;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .header-construction {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-construction .header-inner {
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .header-construction .header-left,
+  .header-construction .header-right {
+    flex: 1 1 0;
+  }
+
+  .header-construction .header-center {
+    flex: 2 1 auto;
+  }
+
+  .header-construction .header-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .header-construction .box-nav-menu {
+    justify-content: center;
+  }
+
+  .header-construction .item-link {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .header-menu-preview {
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--bg);
+  }
+
+  .header-menu-preview img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+  }
+
+  .header-policy-strip {
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  .header-policy-strip .infiniteSlide-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 14px 0;
+  }
+
+  .header-policy-strip .infiniteSlide-slide {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    white-space: nowrap;
+  }
+
+  .header-policy-strip p {
+    margin-bottom: 0;
+  }
+
+  .header-policy-strip .icon-Star {
+    font-size: 18px;
+  }
+
+  @media (max-width: 1199px) {
+    .header-policy-strip {
+      display: none;
+    }
+
+    .header-construction .header-inner {
+      min-height: 74px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .topbar-construction {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import posts from "../../data/blog.json";
+import products from "../../data/products.json";
+import { getBlogCategories, getPostImage, getPostUrl } from "../../lib/blog.js";
+
+const blogCategories = getBlogCategories(posts);
+const recentPosts = posts.slice(0, 4);
+---
+<MainLayout
+  title="Блог - 88.uz"
+  description="Полезные статьи 88.uz о выборе измерительных приборов, детекторов, автоинструментов и оборудования."
+>
+  <section class="section-page-title text-center flat-spacing-2 pb-0">
+    <div class="container">
+      <div class="main-page-title">
+        <div class="breadcrumbs">
+          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
+          <i class="icon icon-CaretRightThin cl-text-3"></i>
+          <p class="text-caption-01">Блог</p>
+        </div>
+        <h3>Блог</h3>
+        <p class="text-body-1 cl-text-2">
+          Полезные советы, обзоры и короткие гайды по выбору приборов, детекторов и оборудования.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="flat-spacing">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-8">
+          <div class="tf-grid-layout sm-col-2">
+            {posts.map((post) => (
+              <article class="article-blog hover-img wow fadeInUp">
+                <a class="blog-image img-style" href={getPostUrl(post)}>
+                  <img alt={post.title} height="430" loading="lazy" src={getPostImage(post, products)} width="520" />
+                  <div class="wrap-tags">
+                    <span class="tag text-caption-02 fw-semibold">{post.category}</span>
+                  </div>
+                </a>
+                <div class="blog-content">
+                  <p class="entry-date text-caption-01 fw-semibold cl-text-3">{post.date}</p>
+                  <h5 class="entry-title">
+                    <a class="link-underline link" href={getPostUrl(post)}>{post.title}</a>
+                  </h5>
+                  <p class="entry-desc cl-text-2">{post.excerpt}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div class="col-xl-4 mt-40 mt-xl-0">
+          <aside class="blog-sidebar">
+            <div class="sidebar-item">
+              <form class="form-search-blog">
+                <fieldset>
+                  <input placeholder="Поиск..." type="text" />
+                </fieldset>
+                <button class="btn-action" type="submit" aria-label="Поиск">
+                  <i class="icon icon-MagnifyingGlass"></i>
+                </button>
+              </form>
+            </div>
+
+            <div class="sidebar-item">
+              <h5 class="sb-title">Категории</h5>
+              <div class="sb-category">
+                {blogCategories.map((category) => (
+                  <a class="link" href="/blog/">
+                    <span>{category.title}</span>
+                    <span>({category.count})</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <h5 class="sb-title">Свежие статьи</h5>
+              <div class="sb-recent">
+                {recentPosts.map((post) => (
+                  <div class="recent-item">
+                    <a class="image" href={getPostUrl(post)}>
+                      <img alt={post.title} height="88" loading="lazy" src={getPostImage(post, products)} width="88" />
+                    </a>
+                    <div class="content">
+                      <p class="meta-date text-caption-01 cl-text-3">{post.date}</p>
+                      <a class="meta-name link fw-medium" href={getPostUrl(post)}>{post.title}</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,15 +1,16 @@
 ---
 import ProductSlide from "./ProductSlide.astro";
+import { STORE_PHONE, formatPrice, getOrderUrl, getProductImage } from "../lib/catalog.js";
 
 const { product, category, relatedProducts = [], recentlyProducts = [] } = Astro.props;
-const formatPrice = (value) => `$${Number(value).toFixed(2).replace(".", ",")}`;
-const price = formatPrice(product.price);
-const oldPrice = product.old_price ? formatPrice(product.old_price) : "";
-const gallery = product.gallery?.length ? product.gallery : [product.main_image];
-const galleryColors = ["green", "green", "green", "green", "gray", "gray", "black", "black"];
-const gallerySizes = ["L", "S", "M", "XL", "M", "M", "L", "L"];
+const price = formatPrice(product.price, product.currency);
+const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
+const gallery = product.gallery?.length ? product.gallery : [getProductImage(product)];
 const related = relatedProducts.length ? relatedProducts : recentlyProducts;
 const recently = recentlyProducts.length ? recentlyProducts : related;
+const specs = Object.entries(product.specs || {});
+const orderUrl = getOrderUrl(product);
+const phoneUrl = `tel:${STORE_PHONE}`;
 ---
 
 <div class="section-page-title-single flat-spacing-3">
@@ -18,7 +19,7 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
       <div class="breadcrumbs">
         <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
         <i class="icon icon-CaretRightThin cl-text-3"></i>
-        <a class="text-caption-01 cl-text-3 link" href={`/${category.slug}/`}>Магазин</a>
+        <a class="text-caption-01 cl-text-3 link" href={`/${category.slug}/`}>{category.title}</a>
         <i class="icon icon-CaretRightThin cl-text-3"></i>
         <p class="text-caption-01">{product.title}</p>
       </div>
@@ -40,8 +41,8 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
             <div class="flat-wrap-media-product">
               <div class="swiper tf-product-media-main" data-spacing="0" dir="ltr" id="gallery-swiper-started">
                 <div class="swiper-wrapper">
-                  {gallery.map((image, index) => (
-                    <div class="swiper-slide" data-color={galleryColors[index] || "green"} data-size={gallerySizes[index] || "M"}>
+                  {gallery.map((image) => (
+                    <div class="swiper-slide" data-color="default" data-size="default">
                       <a class="item" data-pswp-height="768px" data-pswp-width="576px" href={image} target="_blank">
                         <img alt="Товар" class="tf-image-zoom" data-zoom={image} height="768" loading="lazy" src={image} width="576" />
                       </a>
@@ -74,16 +75,15 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
               <h3 class="product-infor-name mb-12">{product.title}</h3>
               <div class="product-infor-meta mb-20">
                 <div class="meta_rate">
-                  <div class="star-wrap normal d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
-                  <span class="text-caption-01 cl-text-2">(134 отзывов)</span>
+                  <span class="text-caption-01 cl-text-2">{product.condition || "Состояние уточняется"}</span>
                 </div>
                 <div class="br-line type-vertical"></div>
                 <div class="meta_sold">
                   <i class="icon icon-Lightning text-primary"></i>
-                  <span class="text-caption-01 cl-text-2">18 продано за последние 32 часа</span>
+                  <span class="text-caption-01 cl-text-2">{product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</span>
                 </div>
                 <div class="br-line type-vertical"></div>
-                <div class="meta_prd_code text-caption-01"><span class="cl-text-2">SKU:</span><span>{product.specs?.SKU}</span></div>
+                <div class="meta_prd_code text-caption-01"><span class="cl-text-2">Код:</span><span>{product.source_id || product.id}</span></div>
               </div>
               <div class="product-infor-price mb-12">
                 <h4 class="price-on-sale">{price}</h4>
@@ -93,36 +93,20 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
               <p class="product-infor-desc cl-text-2 mb-12">{product.description}</p>
               <div class="product-infor-reality lh-24">
                 <div class="ic d-flex"><i class="icon icon-Eye"></i></div>
-                <span class="text-caption-01">28 человек сейчас смотрят этот товар</span>
+                <span class="text-caption-01">Перед заказом уточните наличие, комплектацию и способ получения.</span>
               </div>
             </div>
 
             <div class="br-line"></div>
             <div class="tf-product-variant">
-              <div class="variant-picker-item variant-color">
+              <div class="variant-picker-item">
                 <div class="variant-picker-label">
-                  <div>Цвета: <span class="variant-picker-label-value value-currentColor text-capitalize fw-medium">Серый</span></div>
-                </div>
-                <div class="variant-picker-values">
-                  {gallery.slice(0, 3).map((image, index) => (
-                    <div class={`hover-tooltip tooltip-bot color-btn style-image ${index === 0 ? "active" : ""}`} data-color={["green", "gray", "black"][index] || "gray"}>
-                      <div class="img"><img alt="Товар" data-src={image} height="60" loading="lazy" src={image} width="60" /></div>
-                      <span class="tooltip">{["Зелёный", "Серый", "Чёрный"][index] || "Серый"}</span>
-                    </div>
-                  ))}
+                  <div>Город: <span class="variant-picker-label-value fw-medium">{product.location || "Ташкент"}</span></div>
                 </div>
               </div>
-              <div class="variant-picker-item variant-size">
+              <div class="variant-picker-item">
                 <div class="variant-picker-label">
-                  <div>Размер: <span class="variant-picker-label-value value-currentSize text-capitalize fw-medium">M</span></div>
-                  <a class="tf-btn-line-2 style-primary text-caption-01 fw-semibold" data-bs-toggle="modal" href="#findSize">Таблица размеров</a>
-                </div>
-                <div class="variant-picker-values">
-                  <span class="size-btn" data-price="39.99" data-size="S">S</span>
-                  <span class="size-btn active" data-price="59.99" data-size="M">M</span>
-                  <span class="size-btn" data-price="79.99" data-size="L">L</span>
-                  <span class="size-btn" data-price="89.99" data-size="XL">XL</span>
-                  <span class="size-btn disabled" data-price="99.99" data-size="XX">XXL</span>
+                  <div>Источник: <span class="variant-picker-label-value fw-medium">{product.source || "88.uz"}</span></div>
                 </div>
               </div>
               <div class="tf-product-total-quantity">
@@ -133,33 +117,25 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
                     <input class="quantity-product" name="number" type="text" value="1" />
                     <button class="btn-quantity btn-increase"><i class="icon icon-plus"></i></button>
                   </div>
-                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" data-bs-toggle="offcanvas" href="#shoppingCart">В корзину <span class="d-none d-sm-block d-md-none d-lg-block"> - </span><span class="price-add d-none d-sm-block d-md-none d-lg-block">{price}</span></a>
+                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" href={orderUrl} rel="noopener" target="_blank">Заказать <span class="d-none d-sm-block d-md-none d-lg-block"> - </span><span class="price-add d-none d-sm-block d-md-none d-lg-block">{price}</span></a>
                 </div>
-                <a class="tf-btn type-xl btn-primary animate-btn w-100" href="#checkout">Купить сейчас</a>
+                <a class="tf-btn type-xl btn-primary animate-btn w-100" href={phoneUrl}>Позвонить продавцу</a>
               </div>
             </div>
 
             <div class="tf-product-extra-link">
-              <a class="product-extra-icon link" data-bs-toggle="offcanvas" href="#compare"><i class="icon icon-ArrowsLeftRight"></i>Сравнить</a>
-              <a class="product-extra-icon link" data-bs-toggle="modal" href="#ask"><i class="icon icon-Question"></i>Задать вопрос</a>
-              <a class="product-extra-icon link" data-bs-toggle="modal" href="#findSize"><i class="icon icon-Ruler"></i>Таблица размеров</a>
+              <a class="product-extra-icon link" href={orderUrl} rel="noopener" target="_blank"><i class="icon icon-Question"></i>Задать вопрос</a>
+              {product.source_url && <a class="product-extra-icon link" href={product.source_url} rel="noopener" target="_blank"><i class="icon icon-Eye"></i>Источник</a>}
               <a class="product-extra-icon link" data-bs-toggle="modal" href="#share"><i class="icon icon-ShareNetwork"></i>Поделиться</a>
             </div>
             <div class="br-line"></div>
             <div class="tf-product-delivery-return">
-              <div class="product-delivery"><i class="icon icon-Timer"></i><p>Ориентировочная доставка: <span class="fw-semibold">12-26 дней</span> (международная), <span class="fw-semibold">3-6 дней</span> (США)</p></div>
-              <div class="product-delivery return"><i class="icon icon-ArrowClockwise"></i><p>Возврат в течение <span class="fw-semibold">45 дней</span> после покупки. Пошлины и налоги не возвращаются.</p></div>
+              <div class="product-delivery"><i class="icon icon-Timer"></i><p>Доставка и получение: <span class="fw-semibold">по договоренности</span>, условия уточняются перед заказом.</p></div>
+              <div class="product-delivery return"><i class="icon icon-ArrowClockwise"></i><p>Проверяйте характеристики, комплектацию и инструкцию производителя перед покупкой.</p></div>
             </div>
             <div class="tf-product-trust-seal">
-              <p class="h6 text-seal">Безопасная оплата:</p>
-              <ul class="list-card">
-                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/visa.svg" width="50" /></li>
-                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/master-card.svg" width="50" /></li>
-                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/amex.svg" width="50" /></li>
-                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/paypal.svg" width="50" /></li>
-                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/water.svg" width="50" /></li>
-                <li class="card-item"><img alt="card" height="32" src="/assets/theme/assets/images/payment/discover.svg" width="50" /></li>
-              </ul>
+              <p class="h6 text-seal">Безопасная покупка:</p>
+              <p class="text-caption-01 cl-text-2">88.uz показывает товары из профиля продавца. Наличие, цену и условия передачи товара нужно подтвердить перед оплатой.</p>
             </div>
           </div>
         </div>
@@ -172,20 +148,34 @@ const recently = recentlyProducts.length ? recentlyProducts : related;
   <div class="container">
     <ul class="tab-btn-wrap-v1" role="tablist">
       <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#description" role="tab"><span class="h5 fw-medium">Описание</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#customer-reviews" role="tab"><span class="h5 fw-medium">Отзывы покупателей</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#shipping-returns" role="tab"><span class="h5 fw-medium">Доставка и возврат</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#return-policies" role="tab"><span class="h5 fw-medium">Правила возврата</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#customer-reviews" role="tab"><span class="h5 fw-medium">Характеристики</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#shipping-returns" role="tab"><span class="h5 fw-medium">Заказ</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#return-policies" role="tab"><span class="h5 fw-medium">Примечание</span></a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active show" id="description" role="tabpanel">
         <div class="tab-content_desc tf-grid-layout md-col-2">
           <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info"><p class="cl-text-2">{product.description}</p><p class="cl-text-2">{product.short_description}</p></div></div>
-          <div class="box-desc"><h5 class="desc_title">Характеристики</h5><ul class="list">{Object.entries(product.specs || {}).map(([key, value]) => <li class="cl-text-2">- {key}: {value}</li>)}</ul></div>
+          <div class="box-desc"><h5 class="desc_title">Категория</h5><p class="cl-text-2">{category.description_top}</p><p class="cl-text-2">{category.description_bottom}</p></div>
         </div>
       </div>
-      <div class="tab-pane" id="customer-reviews" role="tabpanel"><div class="product-desc_review write-cancel-review-wrap"><div class="box-rating mb-0"><div class="rating-ratio"><p class="text-display fw-medium">4.8</p><div class="star-wrap normal d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div><p class="rate-number">(1,968 оценок)</p></div></div></div></div>
-      <div class="tab-pane" id="shipping-returns" role="tabpanel"><div class="tab-content_desc desc-2 tf-grid-layout sm-col-2 xl-col-4"><div class="box-desc"><h5 class="desc_title">Мы позаботились о вас</h5><p class="cl-text-2">Бесплатный возврат в течение 14 дней.</p></div><div class="box-desc"><h5 class="desc_title">Информация о доставке</h5><p class="cl-text-2">Сроки доставки зависят от выбранного региона и способа отправки.</p></div></div></div>
-      <div class="tab-pane" id="return-policies" role="tabpanel"><div class="tab-content_desc desc-3 d-grid"><div class="box-desc"><h5 class="desc_title">Правила возврата</h5><p class="desc_info cl-text-2">Если товар вам не подошёл, можно оформить возврат в течение 30 дней после доставки.</p></div></div></div>
+      <div class="tab-pane" id="customer-reviews" role="tabpanel">
+        <div class="tab-content_desc tf-grid-layout md-col-2">
+          <div class="box-desc"><h5 class="desc_title">Характеристики</h5><ul class="list">{specs.map(([key, value]) => <li class="cl-text-2">- {key}: {value}</li>)}</ul></div>
+          <div class="box-desc"><h5 class="desc_title">Код товара</h5><p class="cl-text-2">{product.source_id || product.id}</p></div>
+        </div>
+      </div>
+      <div class="tab-pane" id="shipping-returns" role="tabpanel">
+        <div class="tab-content_desc desc-2 tf-grid-layout sm-col-2 xl-col-4">
+          <div class="box-desc"><h5 class="desc_title">Как заказать</h5><p class="cl-text-2">Нажмите “Заказать” и напишите продавцу в Telegram. Уточните наличие, цену и комплектацию.</p></div>
+          <div class="box-desc"><h5 class="desc_title">Доставка</h5><p class="cl-text-2">Способ получения и сроки доставки согласуются индивидуально.</p></div>
+        </div>
+      </div>
+      <div class="tab-pane" id="return-policies" role="tabpanel">
+        <div class="tab-content_desc desc-3 d-grid">
+          <div class="box-desc"><h5 class="desc_title">Перед покупкой</h5><p class="desc_info cl-text-2">Информация подготовлена по объявлению продавца. Для специализированных товаров используйте инструкцию производителя и соблюдайте требования безопасности.</p></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

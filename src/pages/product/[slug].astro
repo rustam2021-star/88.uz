@@ -13,7 +13,7 @@ export function getStaticPaths() {
 
 const { product } = Astro.props;
 const category = categories.find((item) => item.slug === product.category_slug) ?? categories[0];
-const relatedProducts = products.filter((item) => product.related_products.includes(item.slug));
+const relatedProducts = products.filter((item) => product.related_products?.includes(item.slug));
 const recentlyProducts = products.filter((item) => item.slug !== product.slug).slice(0, 4);
 ---
 <MainLayout title={product.seo_title} description={product.seo_description}>

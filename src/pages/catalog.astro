@@ -1,0 +1,70 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import categories from "../data/categories.json";
+import products from "../data/products.json";
+
+const title = "Каталог товаров - 88.uz";
+const description = "Каталог измерительных приборов, детекторов, автоинструментов, электроники и оборудования 88.uz.";
+---
+<MainLayout title={title} description={description}>
+  <section class="section-page-title text-center flat-spacing-2 pb-0">
+    <div class="container">
+      <div class="main-page-title">
+        <div class="breadcrumbs">
+          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
+          <i class="icon icon-CaretRightThin cl-text-3"></i>
+          <p class="text-caption-01">Каталог</p>
+        </div>
+        <h3>Каталог товаров</h3>
+        <p class="text-body-1 cl-text-2">
+          Подборка товаров из профиля продавца: измерительные приборы, детекторы, автоинструменты,
+          электроника, оборудование и товары для ухода.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="flat-spacing">
+    <div class="container">
+      <div class="tf-shop-control sticky-top no-offset">
+        <a class="tf-btn-filter" data-bs-toggle="offcanvas" href="#filterShop">
+          <span class="icon icon-filter"></span>
+          <span class="text">Показать категории</span>
+        </a>
+        <div class="tf-control-sorting">
+          <div class="tf-dropdown-sort">
+            <div class="btn-select">
+              <span class="text-sort-value">{products.length} товаров</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tf-grid-layout tf-col-2 lg-col-4">
+        {products.map((product) => <ProductCard product={product} />)}
+      </div>
+    </div>
+  </section>
+
+  <div class="offcanvas offcanvas-start canvas-filter" id="filterShop">
+    <div class="canvas-wrapper">
+      <div class="canvas-header">
+        <h5>Категории</h5>
+        <span class="icon-close-popup" data-bs-dismiss="offcanvas"><i class="icon icon-X2"></i></span>
+      </div>
+      <div class="canvas-body">
+        <div class="widget-facet">
+          <h6>Разделы каталога</h6>
+          <ul class="list-categoris current-scrollbar">
+            {categories.map((category) => (
+              <li class="cate-item">
+                <a href={`/${category.slug}/`}><span>{category.title}</span></a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
