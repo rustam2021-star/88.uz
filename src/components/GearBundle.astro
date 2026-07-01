@@ -1,26 +1,34 @@
 ---
 import ProductCard from "./ProductCard.astro";
+import { CATALOG_URL, formatPrice, getOrderUrl } from "../lib/catalog.js";
 import products from "../data/products.json";
 
-const bundleItems = [
-  { product: products[4], short: "MW09 Active...", price: "$69,99", oldPrice: "" },
-  { product: products[6], short: "USB-C на USB-C...", price: "$39,99", oldPrice: "$59,99" },
-  { product: products[7], short: "Samsung Galaxy...", price: "$49,99", oldPrice: "$59,99" }
-];
+const bundleProducts = products.slice(4, 7);
+const bundleItems = bundleProducts.map((product) => ({
+  product,
+  short: product.title,
+  price: formatPrice(product.price, product.currency),
+  oldPrice: product.old_price ? formatPrice(product.old_price, product.currency) : ""
+}));
+const bundleTotal = formatPrice(
+  bundleProducts.reduce((sum, product) => sum + Number(product.price || 0), 0),
+  "UZS"
+);
+const orderUrl = getOrderUrl(bundleProducts[0]);
 ---
 <section class="section-gear-bundle flat-spacing">
   <div class="container">
     <div class="sect-heading type-2 has-col-right wow fadeInUp">
       <div>
         <h3 class="s-title">
-          Соберите свой набор техники
+          Соберите рабочий набор
         </h3>
         <p class="s-desc cl-text-2 text-body-1">
-          Практичные устройства для комфорта каждый день.
+          Практичные приборы и оборудование для диагностики, ремонта и контроля.
         </p>
       </div>
       <div class="col-right">
-        <a class="tf-btn-line-2 py-4 style-primary" href="/learn-more/">
+        <a class="tf-btn-line-2 py-4 style-primary" href={CATALOG_URL}>
           <span class="fw-semibold">Смотреть все товары</span>
         </a>
       </div>
@@ -60,9 +68,7 @@ const bundleItems = [
                         <span class="price-new">{item.price}</span>
                         {item.oldPrice && <span class="price-old text-caption-01 cl-text-2">{item.oldPrice}</span>}
                       </div>
-                      <div class="info_typo text-caption-01 cl-text-3">
-                        XL / Синий
-                      </div>
+                      <div class="info_typo text-caption-01 cl-text-3">{item.product.condition}</div>
                     </div>
                     <div class="prd-action">
                       <a class="tf-btn-line-3 type-primary remove" href="#">
@@ -82,10 +88,10 @@ const bundleItems = [
               <div class="bottom">
                 <div class="d-flex align-items-center justify-content-between mb-16">
                   <h4>Итого</h4>
-                  <h4>$186,99</h4>
+                  <h4>{bundleTotal}</h4>
                 </div>
-                <a class="tf-btn animate-btn w-100" data-bs-toggle="offcanvas" href="#shoppingCart">
-                  Добавить в корзину
+                <a class="tf-btn animate-btn w-100" href={orderUrl} rel="noopener" target="_blank">
+                  Заказать набор
                 </a>
               </div>
             </div>

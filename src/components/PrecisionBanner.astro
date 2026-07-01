@@ -1,20 +1,167 @@
-<div class="themesFlat">
-  <div class="container">
-    <div class="banner-image-text type-abs style-2">
-      <a class="bn-image img-style" href="/learn-more/">
-        <img alt="Изображение" height="460" loading="lazy" src="/assets/theme/assets/images/section/banner-9.jpg" width="1410" />
-      </a>
-      <div class="bn-content wow fadeInUp">
-        <a class="title h1 fw-medium text-white link" href="/learn-more/">
-          Точность <br class="d-none d-sm-block" />
-          в ваших руках
-        </a>
-        <p class="desc text-white text-body-1">
-          Скорость, точность и контроль для<br class="d-none d-sm-block" />
-          максимального преимущества в игре!
-        </p>
-        <a class="btn-action tf-btn btn-white" href="/learn-more/">Купить сейчас</a>
+---
+const slides = [
+  {
+    image: "/assets/theme/assets/images/slider/slider-34.jpg",
+    eyebrow: "BUILT TO LAST",
+    title: "Products Crafted To Withstand Time",
+    description: "Durable materials with reliable performance, helping every build stand stronger, safer, and confidently on schedule.",
+    dark: false
+  },
+  {
+    image: "/assets/theme/assets/images/slider/slider-35.jpg",
+    eyebrow: "PRECISION IN CONTROL",
+    title: "Electrical Meters Built for the Job",
+    description: "Reliable readings of voltage, current, and more, helping professionals work safer, faster, and with total confidence.",
+    dark: true
+  },
+  {
+    image: "/assets/theme/assets/images/slider/slider-36.jpg",
+    eyebrow: "ENGINEERED FOR CONTROL",
+    title: "Strong Tools For Serious Work",
+    description: "Durable steel tools delivering strong grip and reliable performance on every job.",
+    dark: false
+  }
+];
+---
+<section class="themesFlat construction-hero-section">
+  <div class="container-full">
+    <div
+      class="swiper tf-swiper sw-slide-show slider_effect_fade construction-hero-swiper"
+      data-auto="true"
+      data-cursor="true"
+      data-delay="3000"
+      data-loop="true"
+      data-mobile="1"
+      data-preview="1"
+      data-space="15"
+      data-space-lg="30"
+      data-space-md="20"
+      data-tablet="1"
+      dir="ltr"
+    >
+      <div class="swiper-wrapper">
+        {slides.map((slide) => (
+          <div class="swiper-slide">
+            <div class="slider-wrap slideshow-wrap rounded-20 overflow-hidden construction-hero">
+              <div class="sld_image">
+                <img
+                  alt={slide.title}
+                  class="scale-item scale-item-1"
+                  decoding="async"
+                  height="680"
+                  loading="eager"
+                  src={slide.image}
+                  width="1770"
+                />
+              </div>
+
+              <div class="sld_content type-4">
+                <div class="content-sld_wrap">
+                  <h6 class={`mb-12 fade-item fade-item-1 ${slide.dark ? "text-white" : ""}`}>{slide.eyebrow}</h6>
+                  <a class={`h1 mb-20 fade-item fade-item-2 title link ${slide.dark ? "text-white" : ""}`} href="/catalog/">
+                    {slide.title}
+                  </a>
+                  <p class={`text-body-1 fade-item fade-item-3 mb-32 ${slide.dark ? "text-white" : ""}`}>
+                    {slide.description}
+                  </p>
+                  <div class="fade-item fade-item-4">
+                    <a class="tf-btn btn-white animate-btn animate-dark" href="/catalog/">Explore More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
+      <div class="sw-line-default tf-sw-pagination"></div>
     </div>
   </div>
-</div>
+</section>
+
+<style>
+  .construction-hero-section {
+    padding-top: 60px;
+  }
+
+  .construction-hero-swiper {
+    cursor: grab;
+  }
+
+  .construction-hero-swiper:active {
+    cursor: grabbing;
+  }
+
+  .construction-hero {
+    position: relative;
+  }
+
+  .construction-hero .sld_image img {
+    width: 100%;
+    min-height: 460px;
+    aspect-ratio: 1770 / 680;
+    object-fit: cover;
+  }
+
+  .construction-hero .title {
+    display: block;
+    color: var(--black);
+    max-width: 520px;
+  }
+
+  .construction-hero .content-sld_wrap {
+    max-width: 520px;
+  }
+
+  .construction-hero-swiper .tf-sw-pagination {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 28px;
+    z-index: 3;
+  }
+
+  @media (max-width: 1199px) {
+    .construction-hero-section {
+      padding-top: 40px;
+    }
+
+    .construction-hero .sld_image img {
+      min-height: 420px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .construction-hero-section {
+      padding-top: 24px;
+    }
+
+    .construction-hero .sld_image img {
+      min-height: 500px;
+      object-position: 62% center;
+    }
+
+    .construction-hero .sld_content.type-4 {
+      bottom: 56px;
+      padding-right: 20px;
+    }
+
+    .construction-hero .title {
+      max-width: 340px;
+    }
+
+    .construction-hero .text-body-1 {
+      max-width: 330px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .construction-hero-section {
+      padding-top: 16px;
+    }
+
+    .construction-hero .sld_image img {
+      min-height: 480px;
+      object-position: 68% center;
+    }
+  }
+</style>

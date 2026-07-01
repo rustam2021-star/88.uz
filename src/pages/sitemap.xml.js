@@ -1,14 +1,18 @@
 import products from "../data/products.json";
 import categories from "../data/categories.json";
+import posts from "../data/blog.json";
 
-const site = "https://example.com";
+const site = "https://88.uz";
 
 export function GET() {
   const urls = [
     "/",
+    "/catalog/",
+    "/blog/",
     "/wishlist/",
     ...categories.map((category) => `/${category.slug}/`),
-    ...products.map((product) => `/product/${product.slug}/`)
+    ...products.map((product) => `/product/${product.slug}/`),
+    ...posts.map((post) => `/blog/${post.slug}/`)
   ];
 
   return new Response(

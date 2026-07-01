@@ -1,0 +1,75 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import posts from "../../data/blog.json";
+import products from "../../data/products.json";
+import { getPostImage, getPostUrl } from "../../lib/blog.js";
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const relatedPosts = posts.filter((item) => item.slug !== post.slug).slice(0, 3);
+---
+<MainLayout title={`${post.title} - 88.uz`} description={post.excerpt}>
+  <section class="section-page-title text-center flat-spacing-2 pb-0">
+    <div class="container">
+      <div class="main-page-title">
+        <div class="breadcrumbs">
+          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
+          <i class="icon icon-CaretRightThin cl-text-3"></i>
+          <a class="text-caption-01 cl-text-3 link" href="/blog/">Блог</a>
+          <i class="icon icon-CaretRightThin cl-text-3"></i>
+          <p class="text-caption-01">{post.category}</p>
+        </div>
+        <h3>{post.title}</h3>
+        <p class="text-body-1 cl-text-2">{post.excerpt}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="flat-spacing">
+    <div class="container">
+      <article class="main-blog-single">
+        <div class="blog-image">
+          <img alt={post.title} height="680" loading="lazy" src={getPostImage(post, products)} width="1410" />
+        </div>
+        <div class="blog-content">
+          <div class="blog-heading">
+            <span class="entry-tag">{post.category}</span>
+            <div class="entry-meta">
+              <span class="meta-item"><i class="icon icon-CalendarBlank"></i>{post.date}</span>
+              <span class="meta-item"><i class="icon icon-User"></i>88.uz</span>
+            </div>
+          </div>
+          {post.content.map((paragraph) => <p class="text-body-1 cl-text-2">{paragraph}</p>)}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="flat-spacing pt-0">
+    <div class="container">
+      <div class="sect-heading text-center">
+        <h3 class="s-title">Еще статьи</h3>
+      </div>
+      <div class="tf-grid-layout sm-col-2 lg-col-3">
+        {relatedPosts.map((item) => (
+          <article class="article-blog hover-img">
+            <a class="blog-image img-style" href={getPostUrl(item)}>
+              <img alt={item.title} height="360" loading="lazy" src={getPostImage(item, products)} width="450" />
+            </a>
+            <div class="blog-content">
+              <p class="entry-date text-caption-01 fw-semibold cl-text-3">{item.date}</p>
+              <h5 class="entry-title"><a class="link-underline link" href={getPostUrl(item)}>{item.title}</a></h5>
+              <p class="entry-desc cl-text-2">{item.excerpt}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>

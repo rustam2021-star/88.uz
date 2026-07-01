@@ -1,99 +1,207 @@
 ---
-const testimonials = [
-  {
-    thumb: "/assets/theme/assets/images/testimonial/thumbs/thumb-1.jpg",
-    productImage: "/assets/theme/assets/images/product/electronics/product-10.jpg",
-    product: "VR-гарнитура DeePoon M2 - дисплей Super AMOLED",
-    price: "$29.99"
-  },
-  {
-    thumb: "/assets/theme/assets/images/testimonial/thumbs/thumb-2.jpg",
-    productImage: "/assets/theme/assets/images/product/electronics/product-1.jpg",
-    product: "VR-гарнитура DeePoon M2 - дисплей Super AMOLED",
-    price: "$29.99"
-  },
-  {
-    thumb: "/assets/theme/assets/images/testimonial/thumbs/thumb-3.jpg",
-    productImage: "/assets/theme/assets/images/product/electronics/product-2.jpg",
-    product: "VR-гарнитура DeePoon M2 - дисплей Super AMOLED",
-    price: "$29.99"
-  }
+import { formatPrice, getProductImage } from "../lib/catalog.js";
+import products from "../data/products.json";
+
+const avatars = [
+  "/assets/theme/assets/images/avatar/avatar-1.jpg",
+  "/assets/theme/assets/images/avatar/avatar-2.jpg",
+  "/assets/theme/assets/images/avatar/avatar-3.jpg",
+  "/assets/theme/assets/images/avatar/avatar-4.jpg"
 ];
+
+const reviews = [
+  "Удобно, когда характеристики, цена и контакт продавца собраны в одном месте. Быстро выбрали прибор и уточнили наличие.",
+  "Помогли подобрать товар под задачу, ответили по комплектации и способу получения. Заказ прошел спокойно и понятно.",
+  "Понравилось, что можно сразу перейти к товару, посмотреть фото и написать продавцу без лишних шагов.",
+  "Ассортимент собран аккуратно: приборы, детекторы и оборудование легко сравнить по категориям и цене."
+];
+
+const authors = ["Алексей Миронов", "Мадина Каримова", "Игорь Ли", "Дилшод Рахимов"];
+
+const testimonials = products.slice(0, 4).map((product, index) => ({
+  avatar: avatars[index],
+  productImage: getProductImage(product),
+  product: product.title,
+  price: formatPrice(product.price, product.currency),
+  slug: product.slug,
+  author: authors[index],
+  review: reviews[index],
+  highlighted: index === 1
+}));
 ---
-<section class="section-testimonial-thumbs flat-spacing tf-sw-thumbs">
+<section class="section-testimonial-construction flat-spacing">
   <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-xl-5">
-        <div class="col-left">
-          <div class="swiper sw-thumb" dir="ltr">
-            <div class="swiper-wrapper">
-              {testimonials.map((item) => (
-                <div class="swiper-slide">
-                  <div class="sw-image">
-                    <img alt="Изображение" height="520" loading="lazy" src={item.thumb} width="520" />
-                  </div>
+    <div class="sect-heading text-center wow fadeInUp">
+      <h3 class="s-title">Нам доверяют покупатели</h3>
+      <p class="s-desc text-body-1 cl-text-2">Отзывы клиентов, которые доверяют нам важные покупки.</p>
+    </div>
+
+    <div class="tf-grid-layout sm-col-2 xl-col-4 testimonial-construction-grid">
+      {testimonials.map((item) => (
+        <div class={`testimonial-v01 style-2 type-3 testimonial-construction-card wow fadeInUp ${item.highlighted ? "is-highlighted" : ""}`}>
+          <div class="tes-content">
+            <div class="tes_head">
+              <div class="tes_avatar">
+                <img alt={item.author} height="60" loading="lazy" src={item.avatar} width="60" />
+              </div>
+              <div class="tes_head-content">
+                <div class="star-wrap d-flex align-items-center">
+                  <i class="icon icon-Star fs-20"></i>
+                  <i class="icon icon-Star fs-20"></i>
+                  <i class="icon icon-Star fs-20"></i>
+                  <i class="icon icon-Star fs-20"></i>
+                  <i class="icon icon-Star fs-20"></i>
                 </div>
-              ))}
+                <div class="tes_author">
+                  <h5 class="author-name">{item.author}</h5>
+                </div>
+              </div>
+            </div>
+            <p class="tes_text h5">{item.review}</p>
+            <div class="tes_product">
+              <a class="product-image flex-shrink-0" href={`/product/${item.slug}/`}>
+                <img alt={item.product} height="60" loading="lazy" src={item.productImage} width="60" />
+              </a>
+              <div class="product-infor">
+                <a class="prd_name link fw-medium lh-24 text-line-clamp-1" href={`/product/${item.slug}/`}>
+                  {item.product}
+                </a>
+                <p class="prd_price fw-semibold text-primary">{item.price}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6 col-xl-6">
-        <div class="col-right tes_thumb">
-          <div class="swiper sw-main-thumb" dir="ltr">
-            <div class="swiper-wrapper">
-              {testimonials.map((item) => (
-                <div class="swiper-slide">
-                  <div class="testimonial-v01 style-5">
-                    <div class="tes-content">
-                      <div class="star-wrap d-flex align-items-center">
-                        <i class="icon icon-Star fs-24"></i>
-                        <i class="icon icon-Star fs-24"></i>
-                        <i class="icon icon-Star fs-24"></i>
-                        <i class="icon icon-Star fs-24"></i>
-                        <i class="icon icon-Star fs-24"></i>
-                      </div>
-                      <div class="tes_author">
-                        <h5 class="author-name">Sophia Ramirez</h5>
-                        <div class="br-line"></div>
-                        <div class="author-verified">
-                          <i class="icon icon-CheckCircle1"></i>
-                          <span class="cl-text-2">Проверенный покупатель</span>
-                        </div>
-                      </div>
-                      <p class="tes_text h4 text-capitalize">
-                        MW09 выглядит потрясающе, управляется просто и имеет много
-                        вариантов посадки. А еще здесь отличный звук, мощное
-                        шумоподавление и батарея, которая не подводит в течение дня.
-                      </p>
-                      <div class="tes_product">
-                        <div class="product-image flex-shrink-0">
-                          <img alt="Изображение" height="60" loading="lazy" src={item.productImage} width="60" />
-                        </div>
-                        <div class="product-infor">
-                          <a class="link fw-medium lh-24 text-line-clamp-2" href="/product/apple-iphone-17-pro-max/">
-                            {item.product}
-                          </a>
-                          <p class="prd_price fw-semibold text-primary">{item.price}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div class="sw-line-default style-2 sw-pg-thumb d-xxl-none mt-30"></div>
-          </div>
-          <div class="group-action-nav">
-            <div class="tf-sw-nav-2 nav-prev-swiper">
-              <i class="icon icon-ArrowLeft"></i>
-            </div>
-            <div class="tf-sw-nav-2 nav-next-swiper">
-              <i class="icon icon-ArrowRight"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .section-testimonial-construction .sect-heading {
+    margin-bottom: 42px;
+  }
+
+  .testimonial-construction-grid {
+    gap: 30px;
+  }
+
+  .testimonial-construction-card {
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    min-height: 430px;
+    background: var(--bg);
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 30px !important;
+  }
+
+  .testimonial-construction-card.is-highlighted {
+    background: var(--third);
+  }
+
+  .testimonial-construction-card .tes-content {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonial-construction-card .tes_head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .testimonial-construction-card .tes_head-content {
+    min-width: 0;
+  }
+
+  .testimonial-construction-card .tes_avatar {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .testimonial-construction-card .tes_avatar img,
+  .testimonial-construction-card .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .testimonial-construction-card .star-wrap {
+    margin-bottom: 8px;
+    color: #f5a142;
+  }
+
+  .testimonial-construction-card.is-highlighted .star-wrap {
+    color: #5f4314;
+  }
+
+  .testimonial-construction-card .tes_author {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    row-gap: 4px;
+    margin-bottom: 0;
+  }
+
+  .testimonial-construction-card .author-name {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .testimonial-construction-card .tes_text {
+    display: -webkit-box;
+    flex: 0 1 auto;
+    overflow: hidden;
+    margin-bottom: 20px;
+    line-height: 1.35;
+    text-transform: none;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+
+  .testimonial-construction-card .tes_product {
+    margin-top: auto;
+  }
+
+  .testimonial-construction-card .product-image {
+    width: 54px;
+    height: 54px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .testimonial-construction-card .prd_name {
+    max-width: 150px;
+  }
+
+  .testimonial-construction-card .product-infor {
+    min-width: 0;
+  }
+
+  @media (max-width: 1199px) {
+    .testimonial-construction-card {
+      aspect-ratio: auto;
+      min-height: 420px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .section-testimonial-construction .sect-heading {
+      margin-bottom: 28px;
+    }
+
+    .testimonial-construction-card {
+      min-height: auto;
+    }
+  }
+</style>

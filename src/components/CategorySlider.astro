@@ -1,25 +1,67 @@
 ---
 import categories from "../data/categories.json";
 ---
-<section class="py-30">
-  <div class="container-full">
-    <div class="swiper tf-swiper" data-laptop="8" data-mobile="2" data-mobile-sm="3" data-pagination="2" data-pagination-lg="8" data-pagination-md="4" data-pagination-sm="3" data-preview="6" data-space="10" data-space-lg="20" data-space-md="15" data-tablet="4" dir="ltr">
-      <div class="swiper-wrapper">
-        {categories.map((category) => (
-          <div class="swiper-slide">
-            <a class="category-v02 style-3 hover-img wow fadeInUp" href={`/${category.slug}/`}>
-              <div class="cate-image img-style">
-                <img alt="Изображение" height="100" loading="lazy" src={category.image} width="100" />
-              </div>
-              <div class="cate-content text-center">
-                <h6 class="cate_name link">{category.title}</h6>
-                <p class="cate_quantity cl-text-2">{category.quantity}</p>
-              </div>
-            </a>
+<section class="section-categories-construction flat-spacing">
+  <div class="container">
+    <div class="sect-heading text-center wow fadeInUp">
+      <h3 class="s-title">Категории товаров</h3>
+      <p class="s-desc text-body-1 cl-text-2">
+        Подберите приборы, детекторы и оборудование под вашу задачу.
+      </p>
+    </div>
+    <div class="tf-grid-layout tf-col-2 sm-col-3 lg-col-4 xl-col-5">
+      {categories.map((category) => (
+        <a class="category-construction_item hover-img wow fadeInUp" href={`/${category.slug}/`}>
+          <div class="cate-image img-style">
+            <img alt={category.title} height="220" loading="lazy" src={category.image} width="220" />
           </div>
-        ))}
-      </div>
-      <div class="sw-line-default style-2 tf-sw-pagination"></div>
+          <div class="cate-content text-center">
+            <h5 class="cate_name link">{category.title}</h5>
+            <p class="cate_quantity text-caption-01 cl-text-2">{category.quantity}</p>
+          </div>
+        </a>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .section-categories-construction .sect-heading {
+    margin-bottom: 42px;
+  }
+
+  .category-construction_item {
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+
+  .category-construction_item .cate-image {
+    width: min(100%, 220px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--bg);
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+
+  .category-construction_item .cate-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .category-construction_item .cate_name {
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 575px) {
+    .section-categories-construction .sect-heading {
+      margin-bottom: 28px;
+    }
+
+    .category-construction_item .cate-image {
+      width: min(100%, 160px);
+    }
+  }
+</style>

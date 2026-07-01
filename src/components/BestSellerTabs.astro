@@ -1,57 +1,207 @@
 ---
 import ProductCard from "./ProductCard.astro";
+import categories from "../data/categories.json";
 import products from "../data/products.json";
 
-const tabs = [
-  { id: "headphone", label: "Наушники", items: products.slice(0, 4) },
-  { id: "mouse", label: "Мыши", items: products.slice(1, 5) },
-  { id: "keyboard", label: "Клавиатуры", items: products.slice(2, 6) },
-  { id: "mousepad", label: "Коврики", items: products.slice(3, 7) },
-  { id: "cables", label: "Кабели", items: products.slice(4, 8) },
-  { id: "networking", label: "Сеть", items: products.slice(0, 4).reverse() }
-];
+const tabSlugs = ["measuring-tools", "thermal-detectors", "auto-service", "tools-equipment"];
+const fallbackProducts = products.filter((product) => product.in_stock !== false);
+
+const tabCopy = {
+  "measuring-tools": {
+    title: "Точные приборы для работы",
+    desc: "Измерение, диагностика и контроль для ремонта, дома и мастерской."
+  },
+  "thermal-detectors": {
+    title: "Тепловизоры и детекторы",
+    desc: "Поиск утечек, перегрева, скрытой проводки, газа и радиационного фона."
+  },
+  "auto-service": {
+    title: "Автоинструменты",
+    desc: "Тестеры, TPMS, UV-фонари и приборы для проверки автомобиля."
+  },
+  "tools-equipment": {
+    title: "Инструменты и оборудование",
+    desc: "Практичные решения для ремонта, монтажа и ежедневных задач."
+  }
+};
+
+function getTabProducts(categorySlug) {
+  const categoryProducts = fallbackProducts.filter((product) => product.category_slug === categorySlug);
+  const extras = fallbackProducts.filter((product) => product.category_slug !== categorySlug);
+
+  return [...categoryProducts, ...extras].slice(0, 8);
+}
+
+const tabs = tabSlugs
+  .map((slug) => {
+    const category = categories.find((item) => item.slug === slug);
+
+    if (!category) {
+      return null;
+    }
+
+    return {
+      id: category.slug,
+      label: category.title,
+      url: `/${category.slug}/`,
+      banner: tabCopy[category.slug] || {
+        title: category.title,
+        desc: category.description_top
+      },
+      items: getTabProducts(category.slug)
+    };
+  })
+  .filter(Boolean);
 ---
-<section class="flat-spacing pt-0 flat-animate-tab">
+<section class="section-top-pick-v02 section-best-sellers-construction flat-spacing flat-animate-tab">
   <div class="container">
-    <div class="sect-heading d-block d-md-flex type-2 has-col-right wow fadeInUp">
-      <div>
+    <div class="sect-heading type-2 has-col-right">
+      <div class="wow fadeInUp">
         <h3 class="s-title">Хиты продаж</h3>
-        <div class="overflow-auto">
-          <ul class="tab-btn-wrap-v3" role="tablist">
-            {tabs.map((tab, index) => (
-              <>
-                {index > 0 && <li class="spread">/</li>}
-                <li class="nav-tab-item" role="presentation">
-                  <a class={`tf-btn-tab ${index === 0 ? "active" : ""}`} data-bs-toggle="tab" href={`#${tab.id}`} role="tab">
-                    <span class="fw-medium">{tab.label}</span>
-                  </a>
-                </li>
-              </>
-            ))}
-          </ul>
-        </div>
+        <p class="s-desc text-body-1 cl-text-2">
+          Популярные товары собраны по основным разделам каталога.
+        </p>
       </div>
-      <div class="col-right">
-        <a class="tf-btn-line-2 py-4 style-primary" href="/learn-more/">
-          <span class="fw-semibold">Смотреть все товары</span>
-        </a>
+
+      <div class="col-right wow fadeInUp" data-wow-delay="0.1s">
+        <ul class="tab-btn-wrap-v2 best-sellers-tabs" role="tablist">
+          {tabs.map((tab, index) => (
+            <li class="nav-tab-item" role="presentation">
+              <a
+                class={`tf-btn-tab ${index === 0 ? "active" : ""}`}
+                data-bs-toggle="tab"
+                href={`#top-pick-${tab.id}`}
+                role="tab"
+              >
+                <span class="fw-semibold">{tab.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
+
     <div class="tab-content">
       {tabs.map((tab, index) => (
-        <div class={`tab-pane ${index === 0 ? "active show" : ""}`} id={tab.id} role="tabpanel">
-          <div class="swiper tf-swiper wrap-sw-over" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="15" data-tablet="3" dir="ltr">
-            <div class="swiper-wrapper">
-              {tab.items.map((product) => (
-                <div class="swiper-slide">
-                  <ProductCard product={product} />
+        <div class={`tab-pane ${index === 0 ? "active show" : ""}`} id={`top-pick-${tab.id}`} role="tabpanel">
+          <div class="wrap-prd">
+            <div class="col-prd-1">
+              <div class="banner-image-text type-abs style-18 v2 mb-20 best-sellers-banner">
+                <a class="bn-image img-style" href={tab.url}>
+                  <img
+                    alt={tab.banner.title}
+                    height="608"
+                    loading="lazy"
+                    src="/assets/theme/assets/images/section/banner-54.jpg"
+                    width="450"
+                  />
+                </a>
+                <div class="bn-content wow fadeInUp">
+                  <a class="title text-white h3 fw-medium link mb-8" href={tab.url}>{tab.banner.title}</a>
+                  <p class="desc text-body-1 text-white mb-28">{tab.banner.desc}</p>
+                  <a class="tf-btn btn-white hv-primary" href={tab.url}>Смотреть раздел</a>
                 </div>
-              ))}
+              </div>
+
+              <div class="tf-grid-layout tf-col-2 gap-20">
+                {tab.items.slice(0, 2).map((product) => (
+                  <ProductCard className="product-style_stroke wow fadeInUp" product={product} />
+                ))}
+              </div>
             </div>
-            <div class="sw-dot-default tf-sw-pagination"></div>
+
+            <div class="col-prd-2">
+              <div class="tf-grid-layout tf-col-2 lg-col-3 gap-20">
+                {tab.items.slice(2, 8).map((product) => (
+                  <ProductCard className="product-style_stroke wow fadeInUp" product={product} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .section-best-sellers-construction {
+    background: var(--white);
+  }
+
+  .section-best-sellers-construction .sect-heading {
+    margin-bottom: 40px;
+  }
+
+  .section-best-sellers-construction .sect-heading.has-col-right {
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  .section-best-sellers-construction .sect-heading.has-col-right > :first-child {
+    flex: 1 1 420px;
+    min-width: 0;
+  }
+
+  .section-best-sellers-construction .col-right {
+    flex: 1 1 620px;
+    margin-left: auto;
+    overflow: visible;
+  }
+
+  .best-sellers-tabs {
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .best-sellers-tabs .tf-btn-tab {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .best-sellers-banner .bn-image img {
+    object-fit: cover;
+  }
+
+  .best-sellers-banner .title {
+    max-width: 360px;
+  }
+
+  .best-sellers-banner .desc {
+    max-width: 360px;
+  }
+
+  :global(.section-best-sellers-construction .card-product_info .name-product) {
+    display: -webkit-box;
+    min-height: 48px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @media (max-width: 767px) {
+    .section-best-sellers-construction .sect-heading {
+      margin-bottom: 28px;
+    }
+
+    .section-best-sellers-construction .sect-heading.has-col-right {
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .section-best-sellers-construction .col-right {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .best-sellers-tabs {
+      justify-content: flex-start;
+    }
+
+    .best-sellers-banner .title,
+    .best-sellers-banner .desc {
+      max-width: 280px;
+    }
+  }
+</style>
