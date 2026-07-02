@@ -60,7 +60,7 @@ const relatedPosts = posts.filter((item) => item.slug !== post.slug).slice(0, 3)
         {relatedPosts.map((item) => (
           <article class="article-blog hover-img">
             <a class="blog-image img-style" href={getPostUrl(item)}>
-              <img alt={item.title} height="360" loading="lazy" src={getPostImage(item, products)} width="450" />
+              <img alt={item.title} height="280" loading="lazy" src={getPostImage(item, products)} width="450" />
             </a>
             <div class="blog-content">
               <p class="entry-date text-caption-01 fw-semibold cl-text-3">{item.date}</p>

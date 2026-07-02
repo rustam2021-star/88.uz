@@ -8,7 +8,24 @@ const oldPrice = product.old_price ? formatPrice(product.old_price, product.curr
 const gallery = product.gallery?.length ? product.gallery : [getProductImage(product)];
 const related = relatedProducts.length ? relatedProducts : recentlyProducts;
 const recently = recentlyProducts.length ? recentlyProducts : related;
-const specs = Object.entries(product.specs || {});
+const normalizeSpecValue = (key, value) => {
+  const text = String(value ?? "").trim();
+
+  if (key === "Состояние") {
+    return text.replace(/\s*или\s+в\s+наличии\s+у\s+продавца/iu, "").trim() || "Новое";
+  }
+
+  if (key === "Город") {
+    return text.split(",")[0]?.trim() || "Ташкент";
+  }
+
+  return text;
+};
+
+const specs = Object.entries(product.specs || {})
+  .filter(([key]) => key !== "Источник")
+  .map(([key, value]) => [key, normalizeSpecValue(key, value)]);
+const condition = normalizeSpecValue("Состояние", product.condition || "Состояние уточняется");
 const orderUrl = getOrderUrl(product);
 const phoneUrl = `tel:${STORE_PHONE}`;
 ---
@@ -75,7 +92,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
               <h3 class="product-infor-name mb-12">{product.title}</h3>
               <div class="product-infor-meta mb-20">
                 <div class="meta_rate">
-                  <span class="text-caption-01 cl-text-2">{product.condition || "Состояние уточняется"}</span>
+                  <span class="text-caption-01 cl-text-2">{condition}</span>
                 </div>
                 <div class="br-line type-vertical"></div>
                 <div class="meta_sold">
@@ -101,12 +118,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
             <div class="tf-product-variant">
               <div class="variant-picker-item">
                 <div class="variant-picker-label">
-                  <div>Город: <span class="variant-picker-label-value fw-medium">{product.location || "Ташкент"}</span></div>
-                </div>
-              </div>
-              <div class="variant-picker-item">
-                <div class="variant-picker-label">
-                  <div>Источник: <span class="variant-picker-label-value fw-medium">{product.source || "88.uz"}</span></div>
+                  <div>Город: <span class="variant-picker-label-value fw-medium">Ташкент</span></div>
                 </div>
               </div>
               <div class="tf-product-total-quantity">
@@ -117,7 +129,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                     <input class="quantity-product" name="number" type="text" value="1" />
                     <button class="btn-quantity btn-increase"><i class="icon icon-plus"></i></button>
                   </div>
-                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" href={orderUrl} rel="noopener" target="_blank">Заказать <span class="d-none d-sm-block d-md-none d-lg-block"> - </span><span class="price-add d-none d-sm-block d-md-none d-lg-block">{price}</span></a>
+                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" href={orderUrl} rel="noopener" target="_blank">Заказать</a>
                 </div>
                 <a class="tf-btn type-xl btn-primary animate-btn w-100" href={phoneUrl}>Позвонить продавцу</a>
               </div>
@@ -135,7 +147,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
             </div>
             <div class="tf-product-trust-seal">
               <p class="h6 text-seal">Безопасная покупка:</p>
-              <p class="text-caption-01 cl-text-2">88.uz показывает товары из профиля продавца. Наличие, цену и условия передачи товара нужно подтвердить перед оплатой.</p>
+              <p class="text-caption-01 cl-text-2">Наличие, цену и условия передачи товара нужно подтвердить перед оплатой.</p>
             </div>
           </div>
         </div>
@@ -150,7 +162,6 @@ const phoneUrl = `tel:${STORE_PHONE}`;
       <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#description" role="tab"><span class="h5 fw-medium">Описание</span></a></li>
       <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#customer-reviews" role="tab"><span class="h5 fw-medium">Характеристики</span></a></li>
       <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#shipping-returns" role="tab"><span class="h5 fw-medium">Заказ</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#return-policies" role="tab"><span class="h5 fw-medium">Примечание</span></a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active show" id="description" role="tabpanel">
@@ -162,18 +173,12 @@ const phoneUrl = `tel:${STORE_PHONE}`;
       <div class="tab-pane" id="customer-reviews" role="tabpanel">
         <div class="tab-content_desc tf-grid-layout md-col-2">
           <div class="box-desc"><h5 class="desc_title">Характеристики</h5><ul class="list">{specs.map(([key, value]) => <li class="cl-text-2">- {key}: {value}</li>)}</ul></div>
-          <div class="box-desc"><h5 class="desc_title">Код товара</h5><p class="cl-text-2">{product.source_id || product.id}</p></div>
         </div>
       </div>
       <div class="tab-pane" id="shipping-returns" role="tabpanel">
         <div class="tab-content_desc desc-2 tf-grid-layout sm-col-2 xl-col-4">
           <div class="box-desc"><h5 class="desc_title">Как заказать</h5><p class="cl-text-2">Нажмите “Заказать” и напишите продавцу в Telegram. Уточните наличие, цену и комплектацию.</p></div>
           <div class="box-desc"><h5 class="desc_title">Доставка</h5><p class="cl-text-2">Способ получения и сроки доставки согласуются индивидуально.</p></div>
-        </div>
-      </div>
-      <div class="tab-pane" id="return-policies" role="tabpanel">
-        <div class="tab-content_desc desc-3 d-grid">
-          <div class="box-desc"><h5 class="desc_title">Перед покупкой</h5><p class="desc_info cl-text-2">Информация подготовлена по объявлению продавца. Для специализированных товаров используйте инструкцию производителя и соблюдайте требования безопасности.</p></div>
         </div>
       </div>
     </div>

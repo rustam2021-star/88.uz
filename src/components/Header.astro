@@ -24,7 +24,7 @@ const secondaryCategories = categories.slice(4);
 
       <div class="header-left">
         <a href="/" class="logo-site">
-          <img alt="88.uz" height="28" loading="lazy" src="/assets/theme/assets/images/logo/logo-transparent.png" width="132" />
+          <img alt="88.uz" decoding="async" height="52" loading="eager" src="/assets/theme/assets/images/logo/logo.svg" width="260" />
         </a>
       </div>
 
@@ -219,6 +219,12 @@ const secondaryCategories = categories.slice(4);
     flex: 1 1 0;
   }
 
+  .header-construction .logo-site img {
+    display: block;
+    width: 260px;
+    height: auto;
+  }
+
   .header-construction .header-center {
     flex: 2 1 auto;
   }
@@ -253,11 +259,25 @@ const secondaryCategories = categories.slice(4);
     .header-construction .header-inner {
       min-height: 74px;
     }
+
+    .header-construction .logo-site img {
+      width: 210px;
+    }
   }
 
   @media (max-width: 575px) {
     .topbar-construction {
       display: none;
+    }
+
+    .header-construction .logo-site img {
+      width: 170px;
+    }
+  }
+
+  @media (max-width: 374px) {
+    .header-construction .logo-site img {
+      width: 155px;
     }
   }
 </style>

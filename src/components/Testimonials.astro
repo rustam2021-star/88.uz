@@ -25,8 +25,7 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
   price: formatPrice(product.price, product.currency),
   slug: product.slug,
   author: authors[index],
-  review: reviews[index],
-  highlighted: index === 1
+  review: reviews[index]
 }));
 ---
 <section class="section-testimonial-construction flat-spacing">
@@ -38,7 +37,7 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
 
     <div class="tf-grid-layout sm-col-2 xl-col-4 testimonial-construction-grid">
       {testimonials.map((item) => (
-        <div class={`testimonial-v01 style-2 type-3 testimonial-construction-card wow fadeInUp ${item.highlighted ? "is-highlighted" : ""}`}>
+        <div class="testimonial-v01 style-2 type-3 testimonial-construction-card wow fadeInUp">
           <div class="tes-content">
             <div class="tes_head">
               <div class="tes_avatar">
@@ -96,10 +95,6 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
     padding: 30px !important;
   }
 
-  .testimonial-construction-card.is-highlighted {
-    background: var(--third);
-  }
-
   .testimonial-construction-card .tes-content {
     height: 100%;
     min-height: 0;
@@ -137,10 +132,6 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
   .testimonial-construction-card .star-wrap {
     margin-bottom: 8px;
     color: #f5a142;
-  }
-
-  .testimonial-construction-card.is-highlighted .star-wrap {
-    color: #5f4314;
   }
 
   .testimonial-construction-card .tes_author {

@@ -15,7 +15,7 @@ import { getPostImage, getPostUrl } from "../lib/blog.js";
       {posts.slice(0, 3).map((post) => (
         <article class="article-blog hover-img wow fadeInUp">
           <a class="blog-image img-style" href={getPostUrl(post)}>
-            <img alt={post.title} height="420" loading="lazy" src={getPostImage(post, products)} width="520" />
+            <img alt={post.title} height="320" loading="lazy" src={getPostImage(post, products)} width="520" />
             <div class="wrap-tags">
               <span class="tag text-caption-02 fw-semibold">{post.category}</span>
             </div>

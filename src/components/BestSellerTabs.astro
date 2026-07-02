@@ -151,11 +151,15 @@ const tabs = tabSlugs
 
   .best-sellers-tabs {
     min-width: 0;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 14px;
+    justify-content: stretch;
   }
 
   .best-sellers-tabs .tf-btn-tab {
+    width: 100%;
+    min-height: 44px;
     white-space: normal;
     text-align: center;
   }
@@ -196,7 +200,7 @@ const tabs = tabSlugs
     }
 
     .best-sellers-tabs {
-      justify-content: flex-start;
+      gap: 10px;
     }
 
     .best-sellers-banner .title,

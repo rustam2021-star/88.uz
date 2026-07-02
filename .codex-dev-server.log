@@ -1,0 +1,60 @@
+
+> tfamerce-astro-template@0.1.0 dev
+> astro dev --host 127.0.0.1
+
+00:09:16 [types] Generated 3ms
+
+ astro  v4.16.19 ready in 243 ms
+
+┃ Local    http://127.0.0.1:4321/
+
+00:09:16 watching for file changes...
+00:09:17 [200] / 70ms
+00:09:19 [200] /product/elektricheskii-osheinik-s-distantsionnym-upravleniem-dlya-dressirovki/ 10ms
+00:09:36 [200] /product/elektricheskii-osheinik-s-distantsionnym-upravleniem-dlya-dressirovki/ 5ms
+00:09:54 [200] /product/elektricheskii-osheinik-s-distantsionnym-upravleniem-dlya-dressirovki/ 5ms
+00:10:19 [200] /blog/ 3ms
+00:10:19 [404] /.well-known/appspecific/com.chrome.devtools.json 2ms
+00:10:19 [404] /assets/theme/assets/css/styles.css.map 1ms
+00:10:19 [404] /assets/theme/assets/css/bootstrap.min.css.map 1ms
+00:10:19 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+00:10:19 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 2ms
+00:10:34 [200] /auto-service/ 4ms
+00:10:39 [200] /measuring-tools/ 3ms
+00:10:44 [200] /product/sfericheskii-induktsionnyi-vlagomer-mt68-s-tochnym-opredeleniem-vlazhnosti/ 4ms
+00:11:30 [watch] src/components/ProductSlide.astro
+00:11:30 [200] / 11ms
+00:11:30 [200] /product/sfericheskii-induktsionnyi-vlagomer-mt68-s-tochnym-opredeleniem-vlazhnosti/ 10ms
+00:12:23 [200] / 7ms
+00:12:26 [200] /product/es-metr-vodonepronitsaemyi-ec-pochvy-i-temperatury/ 4ms
+00:15:03 [200] /thermal-detectors/ 4ms
+00:15:08 [200] /auto-service/ 3ms
+00:15:12 [200] /smart-electronics/ 3ms
+00:15:15 [200] /health-beauty/ 2ms
+00:15:18 [200] /pet-products/ 2ms
+00:15:21 [200] /measuring-tools/ 7ms
+00:15:24 [200] /thermal-detectors/ 2ms
+00:15:45 [200] / 8ms
+00:16:13 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+00:16:13 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 0ms
+00:16:13 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 1ms
+00:16:14 [404] /assets/theme/assets/css/bootstrap.min.css.map 1ms
+00:16:14 [404] /assets/theme/assets/css/styles.css.map 0ms
+00:17:08 [watch] src/data/categories.json
+00:17:09 [200] / 6ms
+00:17:10 [200] / 11ms
+00:19:19 [watch] src/components/Testimonials.astro
+00:19:19 [200] / 10ms
+00:19:19 [200] / 6ms
+00:20:10 [404] /.well-known/appspecific/com.chrome.devtools.json 3ms
+00:20:10 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 1ms
+00:20:10 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+00:20:10 [200] / 8ms
+00:20:11 [404] /assets/theme/assets/css/styles.css.map 1ms
+00:20:11 [404] /assets/theme/assets/css/bootstrap.min.css.map 0ms
+00:26:32 [200] / 7ms
+00:27:46 [watch] src/components/CategorySlider.astro
+00:27:46 [200] / 11ms
+00:27:46 [200] / 12ms
+00:29:42 [200] / 7ms
+00:31:18 [200] / 6ms

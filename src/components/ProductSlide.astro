@@ -28,10 +28,6 @@ const oldPrice = product.old_price ? formatPrice(product.old_price, product.curr
       <a class="name-product lh-24 fw-medium link-underline-text" href={productUrl}>{product.title}</a>
       <div class="star-wrap d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
       <div class="price-wrap"><span class="price-new text-primary fw-semibold">{price}</span>{oldPrice && <span class="price-old text-caption-01 cl-text-3">{oldPrice}</span>}</div>
-      <ul class="product-color_list">
-        <li class="product-color-item color-swatch hover-tooltip tooltip-bot active"><span class="tooltip color-filter">Основное фото</span><span class="swatch-value bg-warm-beige"></span><img alt="Изображение" data-src={productImage} src={productImage} /></li>
-        <li class="product-color-item color-swatch hover-tooltip tooltip-bot"><span class="tooltip color-filter">Дополнительное фото</span><span class="swatch-value bg-midnight-blue"></span><img alt="Изображение" data-src={hoverImage} src={hoverImage} /></li>
-      </ul>
     </div>
   </div>
 </div>

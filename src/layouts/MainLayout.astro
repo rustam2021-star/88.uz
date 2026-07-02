@@ -3,12 +3,12 @@ import TemplateHead from "../components/TemplateHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-const { title, description } = Astro.props;
+const { title, description, productAssets = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="ru">
   <head>
-    <TemplateHead title={title} description={description} />
+    <TemplateHead title={title} description={description} productAssets={productAssets} />
   </head>
   <body>
     <button id="goTop">
@@ -30,16 +30,14 @@ const { title, description } = Astro.props;
     <script is:inline src="/assets/theme/assets/js/plugin/bootstrap.min.js"></script>
     <script is:inline src="/assets/theme/assets/js/plugin/jquery.min.js"></script>
     <script is:inline src="/assets/theme/assets/js/plugin/swiper-bundle.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/bootstrap-select.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/drift.min.js"></script>
     <script is:inline src="/assets/theme/assets/js/plugin/infinityslide.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/count-down.js"></script>
     <script is:inline src="/assets/theme/assets/js/plugin/wow.min.js"></script>
     <script is:inline src="/assets/theme/assets/js/carousel.js"></script>
     <script is:inline src="/assets/theme/assets/js/main.js"></script>
     <script is:inline src="/assets/theme/assets/js/wishlist-local.js"></script>
-    <script is:inline src="/assets/theme/assets/js/zoom.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/photoswipe-lightbox.umd.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/photoswipe.umd.min.js"></script>
+    {productAssets && <script is:inline src="/assets/theme/assets/js/plugin/drift.min.js"></script>}
+    {productAssets && <script is:inline src="/assets/theme/assets/js/plugin/photoswipe-lightbox.umd.min.js"></script>}
+    {productAssets && <script is:inline src="/assets/theme/assets/js/plugin/photoswipe.umd.min.js"></script>}
+    {productAssets && <script is:inline src="/assets/theme/assets/js/zoom.js"></script>}
   </body>
 </html>

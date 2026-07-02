@@ -62,7 +62,9 @@
                     selectOption.attr("data-content", `<img src="${imgURL}" alt="Country" /> ${selectOption.text()}`);
                 }
             });
-            selectIMG.selectpicker();
+            if (typeof selectIMG.selectpicker === "function") {
+                selectIMG.selectpicker();
+            }
         }
     };
 

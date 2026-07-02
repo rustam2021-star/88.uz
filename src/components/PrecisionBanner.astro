@@ -40,7 +40,7 @@ const slides = [
       dir="ltr"
     >
       <div class="swiper-wrapper">
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <div class="swiper-slide">
             <div class="slider-wrap slideshow-wrap rounded-20 overflow-hidden construction-hero">
               <div class="sld_image">
@@ -48,8 +48,9 @@ const slides = [
                   alt={slide.title}
                   class="scale-item scale-item-1"
                   decoding="async"
+                  fetchpriority={index === 0 ? "high" : "auto"}
                   height="680"
-                  loading="eager"
+                  loading={index === 0 ? "eager" : "lazy"}
                   src={slide.image}
                   width="1770"
                 />
