@@ -59,7 +59,13 @@ const slides = products.slice(0, 4).map((product) => ({
                         {slide.oldPrice && <span class="price-old text-caption-01 cl-text-3">{slide.oldPrice}</span>}
                       </div>
                     </div>
-                    <a class="btn-action hover-tooltip" href={getOrderUrl(slide.product)} rel="noopener" target="_blank">
+                    <a
+                      aria-label={`Заказать ${slide.name} в Telegram`}
+                      class="btn-action hover-tooltip"
+                      href={getOrderUrl(slide.product)}
+                      rel="noopener"
+                      target="_blank"
+                    >
                       <span class="tooltip">Заказать</span>
                       <i class="icon icon-Handbag"></i>
                     </a>

@@ -1,0 +1,24 @@
+# 88.uz
+
+88.uz - каталог измерительных приборов, детекторов, автоинструментов, электроники и оборудования в Ташкенте.
+
+## Основные страницы
+
+- [Главная](https://88.uz/)
+- [Каталог товаров](https://88.uz/catalog/)
+- [Блог](https://88.uz/blog/)
+- [Карта сайта](https://88.uz/sitemap.xml)
+
+## Категории
+
+- [Измерительные приборы](https://88.uz/measuring-tools/)
+- [Тепловизоры и детекторы](https://88.uz/thermal-detectors/)
+- [Автоинструменты](https://88.uz/auto-service/)
+- [Инструменты и оборудование](https://88.uz/tools-equipment/)
+- [Электроника](https://88.uz/smart-electronics/)
+- [Здоровье и красота](https://88.uz/health-beauty/)
+- [Товары для питомцев](https://88.uz/pet-products/)
+
+## Контакты
+
+- [Telegram продавца](https://t.me/Senditme)
