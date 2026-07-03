@@ -14,7 +14,7 @@
 :root {
   --white: #ffffff;
   --black: #000000;
-  --primary: #C62828;
+  --primary: #B71C1C;
   --secondary: #70857A;
   --third: #FFEB8A;
   --text: #101010;
@@ -17707,6 +17707,10 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   left: 20px;
   bottom: 20px;
 }
+.wg-thumb-v1 .price-new {
+  color: var(--primary) !important;
+  font-weight: 700;
+}
 .wg-thumb-v1 .prd_info {
   max-width: 200px;
 }
@@ -21607,6 +21611,10 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   padding-top: 16px;
   padding-bottom: 16px;
 }
+.infiniteSlide-footer-text .infiniteSlide-element {
+  position: relative;
+  z-index: 2;
+}
 .infiniteSlide-footer-text::after, .infiniteSlide-footer-text::before {
   content: "";
   position: absolute;
@@ -21637,6 +21645,19 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   justify-content: space-between;
   position: relative;
   gap: 30px;
+}
+.footer-s2.bg-dark .cl-text-3,
+.footer-s2.bg-dark .footer-desc,
+.footer-s2.bg-dark .footer-bottom p {
+  color: #E3E5EA !important;
+}
+.footer-s2.bg-dark .footer-menu-list a,
+.footer-s2.bg-dark .tf-collapse-content a.cl-text-3 {
+  color: #E3E5EA !important;
+}
+.footer-s2.bg-dark .footer-menu-list a:hover,
+.footer-s2.bg-dark .tf-collapse-content a.cl-text-3:hover {
+  color: var(--white) !important;
 }
 .footer-s2 .footer-inner > .br-line:not(.fake-class) {
   height: 100%;
