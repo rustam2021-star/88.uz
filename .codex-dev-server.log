@@ -58,3 +58,25 @@
 00:27:46 [200] / 12ms
 00:29:42 [200] / 7ms
 00:31:18 [200] / 6ms
+00:32:50 [200] / 5ms
+00:33:54 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+00:33:54 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+00:33:54 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 0ms
+00:33:55 [404] /assets/theme/assets/css/styles.css.map 0ms
+00:33:55 [404] /assets/theme/assets/css/bootstrap.min.css.map 0ms
+00:39:22 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+00:39:24 [404] /assets/theme/assets/css/styles.css.map 0ms
+00:39:24 [404] /assets/theme/assets/css/bootstrap.min.css.map 1ms
+00:39:24 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+00:39:24 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 1ms
+00:39:51 [200] / 8ms
+00:39:51 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+00:39:51 [404] /assets/theme/assets/css/bootstrap.min.css.map 1ms
+00:39:51 [404] /assets/theme/assets/css/styles.css.map 1ms
+00:39:51 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+00:39:52 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 0ms
+07:31:05 [200] / 9ms
+20:50:13 [200] / 20ms
+20:51:03 [watch] src/layouts/MainLayout.astro
+20:51:03 [watch] src/components/TemplateHead.astro
+20:51:04 [200] / 5ms
