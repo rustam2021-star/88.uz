@@ -1,6 +1,13 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import { formatPrice, getOrderUrl, getProductHoverImage, getProductImage } from "../lib/catalog.js";
+import {
+  formatPrice,
+  getOrderUrl,
+  getProductCardImage,
+  getProductCardSrcset,
+  getProductHoverCardImage,
+  getProductHoverCardSrcset
+} from "../lib/catalog.js";
 import categories from "../data/categories.json";
 import products from "../data/products.json";
 
@@ -14,6 +21,7 @@ export function getStaticPaths() {
 const { category } = Astro.props;
 const categoryProducts = products.filter((product) => product.category_slug === category.slug);
 const visibleProducts = categoryProducts.length ? categoryProducts : products;
+const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px";
 ---
 <MainLayout title={category.seo_title} description={category.seo_description}>
   <section class="section-page-title text-center flat-spacing-2 pb-0">
@@ -77,8 +85,8 @@ const visibleProducts = categoryProducts.length ? categoryProducts : products;
             <div class="card-product product-style_list" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
               <div class="card-product_wrapper">
                 <a class="product-img" href={`/product/${product.slug}/`}>
-                  <img alt="Товар" class="img-product" height="440" loading="lazy" src={getProductImage(product)} width="330" />
-                  <img alt="Товар" class="img-hover" height="440" loading="lazy" src={getProductHoverImage(product)} width="330" />
+                  <img alt="Товар" class="img-product" height="440" loading="lazy" sizes={productImageSizes} src={getProductCardImage(product, 330)} srcset={getProductCardSrcset(product)} width="330" />
+                  <img alt="Товар" class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
                 </a>
               </div>
               <div class="card-product_info">
@@ -100,8 +108,8 @@ const visibleProducts = categoryProducts.length ? categoryProducts : products;
             <div class="card-product grid" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
               <div class="card-product_wrapper">
                 <a class="product-img" href={`/product/${product.slug}/`}>
-                  <img alt="Товар" class="img-product" height="440" loading="lazy" src={getProductImage(product)} width="330" />
-                  <img alt="Товар" class="img-hover" height="440" loading="lazy" src={getProductHoverImage(product)} width="330" />
+                  <img alt="Товар" class="img-product" height="440" loading="lazy" sizes={productImageSizes} src={getProductCardImage(product, 330)} srcset={getProductCardSrcset(product)} width="330" />
+                  <img alt="Товар" class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
                 </a>
                 <ul class="product-action_list">
                   <li class="wishlist"><a class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>

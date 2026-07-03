@@ -3,6 +3,7 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import posts from "../../data/blog.json";
 import products from "../../data/products.json";
 import { getPostImage, getPostUrl } from "../../lib/blog.js";
+import { getImageSrcset, getImageVariant } from "../../lib/catalog.js";
 
 export function getStaticPaths() {
   return posts.map((post) => ({
@@ -35,7 +36,15 @@ const relatedPosts = posts.filter((item) => item.slug !== post.slug).slice(0, 3)
     <div class="container">
       <article class="main-blog-single">
         <div class="blog-image">
-          <img alt={post.title} height="680" loading="lazy" src={getPostImage(post, products)} width="1410" />
+          <img
+            alt={post.title}
+            height="680"
+            loading="lazy"
+            sizes="(max-width: 767px) 100vw, 900px"
+            src={getImageVariant(getPostImage(post, products), 705)}
+            srcset={getImageSrcset(getPostImage(post, products), [440, 705])}
+            width="1410"
+          />
         </div>
         <div class="blog-content">
           <div class="blog-heading">
@@ -60,7 +69,15 @@ const relatedPosts = posts.filter((item) => item.slug !== post.slug).slice(0, 3)
         {relatedPosts.map((item) => (
           <article class="article-blog hover-img">
             <a class="blog-image img-style" href={getPostUrl(item)}>
-              <img alt={item.title} height="280" loading="lazy" src={getPostImage(item, products)} width="450" />
+              <img
+                alt={item.title}
+                height="280"
+                loading="lazy"
+                sizes="(max-width: 575px) 100vw, (max-width: 991px) 45vw, 330px"
+                src={getImageVariant(getPostImage(item, products), 330)}
+                srcset={getImageSrcset(getPostImage(item, products), [220, 330, 440, 705])}
+                width="450"
+              />
             </a>
             <div class="blog-content">
               <p class="entry-date text-caption-01 fw-semibold cl-text-3">{item.date}</p>

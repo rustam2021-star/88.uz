@@ -2,6 +2,7 @@
 import posts from "../data/blog.json";
 import products from "../data/products.json";
 import { getPostImage, getPostUrl } from "../lib/blog.js";
+import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
 ---
 <section class="section-insights flat-spacing">
   <div class="container">
@@ -15,7 +16,15 @@ import { getPostImage, getPostUrl } from "../lib/blog.js";
       {posts.slice(0, 3).map((post) => (
         <article class="article-blog hover-img wow fadeInUp">
           <a class="blog-image img-style" href={getPostUrl(post)}>
-            <img alt={post.title} height="320" loading="lazy" src={getPostImage(post, products)} width="520" />
+            <img
+              alt={post.title}
+              height="320"
+              loading="lazy"
+              sizes="(max-width: 575px) 100vw, (max-width: 991px) 45vw, 330px"
+              src={getImageVariant(getPostImage(post, products), 330)}
+              srcset={getImageSrcset(getPostImage(post, products), [220, 330, 440, 705])}
+              width="520"
+            />
             <div class="wrap-tags">
               <span class="tag text-caption-02 fw-semibold">{post.category}</span>
             </div>

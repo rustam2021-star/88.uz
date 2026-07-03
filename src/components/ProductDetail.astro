@@ -1,6 +1,6 @@
 ---
 import ProductSlide from "./ProductSlide.astro";
-import { STORE_PHONE, formatPrice, getOrderUrl, getProductImage } from "../lib/catalog.js";
+import { STORE_PHONE, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductImage } from "../lib/catalog.js";
 
 const { product, category, relatedProducts = [], recentlyProducts = [] } = Astro.props;
 const price = formatPrice(product.price, product.currency);
@@ -61,7 +61,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                   {gallery.map((image) => (
                     <div class="swiper-slide" data-color="default" data-size="default">
                       <a class="item" data-pswp-height="768px" data-pswp-width="576px" href={image} target="_blank">
-                        <img alt="Товар" class="tf-image-zoom" data-zoom={image} height="768" loading="lazy" src={image} width="576" />
+                        <img alt="Товар" class="tf-image-zoom" data-zoom={image} height="768" loading="lazy" sizes="(max-width: 767px) 100vw, 576px" src={getImageVariant(image, 705)} srcset={getImageSrcset(image, [440, 705])} width="576" />
                       </a>
                     </div>
                   ))}
@@ -73,7 +73,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                 {gallery.map((image) => (
                   <div class="swiper-slide stagger-item">
                     <div class="item">
-                      <img alt="Изображение" height="110" loading="lazy" src={image} width="82" />
+                      <img alt="Изображение" height="110" loading="lazy" sizes="82px" src={getImageVariant(image, 88)} srcset={getImageSrcset(image, [88, 160])} width="82" />
                     </div>
                   </div>
                 ))}

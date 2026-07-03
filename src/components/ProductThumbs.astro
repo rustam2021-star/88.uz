@@ -1,5 +1,5 @@
 ---
-import { CATALOG_URL, formatPrice, getOrderUrl, getProductImage } from "../lib/catalog.js";
+import { CATALOG_URL, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductCardImage, getProductImage } from "../lib/catalog.js";
 import products from "../data/products.json";
 
 const slides = products.slice(0, 4).map((product) => ({
@@ -27,7 +27,15 @@ const slides = products.slice(0, 4).map((product) => ({
         <div class="img-list wow fadeInUp">
           {slides.map((slide, index) => (
             <div class={`img_item btn-thumbs cs-pointer ${index === 0 ? "active" : ""}`}>
-              <img alt="Изображение" height="120" src={slide.thumb} width="120" />
+              <img
+                alt="Изображение"
+                height="120"
+                loading="lazy"
+                sizes="120px"
+                src={getImageVariant(slide.thumb, 160)}
+                srcset={getImageSrcset(slide.thumb, [88, 160])}
+                width="120"
+              />
             </div>
           ))}
         </div>
@@ -44,11 +52,19 @@ const slides = products.slice(0, 4).map((product) => ({
               <div class="swiper-slide">
                 <div class="wg-thumb-v1">
                   <div class="thumb-image">
-                    <img alt="Изображение" height="546" loading="lazy" src={slide.image} width="705" />
+                    <img
+                      alt="Изображение"
+                      height="546"
+                      loading="lazy"
+                      sizes="(max-width: 767px) 90vw, 440px"
+                      src={getImageVariant(slide.image, 440)}
+                      srcset={getImageSrcset(slide.image, [330, 440, 705])}
+                      width="705"
+                    />
                   </div>
                   <div class="thumb-prd">
                     <div class="prd_image">
-                      <img alt="Изображение" height="88" loading="lazy" src={getProductImage(slide.product)} width="88" />
+                      <img alt="Изображение" height="88" loading="lazy" sizes="88px" src={getProductCardImage(slide.product, 88)} srcset={getImageSrcset(getProductImage(slide.product), [88, 160])} width="88" />
                     </div>
                     <div class="prd_info">
                       <a class="name fw-medium link lh-24 text-line-clamp-2" href={`/product/${slide.product.slug}/`}>

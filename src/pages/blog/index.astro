@@ -3,6 +3,7 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import posts from "../../data/blog.json";
 import products from "../../data/products.json";
 import { getBlogCategories, getPostImage, getPostUrl } from "../../lib/blog.js";
+import { getImageSrcset, getImageVariant } from "../../lib/catalog.js";
 
 const blogCategories = getBlogCategories(posts);
 const recentPosts = posts.slice(0, 4);
@@ -35,7 +36,15 @@ const recentPosts = posts.slice(0, 4);
             {posts.map((post) => (
               <article class="article-blog hover-img wow fadeInUp">
                 <a class="blog-image img-style" href={getPostUrl(post)}>
-                  <img alt={post.title} height="320" loading="lazy" src={getPostImage(post, products)} width="520" />
+                  <img
+                    alt={post.title}
+                    height="320"
+                    loading="lazy"
+                    sizes="(max-width: 575px) 100vw, (max-width: 991px) 45vw, 330px"
+                    src={getImageVariant(getPostImage(post, products), 330)}
+                    srcset={getImageSrcset(getPostImage(post, products), [220, 330, 440, 705])}
+                    width="520"
+                  />
                   <div class="wrap-tags">
                     <span class="tag text-caption-02 fw-semibold">{post.category}</span>
                   </div>
@@ -83,7 +92,7 @@ const recentPosts = posts.slice(0, 4);
                 {recentPosts.map((post) => (
                   <div class="recent-item">
                     <a class="image" href={getPostUrl(post)}>
-                      <img alt={post.title} height="88" loading="lazy" src={getPostImage(post, products)} width="88" />
+                      <img alt={post.title} height="88" loading="lazy" sizes="88px" src={getImageVariant(getPostImage(post, products), 88)} srcset={getImageSrcset(getPostImage(post, products), [88, 160])} width="88" />
                     </a>
                     <div class="content">
                       <p class="meta-date text-caption-01 cl-text-3">{post.date}</p>

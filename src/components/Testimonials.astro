@@ -1,5 +1,5 @@
 ---
-import { formatPrice, getProductImage } from "../lib/catalog.js";
+import { formatPrice, getImageSrcset, getProductCardImage, getProductImage } from "../lib/catalog.js";
 import products from "../data/products.json";
 
 const avatars = [
@@ -21,6 +21,8 @@ const authors = ["Алексей Миронов", "Мадина Каримова
 const testimonials = products.slice(0, 4).map((product, index) => ({
   avatar: avatars[index],
   productImage: getProductImage(product),
+  productImageSmall: getProductCardImage(product, 88),
+  productImageSrcset: getImageSrcset(getProductImage(product), [88, 160]),
   product: product.title,
   price: formatPrice(product.price, product.currency),
   slug: product.slug,
@@ -59,7 +61,7 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
             <p class="tes_text h5">{item.review}</p>
             <div class="tes_product">
               <a class="product-image flex-shrink-0" href={`/product/${item.slug}/`}>
-                <img alt={item.product} height="60" loading="lazy" src={item.productImage} width="60" />
+                <img alt={item.product} height="60" loading="lazy" sizes="60px" src={item.productImageSmall} srcset={item.productImageSrcset} width="60" />
               </a>
               <div class="product-infor">
                 <a class="prd_name link fw-medium lh-24 text-line-clamp-1" href={`/product/${item.slug}/`}>

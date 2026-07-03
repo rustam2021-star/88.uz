@@ -1,5 +1,6 @@
 ---
 import categories from "../data/categories.json";
+import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
 ---
 <section class="section-categories-construction flat-spacing">
   <div class="container">
@@ -13,7 +14,15 @@ import categories from "../data/categories.json";
       {categories.map((category) => (
         <a class="category-construction_item hover-img wow fadeInUp" href={`/${category.slug}/`}>
           <div class="cate-image img-style">
-            <img alt={category.title} height="600" loading="lazy" src={category.image} width="600" />
+            <img
+              alt={category.title}
+              height="220"
+              loading="lazy"
+              sizes="(max-width: 575px) 160px, 220px"
+              src={getImageVariant(category.image, 220)}
+              srcset={getImageSrcset(category.image, [160, 220, 320])}
+              width="220"
+            />
           </div>
           <div class="cate-content text-center">
             <h4 class="cate_name link h5">{category.title}</h4>

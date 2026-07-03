@@ -1,19 +1,29 @@
 ---
-import { formatPrice, getOrderUrl, getProductHoverImage, getProductImage, getProductUrl } from "../lib/catalog.js";
+import {
+  formatPrice,
+  getOrderUrl,
+  getProductCardImage,
+  getProductCardSrcset,
+  getProductHoverCardImage,
+  getProductHoverCardSrcset,
+  getProductUrl
+} from "../lib/catalog.js";
 
-const { product, className = "wow fadeInUp" } = Astro.props;
+const { product, className = "wow fadeInUp", imageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px" } = Astro.props;
 const productUrl = getProductUrl(product);
 const orderUrl = getOrderUrl(product);
-const productImage = getProductImage(product);
-const hoverImage = getProductHoverImage(product);
+const productImage = getProductCardImage(product, 330);
+const productSrcset = getProductCardSrcset(product);
+const hoverImage = getProductHoverCardImage(product, 330);
+const hoverSrcset = getProductHoverCardSrcset(product);
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 ---
 <div class={`card-product ${className}`}>
   <div class="card-product_wrapper square">
     <a class="product-img" href={productUrl}>
-      <img alt="Товар" class="img-product" height="330" loading="lazy" src={productImage} width="330" />
-      <img alt="Товар" class="img-hover" height="330" loading="lazy" src={hoverImage} width="330" />
+      <img alt="Товар" class="img-product" height="330" loading="lazy" sizes={imageSizes} src={productImage} srcset={productSrcset} width="330" />
+      <img alt="Товар" class="img-hover" height="330" loading="lazy" sizes={imageSizes} src={hoverImage} srcset={hoverSrcset} width="330" />
     </a>
     <ul class="product-action_list">
       <li class="wishlist">

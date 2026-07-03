@@ -2,9 +2,12 @@
 import ProductCard from "./ProductCard.astro";
 import categories from "../data/categories.json";
 import products from "../data/products.json";
+import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
 
 const tabSlugs = ["measuring-tools", "thermal-detectors", "auto-service", "tools-equipment"];
 const fallbackProducts = products.filter((product) => product.in_stock !== false);
+const bannerImage = "/assets/theme/assets/images/section/banner-54.jpg";
+const compactProductSizes = "(max-width: 575px) 46vw, (max-width: 991px) 30vw, 180px";
 
 const tabCopy = {
   "measuring-tools": {
@@ -92,7 +95,9 @@ const tabs = tabSlugs
                     alt={tab.banner.title}
                     height="608"
                     loading="lazy"
-                    src="/assets/theme/assets/images/section/banner-54.jpg"
+                    sizes="(max-width: 767px) 100vw, 450px"
+                    src={getImageVariant(bannerImage, 450)}
+                    srcset={getImageSrcset(bannerImage, [360, 450, 540])}
                     width="450"
                   />
                 </a>
@@ -105,7 +110,7 @@ const tabs = tabSlugs
 
               <div class="tf-grid-layout tf-col-2 gap-20">
                 {tab.items.slice(0, 2).map((product) => (
-                  <ProductCard className="product-style_stroke wow fadeInUp" product={product} />
+                  <ProductCard className="product-style_stroke wow fadeInUp" imageSizes={compactProductSizes} product={product} />
                 ))}
               </div>
             </div>
@@ -113,7 +118,7 @@ const tabs = tabSlugs
             <div class="col-prd-2">
               <div class="tf-grid-layout tf-col-2 lg-col-3 gap-20">
                 {tab.items.slice(2, 8).map((product) => (
-                  <ProductCard className="product-style_stroke wow fadeInUp" product={product} />
+                  <ProductCard className="product-style_stroke wow fadeInUp" imageSizes={compactProductSizes} product={product} />
                 ))}
               </div>
             </div>

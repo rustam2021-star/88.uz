@@ -1,6 +1,6 @@
 ---
 import ProductCard from "./ProductCard.astro";
-import { CATALOG_URL, formatPrice, getOrderUrl } from "../lib/catalog.js";
+import { CATALOG_URL, formatPrice, getImageSrcset, getImageVariant, getOrderUrl } from "../lib/catalog.js";
 import products from "../data/products.json";
 
 const bundleProducts = products.slice(4, 7);
@@ -60,7 +60,7 @@ const orderUrl = getOrderUrl(bundleProducts[0]);
                 {bundleItems.map((item) => (
                   <li class="bundle-prd file-delete">
                     <div class="prd-image">
-                      <img alt="Изображение" height="80" loading="lazy" src={item.product.main_image} width="80" />
+                      <img alt="Изображение" height="80" loading="lazy" sizes="80px" src={getImageVariant(item.product.main_image, 88)} srcset={getImageSrcset(item.product.main_image, [88, 160])} width="80" />
                     </div>
                     <div class="prd-info">
                       <a class="info_name link text-body-1" href={`/product/${item.product.slug}/`}>{item.short}</a>

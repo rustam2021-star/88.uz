@@ -1,4 +1,6 @@
 ---
+import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
+
 const slides = [
   {
     image: "/assets/theme/assets/images/slider/slider-34.jpg",
@@ -51,7 +53,9 @@ const slides = [
                   fetchpriority={index === 0 ? "high" : "auto"}
                   height="680"
                   loading={index === 0 ? "eager" : "lazy"}
-                  src={slide.image}
+                  sizes="100vw"
+                  src={getImageVariant(slide.image, 1200)}
+                  srcset={getImageSrcset(slide.image, [768, 1200, 1770])}
                   width="1770"
                 />
               </div>

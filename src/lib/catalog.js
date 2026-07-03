@@ -33,6 +33,47 @@ export function getProductHoverImage(product) {
   return product?.hover_image || getProductImage(product);
 }
 
+export function getImageVariant(src, width) {
+  if (!src || !width || /^https?:\/\//i.test(src) || src.includes("/optimized/")) {
+    return src;
+  }
+
+  const queryIndex = src.indexOf("?");
+  const cleanSrc = queryIndex >= 0 ? src.slice(0, queryIndex) : src;
+  const slashIndex = cleanSrc.lastIndexOf("/");
+  const dotIndex = cleanSrc.lastIndexOf(".");
+
+  if (slashIndex < 0 || dotIndex <= slashIndex) {
+    return src;
+  }
+
+  return `${cleanSrc.slice(0, slashIndex + 1)}optimized/${cleanSrc.slice(slashIndex + 1, dotIndex)}-${width}.webp`;
+}
+
+export function getImageSrcset(src, widths) {
+  if (!src || !Array.isArray(widths)) {
+    return "";
+  }
+
+  return widths.map((width) => `${getImageVariant(src, width)} ${width}w`).join(", ");
+}
+
+export function getProductCardImage(product, width = 330) {
+  return getImageVariant(getProductImage(product), width);
+}
+
+export function getProductCardSrcset(product) {
+  return getImageSrcset(getProductImage(product), [220, 330, 440]);
+}
+
+export function getProductHoverCardImage(product, width = 330) {
+  return getImageVariant(getProductHoverImage(product), width);
+}
+
+export function getProductHoverCardSrcset(product) {
+  return getImageSrcset(getProductHoverImage(product), [220, 330, 440]);
+}
+
 export function getOrderUrl(product) {
   const text = product?.title
     ? `Здравствуйте! Хочу заказать: ${product.title}`

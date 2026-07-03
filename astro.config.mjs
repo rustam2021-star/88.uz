@@ -5,5 +5,8 @@ export default defineConfig({
     enabled: false
   },
   output: "static",
+  build: {
+    inlineStylesheets: "always"
+  },
   site: "https://example.com"
 });
