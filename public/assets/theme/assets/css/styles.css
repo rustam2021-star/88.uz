@@ -17694,6 +17694,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   height: 100%;
   object-fit: cover;
   aspect-ratio: 1.2912087912;
+  transform: scale(0.8);
 }
 .wg-thumb-v1 .thumb-prd {
   display: flex;
