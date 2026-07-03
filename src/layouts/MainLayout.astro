@@ -11,6 +11,11 @@ const { title, description, productAssets = false } = Astro.props;
     <TemplateHead title={title} description={description} productAssets={productAssets} />
   </head>
   <body>
+    <noscript>
+      <div>
+        <img src="https://mc.yandex.ru/watch/110354796" style="position:absolute; left:-9999px;" alt="" />
+      </div>
+    </noscript>
     <button id="goTop">
       <span class="border-progress"></span>
       <span class="ic-wrap">
