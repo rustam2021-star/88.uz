@@ -5,14 +5,6 @@ const {
   productAssets = false
 } = Astro.props;
 
-const fontStylesheets = [
-  "/assets/theme/fonts.googleapis.com/css2-50a88689.css",
-  "/assets/theme/fonts.googleapis.com/css2-71f10848.css",
-  "/assets/theme/fonts.googleapis.com/css2-8c5c7d97.css",
-  "/assets/theme/fonts.googleapis.com/css2-11f99288.css",
-  "/assets/theme/fonts.googleapis.com/css2-2f371e88.css"
-];
-
 const productStylesheets = productAssets
   ? [
       "/assets/theme/assets/css/drift-basic.min.css",
@@ -20,42 +12,69 @@ const productStylesheets = productAssets
     ]
   : [];
 
-const deferredStylesheets = [
+const stylesheets = [
   "/assets/theme/assets/css/bootstrap.min.css",
   "/assets/theme/assets/css/swiper-bundle.min.css",
   ...productStylesheets,
   "/assets/theme/assets/css/animate.css",
-  ...fontStylesheets,
+  "/assets/theme/assets/fonts/fonts.css",
   "/assets/theme/assets/icon/icomoon/style.css",
   "/assets/theme/assets/css/styles.css"
 ];
-
-const noscriptStylesheets = deferredStylesheets
-  .map((href) => `<link rel="stylesheet" href="${href}">`)
-  .join("");
 ---
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-88QZEBN3GG"></script>
 <script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){window.dataLayer.push(arguments);}
-  gtag('js', new Date());
+  (function () {
+    var analyticsLoaded = false;
 
-  gtag('config', 'G-88QZEBN3GG');
-</script>
-<!-- Yandex.Metrika counter -->
-<script is:inline type="text/javascript">
-  (function(m,e,t,r,i,k,a){
-    m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-  })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110354796', 'ym');
+    function loadScript(src) {
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = src;
+      document.head.appendChild(script);
+    }
 
-  ym(110354796, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    function loadAnalytics() {
+      if (analyticsLoaded) return;
+      analyticsLoaded = true;
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", "G-88QZEBN3GG");
+      loadScript("https://www.googletagmanager.com/gtag/js?id=G-88QZEBN3GG");
+
+      window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+      window.ym.l = 1 * new Date();
+      window.ym(110354796, "init", { ssr: true, webvisor: true, clickmap: true, ecommerce: "dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true });
+      loadScript("https://mc.yandex.ru/metrika/tag.js?id=110354796");
+    }
+
+    function scheduleAnalytics() {
+      var events = ["pointerdown", "keydown", "touchstart", "scroll"];
+      var timer = window.setTimeout(loadAnalytics, 8000);
+
+      function onFirstInteraction() {
+        window.clearTimeout(timer);
+        events.forEach(function (eventName) {
+          window.removeEventListener(eventName, onFirstInteraction);
+        });
+        loadAnalytics();
+      }
+
+      events.forEach(function (eventName) {
+        window.addEventListener(eventName, onFirstInteraction, { once: true, passive: true });
+      });
+    }
+
+    if (document.readyState === "complete") {
+      scheduleAnalytics();
+    } else {
+      window.addEventListener("load", scheduleAnalytics, { once: true });
+    }
+  })();
 </script>
-<!-- /Yandex.Metrika counter -->
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="shortcut icon" href="/assets/theme/assets/images/logo/favicon.svg" />
@@ -100,7 +119,6 @@ const noscriptStylesheets = deferredStylesheets
   @media (max-width:1199px){.d-xl-none{display:block!important}.header-center{display:none!important}}
   @media (max-width:767px){.sld_content{left:20px;right:20px;top:auto;bottom:48px;transform:none}.h1{font-size:36px}}
 </style>
-{deferredStylesheets.map((href) => (
-  <link rel="preload" href={href} as="style" onload="this.onload=null;this.rel='stylesheet'" />
+{stylesheets.map((href) => (
+  <link rel="stylesheet" href={href} />
 ))}
-<noscript set:html={noscriptStylesheets} />

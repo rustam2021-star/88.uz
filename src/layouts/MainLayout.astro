@@ -4,6 +4,61 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
 const { title, description, productAssets = false } = Astro.props;
+
+const themeScripts = [
+  "/assets/theme/assets/js/plugin/bootstrap.min.js",
+  "/assets/theme/assets/js/plugin/jquery.min.js",
+  "/assets/theme/assets/js/plugin/swiper-bundle.min.js",
+  "/assets/theme/assets/js/plugin/infinityslide.js",
+  "/assets/theme/assets/js/carousel.js",
+  "/assets/theme/assets/js/main.js",
+  "/assets/theme/assets/js/wishlist-local.js",
+  ...(productAssets
+    ? [
+        "/assets/theme/assets/js/plugin/drift.min.js",
+        "/assets/theme/assets/js/plugin/photoswipe-lightbox.umd.min.js",
+        "/assets/theme/assets/js/plugin/photoswipe.umd.min.js",
+        "/assets/theme/assets/js/zoom.js"
+      ]
+    : [])
+];
+
+const themeLoader = `
+(function () {
+  var scripts = ${JSON.stringify(themeScripts)};
+  var loaded = false;
+
+  function loadScript(src) {
+    return new Promise(function (resolve) {
+      var script = document.createElement("script");
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = resolve;
+      document.body.appendChild(script);
+    });
+  }
+
+  function loadThemeScripts() {
+    if (loaded) return;
+    loaded = true;
+    scripts.reduce(function (chain, src) {
+      return chain.then(function () {
+        return loadScript(src);
+      });
+    }, Promise.resolve());
+  }
+
+  function scheduleThemeScripts() {
+    window.setTimeout(loadThemeScripts, 1200);
+  }
+
+  if (document.readyState === "complete") {
+    scheduleThemeScripts();
+  } else {
+    window.addEventListener("load", scheduleThemeScripts, { once: true });
+  }
+})();
+`;
 ---
 <!doctype html>
 <html lang="ru">
@@ -32,17 +87,6 @@ const { title, description, productAssets = false } = Astro.props;
       <slot />
       <Footer />
     </main>
-    <script is:inline src="/assets/theme/assets/js/plugin/bootstrap.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/jquery.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/swiper-bundle.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/infinityslide.js"></script>
-    <script is:inline src="/assets/theme/assets/js/plugin/wow.min.js"></script>
-    <script is:inline src="/assets/theme/assets/js/carousel.js"></script>
-    <script is:inline src="/assets/theme/assets/js/main.js"></script>
-    <script is:inline src="/assets/theme/assets/js/wishlist-local.js"></script>
-    {productAssets && <script is:inline src="/assets/theme/assets/js/plugin/drift.min.js"></script>}
-    {productAssets && <script is:inline src="/assets/theme/assets/js/plugin/photoswipe-lightbox.umd.min.js"></script>}
-    {productAssets && <script is:inline src="/assets/theme/assets/js/plugin/photoswipe.umd.min.js"></script>}
-    {productAssets && <script is:inline src="/assets/theme/assets/js/zoom.js"></script>}
+    <script is:inline set:html={themeLoader}></script>
   </body>
 </html>

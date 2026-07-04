@@ -1,6 +1,9 @@
-$(window).on("load", function () {
+function initTfSwipers() {
     $(".tf-swiper").each(function (index, element) {
         var $this = $(element);
+        if ($this.data("tf-swiper-initialized")) return;
+        $this.data("tf-swiper-initialized", true);
+
         var laptop = $this.data("laptop") || 1;
         var preview = $this.data("preview") || 1;
         var tablet = $this.data("tablet") || 1;
@@ -155,7 +158,13 @@ $(window).on("load", function () {
                 $(".tf-swiper .card-product").eq(slideIndex).toggleClass("clicked");
             });
     });
-});
+}
+
+if (document.readyState === "complete") {
+    initTfSwipers();
+} else {
+    $(window).on("load", initTfSwipers);
+}
 
 if ($(".tf-sw-thumbs").length > 0) {
     var $this = $(".tf-sw-thumbs");

@@ -96,6 +96,14 @@ const slides = [
     cursor: grabbing;
   }
 
+  .construction-hero-swiper:not(.swiper-initialized) .swiper-slide:not(:first-child) {
+    display: none;
+  }
+
+  .construction-hero-swiper:not(.swiper-initialized) .swiper-wrapper {
+    transform: none !important;
+  }
+
   .construction-hero {
     position: relative;
   }
