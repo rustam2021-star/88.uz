@@ -28,9 +28,9 @@ const imageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px";
         <img alt="Товар" class="img-hover" height="440" loading="lazy" sizes={imageSizes} src={hoverImage} srcset={hoverSrcset} width="330" />
       </a>
       <ul class="product-action_list">
-        <li class="wishlist"><a class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
-        <li class="compare"><a class="hover-tooltip tooltip-left box-icon" data-bs-toggle="offcanvas" href="#compare"><span class="icon icon-ArrowsLeftRight"></span><span class="tooltip">Сравнить</span></a></li>
-        <li><a class="hover-tooltip tooltip-left box-icon" href={productUrl}><span class="icon icon-Eye"></span><span class="tooltip">Быстрый просмотр</span></a></li>
+        <li class="wishlist"><a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
+        <li class="compare"><a aria-label={`Сравнить: ${product.title}`} class="hover-tooltip tooltip-left box-icon" data-bs-toggle="offcanvas" href="#compare"><span class="icon icon-ArrowsLeftRight"></span><span class="tooltip">Сравнить</span></a></li>
+        <li><a aria-label={`Быстрый просмотр: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href={productUrl}><span class="icon icon-Eye"></span><span class="tooltip">Быстрый просмотр</span></a></li>
       </ul>
       {product.badges?.length > 0 && <ul class="product-badge_list">{product.badges.map((badge) => <li class="product-badge_item text-caption-01 new">{badge}</li>)}</ul>}
       <div class="product-action_bot"><a class="tf-btn btn-white small w-100" href={orderUrl} rel="noopener" target="_blank">Заказать</a></div>

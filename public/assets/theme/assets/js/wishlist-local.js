@@ -40,6 +40,10 @@
     return element ? element.textContent.replace(/\s+/g, " ").trim() : "";
   }
 
+  function formatProductActionLabel(action, productName) {
+    return productName ? action + ": " + productName : action;
+  }
+
   function getImage(card) {
     var image = card.querySelector(".img-product, .product-img img, img");
     if (!image) return "";
@@ -72,7 +76,7 @@
     };
   }
 
-  function setButtonState(trigger, isSaved) {
+  function setButtonState(trigger, isSaved, productName) {
     trigger.classList.toggle("addwishlist", isSaved);
 
     var icon = trigger.querySelector(".icon");
@@ -81,9 +85,17 @@
       icon.classList.toggle("icon-trash", isSaved);
     }
 
+    var tooltipText = isSaved ? "Удалить из избранного" : "В избранное";
+    var labelText = isSaved ? "Удалить из избранного" : "Добавить в избранное";
+
     var tooltip = trigger.querySelector(".tooltip");
     if (tooltip) {
-      tooltip.textContent = isSaved ? "Удалить из избранного" : "В избранное";
+      tooltip.textContent = tooltipText;
+    }
+
+    var link = trigger.matches("a") ? trigger : trigger.querySelector("a");
+    if (link) {
+      link.setAttribute("aria-label", formatProductActionLabel(labelText, productName));
     }
   }
 
@@ -96,7 +108,7 @@
     document.querySelectorAll(".card-product .wishlist").forEach(function (trigger) {
       var product = getProductFromCard(trigger);
       if (!product) return;
-      setButtonState(trigger, ids.indexOf(product.id) !== -1);
+      setButtonState(trigger, ids.indexOf(product.id) !== -1, product.name);
     });
   }
 
@@ -119,12 +131,12 @@
             hoverImage +
           "</a>" +
           '<ul class="product-action_list">' +
-            '<li><a class="hover-tooltip tooltip-left box-icon" href="' + escapeHtml(item.url || "#") + '">' +
+            '<li><a aria-label="' + escapeHtml(formatProductActionLabel("Смотреть товар", item.name)) + '" class="hover-tooltip tooltip-left box-icon" href="' + escapeHtml(item.url || "#") + '">' +
               '<span class="icon icon-Eye"></span>' +
               '<span class="tooltip">Смотреть товар</span>' +
             "</a></li>" +
           "</ul>" +
-          '<button class="product-action_remove remove box-icon hover-tooltip tooltip-left" type="button" data-wishlist-remove="' + escapeHtml(item.id) + '">' +
+          '<button aria-label="' + escapeHtml(formatProductActionLabel("Удалить из избранного", item.name)) + '" class="product-action_remove remove box-icon hover-tooltip tooltip-left" type="button" data-wishlist-remove="' + escapeHtml(item.id) + '">' +
             '<i class="icon icon-trash"></i>' +
             '<span class="tooltip">Удалить</span>' +
           "</button>" +

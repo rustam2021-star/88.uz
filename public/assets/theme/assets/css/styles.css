@@ -3585,6 +3585,7 @@ header.header-sticky.tf-header-landing {
   transform: scale(0.9);
 }
 .article-blog .entry-date {
+  color: var(--text-2) !important;
   margin-bottom: 12px;
 }
 .article-blog .entry-title {
@@ -3754,6 +3755,7 @@ header.header-sticky.tf-header-landing {
   aspect-ratio: 1;
 }
 .sb-recent .meta-date {
+  color: var(--text-2) !important;
   margin-bottom: 4px;
 }
 .sb-recent .meta-name {

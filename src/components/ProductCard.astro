@@ -27,19 +27,19 @@ const oldPrice = product.old_price ? formatPrice(product.old_price, product.curr
     </a>
     <ul class="product-action_list">
       <li class="wishlist">
-        <a class="hover-tooltip tooltip-left box-icon" href="#;">
+        <a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#;">
           <span class="icon icon-heart"></span>
           <span class="tooltip">В избранное</span>
         </a>
       </li>
       <li class="compare">
-        <a class="hover-tooltip tooltip-left box-icon" href="#compare">
+        <a aria-label={`Сравнить: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#compare">
           <span class="icon icon-ArrowsLeftRight"></span>
           <span class="tooltip">Сравнить</span>
         </a>
       </li>
       <li>
-        <a class="hover-tooltip tooltip-left box-icon" href={productUrl}>
+        <a aria-label={`Быстрый просмотр: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href={productUrl}>
           <span class="icon icon-Eye"></span>
           <span class="tooltip">Быстрый просмотр</span>
         </a>
