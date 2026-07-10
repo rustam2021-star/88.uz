@@ -7,6 +7,8 @@ import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
 const tabSlugs = ["measuring-tools", "thermal-detectors", "auto-service", "tools-equipment"];
 const fallbackProducts = products.filter((product) => product.in_stock !== false);
 const bannerImage = "/assets/theme/assets/images/section/banner-54.jpg";
+const thermalImagerBannerImage = "/assets/theme/assets/images/section/banner-thermal-imager.webp";
+const thermalImagerUrl = "/product/promyshlennyi-teplovizor-uni-t-uti260b/";
 const compactProductSizes = "(max-width: 575px) 46vw, (max-width: 991px) 30vw, 180px";
 
 const tabCopy = {
@@ -51,6 +53,9 @@ const tabs = tabSlugs
         title: category.title,
         desc: category.description_top
       },
+      bannerImage: category.slug === "measuring-tools" ? thermalImagerBannerImage : bannerImage,
+      bannerUrl: category.slug === "measuring-tools" ? thermalImagerUrl : `/${category.slug}/`,
+      bannerCta: category.slug === "measuring-tools" ? "Смотреть товар" : "Смотреть раздел",
       items: getTabProducts(category.slug)
     };
   })
@@ -90,21 +95,21 @@ const tabs = tabSlugs
           <div class="wrap-prd">
             <div class="col-prd-1">
               <div class="banner-image-text type-abs style-18 v2 mb-20 best-sellers-banner">
-                <a class="bn-image img-style" href={tab.url}>
+                <a class="bn-image img-style" href={tab.bannerUrl}>
                   <img
                     alt={tab.banner.title}
-                    height="608"
+                    height="376"
                     loading="lazy"
                     sizes="(max-width: 767px) 100vw, 450px"
-                    src={getImageVariant(bannerImage, 450)}
-                    srcset={getImageSrcset(bannerImage, [360, 450, 540])}
-                    width="450"
+                    src={getImageVariant(tab.bannerImage, 450)}
+                    srcset={getImageSrcset(tab.bannerImage, [360, 450, 540])}
+                    width="552"
                   />
                 </a>
                 <div class="bn-content wow fadeInUp">
-                  <a class="title text-white h3 fw-medium link mb-8" href={tab.url}>{tab.banner.title}</a>
+                  <a class="title text-white h3 fw-medium link mb-8" href={tab.bannerUrl}>{tab.banner.title}</a>
                   <p class="desc text-body-1 text-white mb-28">{tab.banner.desc}</p>
-                  <a class="tf-btn btn-white hv-primary" href={tab.url}>Смотреть раздел</a>
+                  <a class="tf-btn btn-white hv-primary" href={tab.bannerUrl}>{tab.bannerCta}</a>
                 </div>
               </div>
 

@@ -67,6 +67,7 @@ for (const src of [
 }
 
 addImage("/assets/theme/assets/images/section/banner-54.jpg", bannerWidths, 74);
+addImage("/assets/theme/assets/images/section/banner-thermal-imager.webp", bannerWidths, 76);
 
 const uniqueTasks = new Map();
 
