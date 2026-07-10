@@ -10,6 +10,13 @@ import {
 } from "../lib/catalog.js";
 import categories from "../data/categories.json";
 import products from "../data/products.json";
+import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
+import {
+  getBreadcrumbItems,
+  getCategorySeo,
+  getCollectionSchema,
+  getPageSchema
+} from "../lib/seo.js";
 
 export function getStaticPaths() {
   return categories.map((category) => ({
@@ -20,19 +27,28 @@ export function getStaticPaths() {
 
 const { category } = Astro.props;
 const categoryProducts = products.filter((product) => product.category_slug === category.slug);
-const visibleProducts = categoryProducts.length ? categoryProducts : products;
+const seo = getCategorySeo(category);
+const breadcrumbs = getBreadcrumbItems([
+  { name: "Главная", url: "/" },
+  { name: "Каталог", url: "/catalog/" },
+  { name: category.title, url: `/${category.slug}/` }
+]);
+const visibleProducts = categoryProducts;
 const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px";
 ---
-<MainLayout title={category.seo_title} description={category.seo_description}>
+<MainLayout
+  title={seo.title}
+  description={seo.description}
+  canonicalPath={seo.url}
+  robots={seo.robots}
+  ogImage={category.image}
+  jsonLd={getPageSchema({ seo, breadcrumbs, pageSchema: getCollectionSchema({ name: category.title, url: seo.url, products: categoryProducts }) })}
+>
   <section class="section-page-title text-center flat-spacing-2 pb-0">
     <div class="container">
       <div class="main-page-title">
-        <div class="breadcrumbs">
-          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
-          <i class="icon icon-CaretRightThin cl-text-3"></i>
-          <p class="text-caption-01">{category.title}</p>
-        </div>
-        <h3>{category.title}</h3>
+        <SeoBreadcrumbs items={breadcrumbs} />
+        <h1 class="h3">{category.title}</h1>
         <p class="text-body-1 cl-text-2">{category.description_top}</p>
       </div>
     </div>
@@ -85,8 +101,8 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
             <div class="card-product product-style_list" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
               <div class="card-product_wrapper">
                 <a class="product-img" href={`/product/${product.slug}/`}>
-                  <img alt="Товар" class="img-product" height="440" loading="lazy" sizes={productImageSizes} src={getProductCardImage(product, 330)} srcset={getProductCardSrcset(product)} width="330" />
-                  <img alt="Товар" class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
+                  <img alt={`${product.title}, основное изображение`} class="img-product" height="440" loading="lazy" sizes={productImageSizes} src={getProductCardImage(product, 330)} srcset={getProductCardSrcset(product)} width="330" />
+                  <img alt={`${product.title}, вид при наведении`} class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
                 </a>
               </div>
               <div class="card-product_info">
@@ -96,6 +112,7 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
                   <span class="price-new text-primary fw-semibold">{formatPrice(product.price, product.currency)}</span>
                   {product.old_price && <span class="price-old text-caption-01 cl-text-3">{formatPrice(product.old_price, product.currency)}</span>}
                 </div>
+                <p class="text-caption-01 cl-text-2">{product.brand} · {product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</p>
                 <p class="description text-caption-01 mb-10">{product.description}</p>
                 <a class="tf-btn btn-fill" href={`/product/${product.slug}/`}>Смотреть товар</a>
               </div>
@@ -108,8 +125,8 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
             <div class="card-product grid" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
               <div class="card-product_wrapper">
                 <a class="product-img" href={`/product/${product.slug}/`}>
-                  <img alt="Товар" class="img-product" height="440" loading="lazy" sizes={productImageSizes} src={getProductCardImage(product, 330)} srcset={getProductCardSrcset(product)} width="330" />
-                  <img alt="Товар" class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
+                  <img alt={`${product.title}, основное изображение`} class="img-product" height="440" loading="lazy" sizes={productImageSizes} src={getProductCardImage(product, 330)} srcset={getProductCardSrcset(product)} width="330" />
+                  <img alt={`${product.title}, вид при наведении`} class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
                 </a>
                 <ul class="product-action_list">
                   <li class="wishlist"><a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
@@ -126,6 +143,7 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
                   <span class="price-new text-primary fw-semibold">{formatPrice(product.price, product.currency)}</span>
                   {product.old_price && <span class="price-old text-caption-01 cl-text-3">{formatPrice(product.old_price, product.currency)}</span>}
                 </div>
+                <p class="text-caption-01 cl-text-2">{product.brand} · {product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</p>
               </div>
             </div>
           ))}
@@ -133,6 +151,16 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
       </div>
     </div>
   </div>
+
+  <section class="flat-spacing pt-0">
+    <div class="container">
+      <div class="main-page-title">
+        <h2>О категории {category.title.toLocaleLowerCase("ru-RU")}</h2>
+        <p class="text-body-1 cl-text-2">{category.description_top}</p>
+        <p class="text-body-1 cl-text-2">{category.description_bottom}</p>
+      </div>
+    </div>
+  </section>
 
   <div class="offcanvas offcanvas-start canvas-filter" id="filterShop">
     <div class="canvas-wrapper">

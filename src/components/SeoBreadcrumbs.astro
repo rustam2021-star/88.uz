@@ -1,0 +1,17 @@
+---
+const { items = [] } = Astro.props;
+---
+{items.length > 0 && (
+  <nav aria-label="Хлебные крошки" class="breadcrumbs">
+    {items.map((item, index) => (
+      <>
+        {index > 0 && <i aria-hidden="true" class="icon icon-CaretRightThin cl-text-3"></i>}
+        {index === items.length - 1 ? (
+          <span aria-current="page" class="text-caption-01 cl-text-3">{item.name}</span>
+        ) : (
+          <a class="text-caption-01 cl-text-3 link" href={item.url}>{item.name}</a>
+        )}
+      </>
+    ))}
+  </nav>
+)}

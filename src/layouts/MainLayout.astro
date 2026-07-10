@@ -3,7 +3,16 @@ import TemplateHead from "../components/TemplateHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-const { title, description, productAssets = false } = Astro.props;
+const {
+  title,
+  description,
+  canonicalPath,
+  robots = "index, follow",
+  ogImage,
+  ogType = "website",
+  jsonLd,
+  productAssets = false
+} = Astro.props;
 
 const themeScripts = [
   "/assets/theme/assets/js/plugin/bootstrap.min.js",
@@ -63,7 +72,16 @@ const themeLoader = `
 <!doctype html>
 <html lang="ru">
   <head>
-    <TemplateHead title={title} description={description} productAssets={productAssets} />
+    <TemplateHead
+      title={title}
+      description={description}
+      canonicalPath={canonicalPath}
+      robots={robots}
+      ogImage={ogImage}
+      ogType={ogType}
+      jsonLd={jsonLd}
+      productAssets={productAssets}
+    />
   </head>
   <body>
     <noscript>

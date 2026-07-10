@@ -63,9 +63,11 @@ const slides = [
               <div class="sld_content type-4">
                 <div class="content-sld_wrap">
                   <h6 class={`mb-12 fade-item fade-item-1 ${slide.dark ? "text-white" : ""}`}>{slide.eyebrow}</h6>
-                  <a class={`h1 mb-20 fade-item fade-item-2 title link ${slide.dark ? "text-white" : ""}`} href="/catalog/">
-                    {slide.title}
-                  </a>
+                  {index === 0 ? (
+                    <h1 class={`h1 mb-20 fade-item fade-item-2 title ${slide.dark ? "text-white" : ""}`}>{slide.title}</h1>
+                  ) : (
+                    <h2 class={`h1 mb-20 fade-item fade-item-2 title ${slide.dark ? "text-white" : ""}`}>{slide.title}</h2>
+                  )}
                   <p class={`text-body-1 fade-item fade-item-3 mb-32 ${slide.dark ? "text-white" : ""}`}>
                     {slide.description}
                   </p>

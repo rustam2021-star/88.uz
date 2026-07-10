@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /wishlist/
+Disallow: /*?*
 
 Sitemap: https://88.uz/sitemap.xml

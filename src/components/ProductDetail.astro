@@ -1,8 +1,9 @@
 ---
 import ProductSlide from "./ProductSlide.astro";
+import SeoBreadcrumbs from "./SeoBreadcrumbs.astro";
 import { STORE_PHONE, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductImage } from "../lib/catalog.js";
 
-const { product, category, relatedProducts = [], recentlyProducts = [] } = Astro.props;
+const { product, category, breadcrumbs = [], relatedProducts = [], recentlyProducts = [] } = Astro.props;
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 const gallery = product.gallery?.length ? product.gallery : [getProductImage(product)];
@@ -33,13 +34,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
 <div class="section-page-title-single flat-spacing-3">
   <div class="container">
     <div class="main-page-title">
-      <div class="breadcrumbs">
-        <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
-        <i class="icon icon-CaretRightThin cl-text-3"></i>
-        <a class="text-caption-01 cl-text-3 link" href={`/${category.slug}/`}>{category.title}</a>
-        <i class="icon icon-CaretRightThin cl-text-3"></i>
-        <p class="text-caption-01">{product.title}</p>
-      </div>
+      <SeoBreadcrumbs items={breadcrumbs} />
       <div class="nav-post-list">
         <a class="link nav-post-item nav-post-prev" href={`/product/${recently[0]?.slug || product.slug}/`}><i class="icon icon-CaretLeft"></i></a>
         <a class="link nav-all-post nav-post-link" href={`/${category.slug}/`}><i class="icon icon-SquaresFour"></i></a>
@@ -58,10 +53,10 @@ const phoneUrl = `tel:${STORE_PHONE}`;
             <div class="flat-wrap-media-product">
               <div class="swiper tf-product-media-main" data-spacing="0" dir="ltr" id="gallery-swiper-started">
                 <div class="swiper-wrapper">
-                  {gallery.map((image) => (
+                  {gallery.map((image, index) => (
                     <div class="swiper-slide" data-color="default" data-size="default">
                       <a class="item" data-pswp-height="768px" data-pswp-width="576px" href={image} target="_blank">
-                        <img alt="Товар" class="tf-image-zoom" data-zoom={image} height="768" loading="lazy" sizes="(max-width: 767px) 100vw, 576px" src={getImageVariant(image, 705)} srcset={getImageSrcset(image, [440, 705])} width="576" />
+                        <img alt={`${product.title}, ${index === 0 ? "основное изображение" : `вид ${index + 1}`}`} class="tf-image-zoom" data-zoom={image} fetchpriority={index === 0 ? "high" : "auto"} height="768" loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 767px) 100vw, 576px" src={getImageVariant(image, 705)} srcset={getImageSrcset(image, [440, 705])} width="576" />
                       </a>
                     </div>
                   ))}
@@ -70,10 +65,10 @@ const phoneUrl = `tel:${STORE_PHONE}`;
             </div>
             <div class="swiper tf-product-media-thumbs other-image-zoom" data-direction="vertical" data-preview="7" dir="ltr">
               <div class="swiper-wrapper stagger-wrap">
-                {gallery.map((image) => (
+              {gallery.map((image, index) => (
                   <div class="swiper-slide stagger-item">
                     <div class="item">
-                      <img alt="Изображение" height="110" loading="lazy" sizes="82px" src={getImageVariant(image, 88)} srcset={getImageSrcset(image, [88, 160])} width="82" />
+                      <img alt={`${product.title}, миниатюра ${index + 1}`} height="110" loading="lazy" sizes="82px" src={getImageVariant(image, 88)} srcset={getImageSrcset(image, [88, 160])} width="82" />
                     </div>
                   </div>
                 ))}
@@ -89,7 +84,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
           <div class="tf-product-info-list other-image-zoom">
             <div class="tf-product-info-heading">
               <p class="product-infor-cate text-caption-01 mb-4">{category.title}</p>
-              <h3 class="product-infor-name mb-12">{product.title}</h3>
+              <h1 class="h3 product-infor-name mb-12">{product.title}</h1>
               <div class="product-infor-meta mb-20">
                 <div class="meta_rate">
                   <span class="text-caption-01 cl-text-2">{condition}</span>

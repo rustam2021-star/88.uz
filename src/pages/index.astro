@@ -8,12 +8,18 @@ import PrecisionBanner from "../components/PrecisionBanner.astro";
 import ProductThumbs from "../components/ProductThumbs.astro";
 import ServiceIcons from "../components/ServiceIcons.astro";
 import Testimonials from "../components/Testimonials.astro";
+import { getBreadcrumbItems, getHomeSeo, getPageSchema } from "../lib/seo.js";
 
-const title = "88.uz - измерительные приборы и оборудование";
-const description =
-  "88.uz - каталог измерительных приборов, детекторов, автоинструментов, электроники и оборудования в Ташкенте.";
+const seo = getHomeSeo();
+const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }]);
 ---
-<MainLayout title={title} description={description}>
+<MainLayout
+  title={seo.title}
+  description={seo.description}
+  canonicalPath={seo.url}
+  robots={seo.robots}
+  jsonLd={getPageSchema({ seo, breadcrumbs })}
+>
   <PrecisionBanner />
   <CategorySlider />
   <BestSellerTabs />

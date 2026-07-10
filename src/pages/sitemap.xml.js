@@ -32,7 +32,7 @@ export function GET() {
       changefreq: "weekly",
       priority: "0.8"
     })),
-    ...products.map((product) => ({
+    ...products.filter((product) => product.in_stock !== false).map((product) => ({
       path: `/product/${product.slug}/`,
       changefreq: "weekly",
       priority: "0.7"

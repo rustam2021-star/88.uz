@@ -28,7 +28,7 @@ const slides = products.slice(0, 4).map((product) => ({
           {slides.map((slide, index) => (
             <div class={`img_item btn-thumbs cs-pointer ${index === 0 ? "active" : ""}`}>
               <img
-                alt="Изображение"
+                alt={`${slide.name}, миниатюра`}
                 height="120"
                 loading="lazy"
                 sizes="120px"
@@ -53,7 +53,7 @@ const slides = products.slice(0, 4).map((product) => ({
                 <div class="wg-thumb-v1">
                   <div class="thumb-image">
                     <img
-                      alt="Изображение"
+                      alt={`${slide.name}, обзор товара`}
                       height="546"
                       loading="lazy"
                       sizes="(max-width: 767px) 90vw, 440px"
@@ -64,7 +64,7 @@ const slides = products.slice(0, 4).map((product) => ({
                   </div>
                   <div class="thumb-prd">
                     <div class="prd_image">
-                      <img alt="Изображение" height="88" loading="lazy" sizes="88px" src={getProductCardImage(slide.product, 88)} srcset={getImageSrcset(getProductImage(slide.product), [88, 160])} width="88" />
+                      <img alt={`${slide.name}, фото товара`} height="88" loading="lazy" sizes="88px" src={getProductCardImage(slide.product, 88)} srcset={getImageSrcset(getProductImage(slide.product), [88, 160])} width="88" />
                     </div>
                     <div class="prd_info">
                       <a class="name fw-medium link lh-24 text-line-clamp-2" href={`/product/${slide.product.slug}/`}>

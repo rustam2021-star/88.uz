@@ -1,9 +1,20 @@
 ---
+import { absoluteUrl, DEFAULT_OG_IMAGE, getCanonicalUrl } from "../lib/seo.js";
+
 const {
-  title = "88.uz - каталог товаров",
-  description = "Каталог товаров 88.uz: измерительные приборы, детекторы, автоинструменты, электроника и оборудование.",
+  title = "88.uz — измерительные приборы и товары в Ташкенте",
+  description = "Каталог 88.uz в Ташкенте: измерительные приборы, детекторы, автоинструменты, электроника и оборудование.",
+  canonicalPath,
+  robots = "index, follow",
+  ogImage = DEFAULT_OG_IMAGE,
+  ogType = "website",
+  jsonLd,
   productAssets = false
 } = Astro.props;
+
+const canonical = canonicalPath === null ? null : getCanonicalUrl(canonicalPath || Astro.url.pathname);
+const absoluteOgImage = absoluteUrl(ogImage);
+const serializedJsonLd = jsonLd ? JSON.stringify(jsonLd).replace(/</g, "\\u003c") : "";
 
 const productStylesheets = productAssets
   ? [
@@ -24,6 +35,8 @@ const stylesheets = [
 ---
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{canonical && <link rel="canonical" href={canonical} />}
+<meta name="robots" content={robots} />
 <script is:inline>
   (function () {
     var analyticsLoaded = false;
@@ -77,6 +90,18 @@ const stylesheets = [
 </script>
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta property="og:site_name" content="88.uz" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical || Astro.url.href} />
+<meta property="og:image" content={absoluteOgImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteOgImage} />
+{jsonLd && <script type="application/ld+json" set:html={serializedJsonLd}></script>}
 <link rel="shortcut icon" href="/assets/theme/assets/images/logo/favicon.svg" />
 <style is:inline>
   :root{--white:#fff;--black:#000;--primary:#B71C1C;--secondary:#70857A;--third:#FFEB8A;--text:#101010;--text-2:#696E73;--text-3:#B1B2B7;--bg:#F7F7F7;--line:#E9E9E9;--white-10:rgba(255,255,255,.1)}

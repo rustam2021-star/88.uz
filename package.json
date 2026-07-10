@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "validate:seo": "node scripts/validate-seo.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "preview": "astro preview"
   },

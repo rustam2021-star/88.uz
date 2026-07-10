@@ -24,8 +24,8 @@ const imageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px";
   <div class="card-product">
     <div class="card-product_wrapper">
       <a class="product-img" href={productUrl}>
-        <img alt="Товар" class="img-product" height="440" loading="lazy" sizes={imageSizes} src={productImage} srcset={productSrcset} width="330" />
-        <img alt="Товар" class="img-hover" height="440" loading="lazy" sizes={imageSizes} src={hoverImage} srcset={hoverSrcset} width="330" />
+        <img alt={`${product.title}, основное изображение`} class="img-product" height="440" loading="lazy" sizes={imageSizes} src={productImage} srcset={productSrcset} width="330" />
+        <img alt={`${product.title}, вид при наведении`} class="img-hover" height="440" loading="lazy" sizes={imageSizes} src={hoverImage} srcset={hoverSrcset} width="330" />
       </a>
       <ul class="product-action_list">
         <li class="wishlist"><a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
@@ -39,6 +39,7 @@ const imageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px";
       <a class="name-product lh-24 fw-medium link-underline-text" href={productUrl}>{product.title}</a>
       <div class="star-wrap d-flex align-items-center"><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i><i class="icon icon-Star"></i></div>
       <div class="price-wrap"><span class="price-new text-primary fw-semibold">{price}</span>{oldPrice && <span class="price-old text-caption-01 cl-text-3">{oldPrice}</span>}</div>
+      <p class="text-caption-01 cl-text-2">{product.brand} · {product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</p>
     </div>
   </div>
 </div>

@@ -4,23 +4,26 @@ import posts from "../../data/blog.json";
 import products from "../../data/products.json";
 import { getBlogCategories, getPostImage, getPostUrl } from "../../lib/blog.js";
 import { getImageSrcset, getImageVariant } from "../../lib/catalog.js";
+import SeoBreadcrumbs from "../../components/SeoBreadcrumbs.astro";
+import { getBlogIndexSeo, getBreadcrumbItems, getPageSchema } from "../../lib/seo.js";
 
 const blogCategories = getBlogCategories(posts);
 const recentPosts = posts.slice(0, 4);
+const seo = getBlogIndexSeo();
+const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }, { name: "Блог", url: "/blog/" }]);
 ---
 <MainLayout
-  title="Блог - 88.uz"
-  description="Полезные статьи 88.uz о выборе измерительных приборов, детекторов, автоинструментов и оборудования."
+  title={seo.title}
+  description={seo.description}
+  canonicalPath={seo.url}
+  robots={seo.robots}
+  jsonLd={getPageSchema({ seo, breadcrumbs })}
 >
   <section class="section-page-title text-center flat-spacing-2 pb-0">
     <div class="container">
       <div class="main-page-title">
-        <div class="breadcrumbs">
-          <a class="text-caption-01 cl-text-3 link" href="/">Главная</a>
-          <i class="icon icon-CaretRightThin cl-text-3"></i>
-          <p class="text-caption-01">Блог</p>
-        </div>
-        <h3>Блог</h3>
+        <SeoBreadcrumbs items={breadcrumbs} />
+        <h1 class="h3">Блог</h1>
         <p class="text-body-1 cl-text-2">
           Полезные советы, обзоры и короткие гайды по выбору приборов, детекторов и оборудования.
         </p>

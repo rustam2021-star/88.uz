@@ -1,0 +1,21 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
+---
+<MainLayout
+  title="Страница не найдена — 88.uz"
+  description="Запрошенная страница не найдена. Перейдите в каталог 88.uz, чтобы выбрать товар."
+  canonicalPath={null}
+  robots="noindex, follow"
+>
+  <section class="section-page-title text-center flat-spacing-2">
+    <div class="container">
+      <div class="main-page-title">
+        <SeoBreadcrumbs items={[{ name: "Главная", url: "/" }, { name: "Страница не найдена", url: "/404/" }]} />
+        <h1 class="h3">Страница не найдена</h1>
+        <p class="text-body-1 cl-text-2">Проверьте адрес или перейдите в каталог товаров.</p>
+        <a class="tf-btn animate-btn" href="/catalog/">Открыть каталог</a>
+      </div>
+    </div>
+  </section>
+</MainLayout>
