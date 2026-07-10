@@ -61,7 +61,7 @@ for (const category of categories) {
 for (const src of [
   "/assets/theme/assets/images/slider/slider-34.jpg",
   "/assets/theme/assets/images/slider/slider-35.jpg",
-  "/assets/theme/assets/images/slider/slider-36.jpg"
+  "/assets/theme/assets/images/slider/slider-36-instruments.webp"
 ]) {
   addImage(src, heroWidths, 74);
 }
