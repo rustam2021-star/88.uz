@@ -95,3 +95,73 @@ const slides = products.slice(0, 4).map((product) => ({
     </div>
   </div>
 </section>
+
+<style>
+  .banner-thumbs-product .col-right {
+    background: #f8f8f8;
+  }
+
+  .banner-thumbs-product .slider-content-thumb,
+  .banner-thumbs-product :global(.swiper-wrapper),
+  .banner-thumbs-product :global(.swiper-slide),
+  .banner-thumbs-product :global(.wg-thumb-v1) {
+    height: 100%;
+  }
+
+  .banner-thumbs-product :global(.thumb-image) {
+    display: flex;
+    min-height: 560px;
+    align-items: center;
+    justify-content: center;
+    padding: 42px 52px 92px;
+  }
+
+  .banner-thumbs-product :global(.thumb-image img) {
+    width: min(76%, 500px) !important;
+    height: auto !important;
+    max-height: 460px;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    transform: none !important;
+  }
+
+  .banner-thumbs-product :global(.thumb-prd) {
+    left: 32px;
+    right: 32px;
+    bottom: 24px;
+    width: fit-content;
+    max-width: calc(100% - 64px);
+    box-shadow: 0 12px 30px rgba(16, 16, 16, 0.08);
+  }
+
+  @media (max-width: 1199px) {
+    .banner-thumbs-product :global(.thumb-image) {
+      min-height: 460px;
+      padding: 32px 36px 96px;
+    }
+
+    .banner-thumbs-product :global(.thumb-image img) {
+      width: min(72%, 420px) !important;
+      min-height: 0 !important;
+      max-height: 360px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .banner-thumbs-product :global(.thumb-image) {
+      min-height: 420px;
+      padding: 24px 20px 150px;
+    }
+
+    .banner-thumbs-product :global(.thumb-image img) {
+      width: min(82%, 320px) !important;
+      max-height: 280px;
+    }
+
+    .banner-thumbs-product :global(.thumb-prd) {
+      left: 20px;
+      right: 20px;
+      max-width: calc(100% - 40px);
+    }
+  }
+</style>
