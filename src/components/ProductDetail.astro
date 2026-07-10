@@ -3,12 +3,11 @@ import ProductSlide from "./ProductSlide.astro";
 import SeoBreadcrumbs from "./SeoBreadcrumbs.astro";
 import { STORE_PHONE, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductImage } from "../lib/catalog.js";
 
-const { product, category, breadcrumbs = [], relatedProducts = [], recentlyProducts = [] } = Astro.props;
+const { product, category, breadcrumbs = [], relatedProducts = [], previousProduct, nextProduct } = Astro.props;
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 const gallery = product.gallery?.length ? product.gallery : [getProductImage(product)];
-const related = relatedProducts.length ? relatedProducts : recentlyProducts;
-const recently = recentlyProducts.length ? recentlyProducts : related;
+const related = relatedProducts;
 const normalizeSpecValue = (key, value) => {
   const text = String(value ?? "").trim();
 
@@ -28,6 +27,18 @@ const specs = Object.entries(product.specs || {})
   .map(([key, value]) => [key, normalizeSpecValue(key, value)]);
 const condition = normalizeSpecValue("Состояние", product.condition || "Состояние уточняется");
 const orderUrl = getOrderUrl(product);
+const recentlyViewedProduct = {
+  id: product.slug,
+  name: product.title,
+  url: `/product/${product.slug}/`,
+  image: getImageVariant(getProductImage(product), 330),
+  hoverImage: getImageVariant(product.hover_image || getProductImage(product), 330),
+  price,
+  oldPrice,
+  brand: product.brand || "88.uz",
+  inStock: product.in_stock !== false,
+  orderUrl
+};
 const phoneUrl = `tel:${STORE_PHONE}`;
 ---
 
@@ -36,9 +47,9 @@ const phoneUrl = `tel:${STORE_PHONE}`;
     <div class="main-page-title">
       <SeoBreadcrumbs items={breadcrumbs} />
       <div class="nav-post-list">
-        <a class="link nav-post-item nav-post-prev" href={`/product/${recently[0]?.slug || product.slug}/`}><i class="icon icon-CaretLeft"></i></a>
+        <a aria-label="Предыдущий товар категории" class="link nav-post-item nav-post-prev" href={`/product/${previousProduct?.slug || product.slug}/`}><i class="icon icon-CaretLeft"></i></a>
         <a class="link nav-all-post nav-post-link" href={`/${category.slug}/`}><i class="icon icon-SquaresFour"></i></a>
-        <a class="link nav-post-item nav-post-next" href={`/product/${recently[1]?.slug || product.slug}/`}><i class="icon icon-CaretRightThin"></i></a>
+        <a aria-label="Следующий товар категории" class="link nav-post-item nav-post-next" href={`/product/${nextProduct?.slug || product.slug}/`}><i class="icon icon-CaretRightThin"></i></a>
       </div>
     </div>
   </div>
@@ -183,11 +194,48 @@ const phoneUrl = `tel:${STORE_PHONE}`;
   <div class="container">
     <ul class="tab-btn-wrap-v1 style-2 justify-content-sm-center" role="tablist">
       <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#related" role="tab"><span class="h4 fw-medium">Похожие товары</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#recently" role="tab"><span class="h4 fw-medium">Недавно смотрели</span></a></li>
+      <li class="nav-tab-item" data-recently-tab hidden role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#recently" role="tab"><span class="h4 fw-medium">Недавно смотрели</span></a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active show" id="related" role="tabpanel"><div class="swiper tf-swiper wrap-sw-over" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="20" data-tablet="3" dir="ltr"><div class="swiper-wrapper">{related.slice(0, 4).map((item) => <ProductSlide product={item} />)}</div><div class="sw-line-default style-2 tf-sw-pagination"></div></div></div>
-      <div class="tab-pane" id="recently" role="tabpanel"><div class="swiper tf-swiper wrap-sw-over" data-mobile="2" data-mobile-sm="2" data-pagination="2" data-pagination-lg="4" data-pagination-md="3" data-pagination-sm="2" data-preview="4" data-space="10" data-space-lg="30" data-space-md="20" data-tablet="3" dir="ltr"><div class="swiper-wrapper">{recently.slice(0, 4).map((item) => <ProductSlide product={item} />)}</div><div class="sw-line-default style-2 tf-sw-pagination"></div></div></div>
+      <div class="tab-pane active show" id="related" role="tabpanel">
+        <div class="recommendation-grid">{related.slice(0, 4).map((item) => <ProductSlide product={item} />)}</div>
+      </div>
+      <div class="tab-pane" id="recently" role="tabpanel">
+        <div class="recommendation-grid" data-recently-products></div>
+      </div>
     </div>
   </div>
 </div>
+
+<script id="recently-viewed-product" type="application/json" set:html={JSON.stringify(recentlyViewedProduct).replace(/</g, "\\u003c")}></script>
+<script is:inline src="/assets/theme/assets/js/recently-viewed.js"></script>
+
+<style>
+  .recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 10px;
+  }
+
+  .recommendation-grid :global(.swiper-slide) {
+    width: auto !important;
+    height: auto;
+    margin: 0 !important;
+  }
+
+  .recommendation-grid :global(.card-product) {
+    height: 100%;
+    min-width: 0;
+  }
+
+  .recommendation-grid :global(.card-product_wrapper) {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .recommendation-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 30px;
+    }
+  }
+</style>

@@ -14,8 +14,16 @@ export function getStaticPaths() {
 
 const { product } = Astro.props;
 const category = categories.find((item) => item.slug === product.category_slug) ?? categories[0];
-const relatedProducts = products.filter((item) => product.related_products?.includes(item.slug));
-const recentlyProducts = products.filter((item) => item.slug !== product.slug).slice(0, 4);
+const categoryProducts = products.filter((item) => item.category_slug === product.category_slug && item.slug !== product.slug);
+const manualRelated = products.filter((item) => product.related_products?.includes(item.slug) && item.slug !== product.slug);
+const relatedProducts = [...manualRelated, ...categoryProducts]
+  .filter((item, index, items) => items.findIndex((candidate) => candidate.slug === item.slug) === index)
+  .sort((left, right) => Number(right.brand === product.brand) - Number(left.brand === product.brand))
+  .slice(0, 8);
+const navigationProducts = products.filter((item) => item.category_slug === product.category_slug);
+const navigationIndex = navigationProducts.findIndex((item) => item.slug === product.slug);
+const previousProduct = navigationProducts[(navigationIndex - 1 + navigationProducts.length) % navigationProducts.length];
+const nextProduct = navigationProducts[(navigationIndex + 1) % navigationProducts.length];
 const seo = getProductSeo(product, category);
 const breadcrumbs = getBreadcrumbItems([
   { name: "Главная", url: "/" },
@@ -39,6 +47,7 @@ const breadcrumbs = getBreadcrumbItems([
     category={category}
     breadcrumbs={breadcrumbs}
     relatedProducts={relatedProducts}
-    recentlyProducts={recentlyProducts}
+    previousProduct={previousProduct}
+    nextProduct={nextProduct}
   />
 </MainLayout>
