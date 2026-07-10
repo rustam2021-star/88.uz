@@ -4,8 +4,8 @@ import products from "../data/products.json";
 
 const avatars = [
   "/assets/theme/assets/images/avatar/avatar-1.jpg",
-  "/assets/theme/assets/images/avatar/avatar-2.jpg",
   "/assets/theme/assets/images/avatar/avatar-3.jpg",
+  "/assets/theme/assets/images/avatar/avatar-2.jpg",
   "/assets/theme/assets/images/avatar/avatar-4.jpg"
 ];
 
@@ -13,7 +13,7 @@ const reviews = [
   "Удобно, когда характеристики, цена и контакт продавца собраны в одном месте. Быстро выбрали прибор и уточнили наличие.",
   "Помогли подобрать товар под задачу, ответили по комплектации и способу получения. Заказ прошел спокойно и понятно.",
   "Понравилось, что можно сразу перейти к товару, посмотреть фото и написать продавцу без лишних шагов.",
-  "Ассортимент собран аккуратно: приборы, детекторы и оборудование легко сравнить по категориям и цене."
+  "Ассортимент собран аккуратно: приборы, детекторы и оборудование легко подобрать по категориям и цене."
 ];
 
 const authors = ["Алексей Миронов", "Мадина Каримова", "Игорь Ли", "Дилшод Рахимов"];
@@ -155,7 +155,8 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
     flex: 0 1 auto;
     overflow: hidden;
     margin-bottom: 20px;
-    line-height: 1.35;
+    font-size: 18px;
+    line-height: 1.5;
     text-transform: none;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
@@ -195,6 +196,11 @@ const testimonials = products.slice(0, 4).map((product, index) => ({
 
     .testimonial-construction-card {
       min-height: auto;
+    }
+
+    .testimonial-construction-card .tes_text {
+      font-size: 16px;
+      line-height: 1.5;
     }
   }
 </style>
