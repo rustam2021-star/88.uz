@@ -19,7 +19,7 @@ const hoverSrcset = getProductHoverCardSrcset(product);
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 ---
-<div class={`card-product ${className}`} data-product-search={[
+<div class={`card-product ${className}`} data-product-slug={product.slug} data-product-search={[
   product.title,
   product.brand,
   product.description,
@@ -33,7 +33,7 @@ const oldPrice = product.old_price ? formatPrice(product.old_price, product.curr
     </a>
     <ul class="product-action_list">
       <li class="wishlist">
-        <a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#;">
+        <a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" data-wishlist-toggle data-wishlist-slug={product.slug} href="#">
           <span class="icon icon-heart"></span>
           <span class="tooltip">В избранное</span>
         </a>

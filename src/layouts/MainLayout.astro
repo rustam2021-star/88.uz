@@ -21,7 +21,6 @@ const themeScripts = [
   "/assets/theme/assets/js/plugin/infinityslide.js",
   "/assets/theme/assets/js/carousel.js",
   "/assets/theme/assets/js/main.js",
-  "/assets/theme/assets/js/wishlist-local.js",
   ...(productAssets
     ? [
         "/assets/theme/assets/js/plugin/drift.min.js",
@@ -100,6 +99,7 @@ const themeLoader = `
       <slot />
       <Footer />
     </main>
+    <script is:inline src="/assets/theme/assets/js/wishlist-local.js"></script>
     <script is:inline set:html={themeLoader}></script>
   </body>
 </html>

@@ -129,7 +129,7 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
                   <img alt={`${product.title}, вид при наведении`} class="img-hover" height="440" loading="lazy" sizes={productImageSizes} src={getProductHoverCardImage(product, 330)} srcset={getProductHoverCardSrcset(product)} width="330" />
                 </a>
                 <ul class="product-action_list">
-                  <li class="wishlist"><a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href="#;"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
+                  <li class="wishlist"><a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" data-wishlist-toggle data-wishlist-slug={product.slug} href="#"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
                   <li><a aria-label={`Быстрый просмотр: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href={`/product/${product.slug}/`}><span class="icon icon-Eye"></span><span class="tooltip">Быстрый просмотр</span></a></li>
                 </ul>
                 {product.badges?.length > 0 && <ul class="product-badge_list">{product.badges.map((badge) => <li class="product-badge_item text-caption-01 new">{badge}</li>)}</ul>}

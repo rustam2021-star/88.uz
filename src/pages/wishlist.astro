@@ -1,6 +1,8 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
+import ProductCard from "../components/ProductCard.astro";
+import products from "../data/products.json";
 ---
 <MainLayout
   title="Избранное - 88.uz"
@@ -25,8 +27,10 @@ import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
   <div class="section-wishlist flat-spacing">
     <div class="container">
       <div class="tf-grid-layout tf-col-2 md-col-3 xl-col-4 wrapper-wishlist" data-wishlist-root>
-        <div class="tf-wishlist-empty text-center wd-full" style="grid-column: 1 / -1;">
-          <p class="text-notice cl-text-2 mb-20">Загрузка избранного...</p>
+        {products.map((product) => <div data-wishlist-product={product.slug} hidden><ProductCard product={product} className="wishlist-card" /></div>)}
+        <div class="tf-wishlist-empty text-center wd-full" data-wishlist-empty hidden style="grid-column: 1 / -1;">
+          <p class="text-notice cl-text-2 mb-20">В избранном пока нет товаров.</p>
+          <a class="tf-btn btn-dark" href="/catalog/">Вернуться к покупкам</a>
         </div>
       </div>
     </div>
