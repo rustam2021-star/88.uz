@@ -69,7 +69,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                   {gallery.map((image, index) => (
                     <div class="swiper-slide" data-color="default" data-size="default">
                       <a class="item" data-pswp-height="768px" data-pswp-width="576px" href={image} target="_blank">
-                        <img alt={`${product.title}, ${index === 0 ? "основное изображение" : `вид ${index + 1}`}`} class="tf-image-zoom" data-zoom={image} fetchpriority={index === 0 ? "high" : "auto"} height="768" loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 767px) 100vw, 576px" src={getImageVariant(image, 705)} srcset={getImageSrcset(image, [440, 705])} width="576" />
+                        <img alt={`${product.title}, ${index === 0 ? "основное изображение" : `вид ${index + 1}`}`} class="tf-image-zoom" data-zoom={image} draggable="false" fetchpriority={index === 0 ? "high" : "auto"} height="768" loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 767px) 100vw, 576px" src={getImageVariant(image, 705)} srcset={getImageSrcset(image, [440, 705])} width="576" />
                       </a>
                     </div>
                   ))}
@@ -81,7 +81,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
               {gallery.map((image, index) => (
                   <div class="swiper-slide stagger-item">
                     <div class="item">
-                      <img alt={`${product.title}, миниатюра ${index + 1}`} height="110" loading="lazy" sizes="82px" src={getImageVariant(image, 88)} srcset={getImageSrcset(image, [88, 160])} width="82" />
+                    <img alt={`${product.title}, миниатюра ${index + 1}`} draggable="false" height="110" loading="lazy" sizes="82px" src={getImageVariant(image, 88)} srcset={getImageSrcset(image, [88, 160])} width="82" />
                     </div>
                   </div>
                 ))}

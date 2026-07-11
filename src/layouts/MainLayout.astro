@@ -18,11 +18,13 @@ const themeScripts = [
   "/assets/theme/assets/js/plugin/bootstrap.min.js",
   "/assets/theme/assets/js/plugin/jquery.min.js",
   "/assets/theme/assets/js/plugin/swiper-bundle.min.js",
+  "/assets/theme/assets/js/plugin/bootstrap-select.min.js",
+  "/assets/theme/assets/js/plugin/count-down.js",
   "/assets/theme/assets/js/plugin/infinityslide.js",
   "/assets/theme/assets/js/carousel.js",
   "/assets/theme/assets/js/main.js",
   ...(productAssets
-    ? [
+      ? [
         "/assets/theme/assets/js/plugin/drift.min.js",
         "/assets/theme/assets/js/plugin/photoswipe-lightbox.umd.min.js",
         "/assets/theme/assets/js/plugin/photoswipe.umd.min.js",
@@ -57,7 +59,7 @@ const themeLoader = `
   }
 
   function scheduleThemeScripts() {
-    window.setTimeout(loadThemeScripts, 1200);
+    loadThemeScripts();
   }
 
   if (document.readyState === "complete") {
