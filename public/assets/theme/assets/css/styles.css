@@ -12074,7 +12074,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   overflow: hidden;
   position: relative;
   border-radius: 12px;
-  background: #f1f1f1;
+  background: radial-gradient(circle at 50% 38%, #ffffff 0%, #f7f7f7 46%, #e3e3e3 100%);
   z-index: 0;
   width: 100%;
 }

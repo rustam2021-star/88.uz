@@ -120,7 +120,7 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
           ))}
         </div>
 
-        <div class="wrapper-shop tf-grid-layout tf-col-4" id="gridLayout">
+        <div class="wrapper-shop tf-grid-layout tf-col-2 lg-col-4" id="gridLayout">
           {visibleProducts.map((product) => (
             <div class="card-product grid" data-availability={product.in_stock ? "В наличии" : "Нет в наличии"} data-brand={product.brand}>
               <div class="card-product_wrapper">
