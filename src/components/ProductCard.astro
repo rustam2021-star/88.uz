@@ -9,7 +9,7 @@ import {
   getProductUrl
 } from "../lib/catalog.js";
 
-const { product, className = "wow fadeInUp", imageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px" } = Astro.props;
+const { product, className = "wow fadeInUp", imageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 330px", showMeta = true } = Astro.props;
 const productUrl = getProductUrl(product);
 const orderUrl = getOrderUrl(product);
 const productImage = getProductCardImage(product, 330);
@@ -67,6 +67,6 @@ const oldPrice = product.old_price ? formatPrice(product.old_price, product.curr
       <span class="price-new text-primary fw-semibold">{price}</span>
       {oldPrice && <span class="price-old text-caption-01 cl-text-3">{oldPrice}</span>}
     </div>
-    <p class="text-caption-01 cl-text-2">{product.brand} · {product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</p>
+    {showMeta && <p class="text-caption-01 cl-text-2">{product.brand} · {product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</p>}
   </div>
 </div>

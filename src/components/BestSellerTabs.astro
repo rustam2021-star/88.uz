@@ -115,7 +115,7 @@ const tabs = tabSlugs
 
               <div class="tf-grid-layout tf-col-2 gap-20">
                 {tab.items.slice(0, 2).map((product) => (
-                  <ProductCard className="product-style_stroke wow fadeInUp" imageSizes={compactProductSizes} product={product} />
+                  <ProductCard className="product-style_stroke wow fadeInUp" imageSizes={compactProductSizes} product={product} showMeta={false} />
                 ))}
               </div>
             </div>
@@ -123,7 +123,7 @@ const tabs = tabSlugs
             <div class="col-prd-2">
               <div class="tf-grid-layout tf-col-2 lg-col-3 gap-20">
                 {tab.items.slice(2, 8).map((product) => (
-                  <ProductCard className="product-style_stroke wow fadeInUp" imageSizes={compactProductSizes} product={product} />
+                  <ProductCard className="product-style_stroke wow fadeInUp" imageSizes={compactProductSizes} product={product} showMeta={false} />
                 ))}
               </div>
             </div>
