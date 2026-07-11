@@ -142,6 +142,17 @@ const phoneUrl = `tel:${STORE_PHONE}`;
             </div>
 
             <div class="tf-product-extra-link">
+              <a
+                aria-label={`Добавить в избранное: ${product.title}`}
+                class="product-extra-icon link btn-add-wishlist"
+                data-wishlist-id={product.slug}
+                data-wishlist-image={getImageVariant(getProductImage(product), 330)}
+                data-wishlist-name={product.title}
+                data-wishlist-old-price={oldPrice}
+                data-wishlist-price={price}
+                data-wishlist-url={`/product/${product.slug}/`}
+                href="#"
+              ><i class="icon icon-heart"></i><span class="wishlist-label">В избранное</span></a>
               <a class="product-extra-icon link" href={orderUrl} rel="noopener" target="_blank"><i class="icon icon-Question"></i>Задать вопрос</a>
               <a class="product-extra-icon link" data-bs-toggle="modal" href="#share"><i class="icon icon-ShareNetwork"></i>Поделиться</a>
             </div>

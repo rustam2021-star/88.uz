@@ -52,6 +52,16 @@
 
   function getProductFromCard(trigger) {
     var card = trigger.closest(".card-product");
+    if (!card && trigger.hasAttribute("data-wishlist-id")) {
+      return {
+        id: trigger.getAttribute("data-wishlist-id"),
+        name: trigger.getAttribute("data-wishlist-name") || "Товар",
+        url: normalizeUrl(trigger.getAttribute("data-wishlist-url")),
+        image: trigger.getAttribute("data-wishlist-image") || "",
+        price: trigger.getAttribute("data-wishlist-price") || "",
+        oldPrice: trigger.getAttribute("data-wishlist-old-price") || ""
+      };
+    }
     if (!card) return null;
 
     var link = card.querySelector(".product-img[href], .name-product[href], .name[href], .prd_name[href]");
@@ -93,10 +103,13 @@
       tooltip.textContent = tooltipText;
     }
 
-    var link = trigger.matches("a") ? trigger : trigger.querySelector("a");
-    if (link) {
-      link.setAttribute("aria-label", formatProductActionLabel(labelText, productName));
+    var label = trigger.querySelector(".wishlist-label");
+    if (label) {
+      label.textContent = isSaved ? "Удалить из избранного" : "В избранное";
     }
+
+    var link = trigger.matches("a") ? trigger : trigger.querySelector("a");
+    if (link) link.setAttribute("aria-label", formatProductActionLabel(labelText, productName));
   }
 
   function syncWishlistButtons() {
@@ -105,7 +118,7 @@
       return item.id;
     });
 
-    document.querySelectorAll(".card-product .wishlist").forEach(function (trigger) {
+    document.querySelectorAll(".card-product .wishlist, .btn-add-wishlist").forEach(function (trigger) {
       var product = getProductFromCard(trigger);
       if (!product) return;
       setButtonState(trigger, ids.indexOf(product.id) !== -1, product.name);
