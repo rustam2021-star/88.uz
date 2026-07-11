@@ -27,7 +27,7 @@ const normalizeSpecValue = (key, value) => {
 const specs = Object.entries(content.specs || {})
   .filter(([key]) => key !== "Источник")
   .map(([key, value]) => [key, normalizeSpecValue(key, value)]);
-const condition = normalizeSpecValue("Состояние", product.condition || "Состояние уточняется");
+const condition = "Новое";
 const orderUrl = getOrderUrl(product);
 const recentlyViewedProduct = {
   id: product.slug,

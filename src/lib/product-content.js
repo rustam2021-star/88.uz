@@ -67,6 +67,7 @@ export function getProfessionalProductContent(product) {
     ? sourceShortDescription
     : fallback.shortDescription;
   const specs = { ...(product.specs || {}) };
+  specs["Состояние"] = "Новое";
   if (product.brand && !/без бренда/i.test(product.brand)) specs["Бренд"] = product.brand;
   if (product.model) specs["Модель"] = product.model;
   for (const parameter of getTechnicalParameters(product)) {
