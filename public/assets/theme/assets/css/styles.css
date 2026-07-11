@@ -12633,6 +12633,28 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   }
 }
 
+.category-filter .canvas-body .widget-facet:nth-child(-n + 2) {
+  display: none;
+}
+
+.canvas-filter .canvas-header h5 {
+  font-size: 0;
+}
+
+.canvas-filter .canvas-header h5::after {
+  content: "Категории";
+  font-size: 20px;
+}
+
+.tf-btn-filter .text {
+  font-size: 0;
+}
+
+.tf-btn-filter .text::after {
+  content: "Показать категории";
+  font-size: 14px;
+}
+
 .tf-product-info-wrap {
   margin-top: 30px;
 }
