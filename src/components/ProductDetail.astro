@@ -2,8 +2,10 @@
 import ProductSlide from "./ProductSlide.astro";
 import SeoBreadcrumbs from "./SeoBreadcrumbs.astro";
 import { STORE_PHONE, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductImage } from "../lib/catalog.js";
+import { getProfessionalProductContent } from "../lib/product-content.js";
 
 const { product, category, breadcrumbs = [], relatedProducts = [], previousProduct, nextProduct } = Astro.props;
+const content = getProfessionalProductContent(product);
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 const gallery = product.gallery?.length ? product.gallery : [getProductImage(product)];
@@ -22,7 +24,7 @@ const normalizeSpecValue = (key, value) => {
   return text;
 };
 
-const specs = Object.entries(product.specs || {})
+const specs = Object.entries(content.specs || {})
   .filter(([key]) => key !== "Источник")
   .map(([key, value]) => [key, normalizeSpecValue(key, value)]);
 const condition = normalizeSpecValue("Состояние", product.condition || "Состояние уточняется");
@@ -113,7 +115,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                 {oldPrice && <><div class="br-line type-vertical"></div><p class="cl-text-3 text-decoration-line-through">{oldPrice}</p></>}
                 {product.badges?.[0] && <span class="badge-sale text-white fw-semibold text-caption-02">{product.badges[0]}</span>}
               </div>
-              <p class="product-infor-desc cl-text-2 mb-12">{product.description}</p>
+              <p class="product-infor-desc cl-text-2 mb-12">{content.shortDescription}</p>
               <div class="product-infor-reality lh-24">
                 <div class="ic d-flex"><i class="icon icon-Eye"></i></div>
                 <span class="text-caption-01">Перед заказом уточните наличие, комплектацию и способ получения.</span>
@@ -182,7 +184,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
     <div class="tab-content">
       <div class="tab-pane active show" id="description" role="tabpanel">
         <div class="tab-content_desc tf-grid-layout md-col-2">
-          <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info">{product.description.split(/\n\s*\n/).map((paragraph) => <p class="cl-text-2">{paragraph}</p>)}</div></div>
+          <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info">{content.description.split(/\n\s*\n/).map((paragraph) => <p class="cl-text-2">{paragraph}</p>)}</div></div>
           <div class="box-desc"><h5 class="desc_title">Категория</h5><p class="cl-text-2">{category.description_top}</p><p class="cl-text-2">{category.description_bottom}</p></div>
         </div>
       </div>

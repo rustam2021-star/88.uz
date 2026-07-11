@@ -2,6 +2,7 @@ import categories from "../data/categories.json" with { type: "json" };
 import products from "../data/products.json" with { type: "json" };
 import posts from "../data/blog.json" with { type: "json" };
 import { blogSeo, catalogSeo, categorySeoConfig, homeSeo } from "../data/seo-config.js";
+import { getProfessionalProductContent } from "./product-content.js";
 
 export const SITE_URL = "https://88.uz";
 export const SITE_NAME = "88.uz";
@@ -53,6 +54,7 @@ export function getProductBrand(product) {
 }
 
 export function getProductSeo(product, category) {
+  const content = getProfessionalProductContent(product);
   const brand = getProductBrand(product);
   const model = clean(product?.model);
   const exactName = clean(product?.title || model || "Товар");
@@ -62,7 +64,7 @@ export function getProductSeo(product, category) {
     : modelQuery || exactName;
   const title = `${productTitle} — купить в Ташкенте | ${SITE_NAME}`;
   const fallbackDescription = `${exactName}. ${product.price ? `Цена: ${new Intl.NumberFormat("ru-RU").format(product.price)} сум. ` : ""}Наличие, комплектацию и способ получения уточняйте перед заказом в Ташкенте.`;
-  const description = truncate(product.seo_description || fallbackDescription);
+  const description = truncate(content.shortDescription || product.seo_description || fallbackDescription);
   const primaryKeyword = `купить ${exactName.toLocaleLowerCase("ru-RU")}`;
   const secondaryKeywords = unique([
     brand && `купить ${brand} ${model || exactName}`,
