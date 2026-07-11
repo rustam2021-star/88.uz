@@ -182,7 +182,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
     <div class="tab-content">
       <div class="tab-pane active show" id="description" role="tabpanel">
         <div class="tab-content_desc tf-grid-layout md-col-2">
-          <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info"><p class="cl-text-2">{product.description}</p><p class="cl-text-2">{product.short_description}</p></div></div>
+          <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info">{product.description.split(/\n\s*\n/).map((paragraph) => <p class="cl-text-2">{paragraph}</p>)}</div></div>
           <div class="box-desc"><h5 class="desc_title">Категория</h5><p class="cl-text-2">{category.description_top}</p><p class="cl-text-2">{category.description_bottom}</p></div>
         </div>
       </div>

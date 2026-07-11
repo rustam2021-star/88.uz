@@ -57,7 +57,9 @@ export function getProductSeo(product, category) {
   const model = clean(product?.model);
   const exactName = clean(product?.title || model || "Товар");
   const modelQuery = model && model !== exactName ? `${brand ? `${brand} ` : ""}${model}` : "";
-  const productTitle = modelQuery || exactName;
+  const productTitle = model && exactName.toLocaleLowerCase().includes(model.toLocaleLowerCase())
+    ? exactName
+    : modelQuery || exactName;
   const title = `${productTitle} — купить в Ташкенте | ${SITE_NAME}`;
   const fallbackDescription = `${exactName}. ${product.price ? `Цена: ${new Intl.NumberFormat("ru-RU").format(product.price)} сум. ` : ""}Наличие, комплектацию и способ получения уточняйте перед заказом в Ташкенте.`;
   const description = truncate(product.seo_description || fallbackDescription);
