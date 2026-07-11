@@ -147,6 +147,16 @@ const secondaryCategories = categories.slice(4);
   </div>
 </header>
 
+<div class="modal fade" id="search" tabindex="-1" aria-labelledby="searchTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content search-modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="searchTitle">Поиск товаров</h5><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"></button></div>
+    <form class="form-search-nav search-modal-form" action={CATALOG_URL}>
+      <div class="search-input-wrap"><i class="icon icon-MagnifyingGlass"></i><input name="q" placeholder="Например, тепловизор" required type="search" /></div>
+      <button class="tf-btn btn-dark" type="submit">Найти</button>
+    </form>
+  </div></div>
+</div>
+
 <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
   <div class="canvas-header">
     <span class="icon-close-popup" data-bs-dismiss="offcanvas">
@@ -154,7 +164,7 @@ const secondaryCategories = categories.slice(4);
     </span>
     <form class="form-search-nav" action={CATALOG_URL}>
       <fieldset>
-        <input placeholder="Что вы ищете?" required type="text" />
+        <input name="q" placeholder="Что вы ищете?" required type="search" />
       </fieldset>
       <button class="btn-action" type="submit">
         <i class="icon icon-MagnifyingGlass"></i>
@@ -222,6 +232,12 @@ const secondaryCategories = categories.slice(4);
     align-items: center;
     gap: 24px;
   }
+
+  .search-modal-content { padding: 8px; border-radius: 12px; }
+  .search-modal-form { display: flex; gap: 12px; padding: 8px 16px 20px; }
+  .search-input-wrap { flex: 1; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); padding: 0 14px; }
+  .search-input-wrap input { width: 100%; border: 0; outline: 0; min-height: 48px; }
+  @media (max-width: 575px) { .search-modal-form { flex-direction: column; } }
 
   .header-construction .header-left,
   .header-construction .header-right {

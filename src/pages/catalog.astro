@@ -39,7 +39,7 @@ const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }, { 
         <div class="tf-control-sorting">
           <div class="tf-dropdown-sort">
             <div class="btn-select">
-              <span class="text-sort-value">{products.length} товаров</span>
+              <span class="text-sort-value" data-search-count>{products.length} товаров</span>
             </div>
           </div>
         </div>
@@ -48,6 +48,7 @@ const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }, { 
       <div class="tf-grid-layout tf-col-2 lg-col-4">
         {products.map((product) => <ProductCard product={product} />)}
       </div>
+      <p class="text-center flat-spacing" data-search-empty hidden></p>
     </div>
   </section>
 
@@ -71,4 +72,19 @@ const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }, { 
       </div>
     </div>
   </div>
+
+  <script>
+    const query = new URLSearchParams(window.location.search).get("q")?.trim().toLocaleLowerCase("ru-RU") || "";
+    const cards = [...document.querySelectorAll("[data-product-search]")];
+    const count = document.querySelector("[data-search-count]");
+    const empty = document.querySelector("[data-search-empty]");
+    const visibleCards = cards.filter((card) => !query || card.dataset.productSearch?.includes(query));
+
+    cards.forEach((card) => { card.hidden = !visibleCards.includes(card); });
+    if (count) count.textContent = query ? `Найдено: ${visibleCards.length}` : `${cards.length} товаров`;
+    if (empty && visibleCards.length === 0) {
+      empty.hidden = false;
+      empty.textContent = `По запросу «${query}» ничего не найдено.`;
+    }
+  </script>
 </MainLayout>

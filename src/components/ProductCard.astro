@@ -19,7 +19,13 @@ const hoverSrcset = getProductHoverCardSrcset(product);
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 ---
-<div class={`card-product ${className}`}>
+<div class={`card-product ${className}`} data-product-search={[
+  product.title,
+  product.brand,
+  product.description,
+  product.sku,
+  product.category_slug
+].filter(Boolean).join(" ").toLocaleLowerCase("ru-RU")}>
   <div class="card-product_wrapper square">
     <a class="product-img" href={productUrl}>
       <img alt={`${product.title}, основное изображение`} class="img-product" height="330" loading="lazy" sizes={imageSizes} src={productImage} srcset={productSrcset} width="330" />
