@@ -12074,6 +12074,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   overflow: hidden;
   position: relative;
   border-radius: 12px;
+  background: #f1f1f1;
   z-index: 0;
   width: 100%;
 }
@@ -12083,6 +12084,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   width: 100%;
   object-fit: cover;
   object-position: center;
+  mix-blend-mode: multiply;
   transition-duration: 700ms;
 }
 .card-product_wrapper .img-product {
