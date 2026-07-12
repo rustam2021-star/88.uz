@@ -113,7 +113,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
               <div class="product-infor-price mb-12">
                 <h4 class="price-on-sale">{price}</h4>
                 {oldPrice && <><div class="br-line type-vertical"></div><p class="cl-text-3 text-decoration-line-through">{oldPrice}</p></>}
-                {product.badges?.[0] && <span class="badge-sale text-white fw-semibold text-caption-02">{product.badges[0]}</span>}
+                {product.badges?.find((badge) => !/в наличии/i.test(badge)) && <span class="badge-sale text-white fw-semibold text-caption-02">{product.badges.find((badge) => !/в наличии/i.test(badge))}</span>}
               </div>
               <p class="product-infor-desc cl-text-2 mb-12">{content.shortDescription}</p>
               <div class="product-infor-reality lh-24">

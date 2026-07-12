@@ -45,9 +45,9 @@ const oldPrice = product.old_price ? formatPrice(product.old_price, product.curr
         </a>
       </li>
     </ul>
-    {product.badges?.length > 0 && (
+    {product.badges?.filter((badge) => !/в наличии/i.test(badge)).length > 0 && (
       <ul class="product-badge_list">
-        {product.badges.map((badge) => <li class="product-badge_item text-caption-01 sale">{badge}</li>)}
+        {product.badges.filter((badge) => !/в наличии/i.test(badge)).map((badge) => <li class="product-badge_item text-caption-01 sale">{badge}</li>)}
       </ul>
     )}
     <div class="product-action_bot">

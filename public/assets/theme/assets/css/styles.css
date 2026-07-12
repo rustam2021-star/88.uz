@@ -12655,6 +12655,12 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   font-size: 14px;
 }
 
+.card-product_info > p.text-caption-01,
+.tf-product-info-heading .meta_sold,
+.tf-product-info-heading .product-infor-meta .br-line {
+  display: none;
+}
+
 .tf-product-info-wrap {
   margin-top: 30px;
 }

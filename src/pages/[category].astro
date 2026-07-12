@@ -132,7 +132,7 @@ const productImageSizes = "(max-width: 575px) 46vw, (max-width: 1199px) 30vw, 33
                   <li class="wishlist"><a aria-label={`Добавить в избранное: ${product.title}`} class="hover-tooltip tooltip-left box-icon" data-wishlist-toggle data-wishlist-slug={product.slug} href="#"><span class="icon icon-heart"></span><span class="tooltip">В избранное</span></a></li>
                   <li><a aria-label={`Быстрый просмотр: ${product.title}`} class="hover-tooltip tooltip-left box-icon" href={`/product/${product.slug}/`}><span class="icon icon-Eye"></span><span class="tooltip">Быстрый просмотр</span></a></li>
                 </ul>
-                {product.badges?.length > 0 && <ul class="product-badge_list">{product.badges.map((badge) => <li class="product-badge_item text-caption-01 new">{badge}</li>)}</ul>}
+                {product.badges?.filter((badge) => !/в наличии/i.test(badge)).length > 0 && <ul class="product-badge_list">{product.badges.filter((badge) => !/в наличии/i.test(badge)).map((badge) => <li class="product-badge_item text-caption-01 new">{badge}</li>)}</ul>}
                 <div class="product-action_bot"><a class="tf-btn btn-white small w-100" href={getOrderUrl(product)} rel="noopener" target="_blank">Заказать</a></div>
               </div>
               <div class="card-product_info">
