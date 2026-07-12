@@ -7,6 +7,7 @@ import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
 const tabSlugs = ["measuring-tools", "thermal-detectors", "auto-service", "tools-equipment"];
 const fallbackProducts = products.filter((product) => product.in_stock !== false);
 const bannerImage = "/assets/theme/assets/images/section/banner-54.jpg";
+const measuringToolsBannerImage = "/assets/theme/assets/images/section/banner-measuring-tools-aneng-621a.png";
 const thermalImagerBannerImage = "/assets/theme/assets/images/section/banner-thermal-imager.webp";
 const autoServiceBannerImage = "/assets/theme/assets/images/section/banner-auto-service-tpms.png";
 const toolsEquipmentBannerImage = "/assets/theme/assets/images/section/banner-tools-equipment-laser-level.png";
@@ -54,13 +55,15 @@ const tabs = tabSlugs
         title: category.title,
         desc: category.description_top
       },
-      bannerImage: category.slug === "thermal-detectors"
-        ? thermalImagerBannerImage
-        : category.slug === "tools-equipment"
-          ? toolsEquipmentBannerImage
-          : category.slug === "auto-service"
-            ? autoServiceBannerImage
-          : bannerImage,
+      bannerImage: category.slug === "measuring-tools"
+        ? measuringToolsBannerImage
+        : category.slug === "thermal-detectors"
+          ? thermalImagerBannerImage
+          : category.slug === "tools-equipment"
+            ? toolsEquipmentBannerImage
+            : category.slug === "auto-service"
+              ? autoServiceBannerImage
+              : bannerImage,
       bannerUrl: `/${category.slug}/`,
       bannerCta: category.slug === "measuring-tools" ? "Смотреть товар" : "Смотреть раздел",
       items: getTabProducts(category.slug)

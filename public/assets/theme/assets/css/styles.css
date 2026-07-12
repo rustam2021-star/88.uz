@@ -12084,7 +12084,6 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   width: 100%;
   object-fit: cover;
   object-position: center;
-  mix-blend-mode: multiply;
   transition-duration: 700ms;
 }
 .card-product_wrapper .img-product {
