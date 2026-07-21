@@ -1,12 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import ProductCard from "../components/ProductCard.astro";
-import categories from "../data/categories.json";
-import products from "../data/products.json";
+import { getLocalizedCategories, getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
 import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
 import { getBreadcrumbItems, getCatalogSeo, getCollectionSchema, getPageSchema } from "../lib/seo.js";
 
-const seo = getCatalogSeo();
+const locale = getLocale(Astro.url.pathname);
+const categories = getLocalizedCategories(locale);
+const products = getLocalizedProducts(locale);
+
+const seo = getCatalogSeo(locale);
 const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }, { name: "Каталог", url: "/catalog/" }]);
 ---
 <MainLayout

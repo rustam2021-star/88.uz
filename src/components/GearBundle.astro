@@ -1,7 +1,10 @@
 ---
 import ProductCard from "./ProductCard.astro";
 import { CATALOG_URL, formatPrice, getImageSrcset, getImageVariant, getOrderUrl } from "../lib/catalog.js";
-import products from "../data/products.json";
+import { getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
+
+const products = getLocalizedProducts(getLocale(Astro.url.pathname));
 
 const bundleProducts = products.slice(4, 7);
 const bundleItems = bundleProducts.map((product) => ({

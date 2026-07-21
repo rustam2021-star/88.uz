@@ -2,7 +2,9 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
 import ProductCard from "../components/ProductCard.astro";
-import products from "../data/products.json";
+import { getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
+const products = getLocalizedProducts(getLocale(Astro.url.pathname));
 ---
 <MainLayout
   title="Избранное - 88.uz"

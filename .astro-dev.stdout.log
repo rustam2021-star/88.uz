@@ -1,0 +1,93 @@
+
+> tfamerce-astro-template@0.1.0 dev
+> astro dev --host 0.0.0.0
+
+16:13:13 [types] Generated 2ms
+
+ astro  v4.16.19 ready in 181 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  http://192.168.0.189:4321/
+
+16:13:13 watching for file changes...
+16:13:30 [302] / 12ms
+16:13:30 [200] /ru/ 4ms
+16:13:31 [200] /ru/ 4ms
+16:13:32 [200] /ru/ 3ms
+16:13:33 [200] /ru/ 3ms
+16:13:37 [200] /ru/ 3ms
+16:13:37 [200] /ru/ 3ms
+16:13:47 [200] /ru/ 3ms
+16:13:49 [200] /ru/ 3ms
+16:13:49 [200] /ru/ 5ms
+16:14:56 [302] / 3ms
+16:14:56 [200] /ru/ 3ms
+16:14:56 [200] /ru/ 3ms
+16:14:56 [200] /uz/ 3ms
+16:14:56 [200] /en/ 2ms
+16:14:56 [302] / 2ms
+16:14:56 [200] /ru/ 2ms
+16:15:26 [watch] src/layouts/MainLayout.astro
+16:15:26 [200] /ru/ 3ms
+16:15:27 [200] /ru/ 3ms
+16:16:01 [302] / 2ms
+16:16:01 [200] /ru/ 2ms
+16:16:15 [200] /ru/ 3ms
+16:16:16 [200] /uz/ 3ms
+16:16:17 [200] /en/ 2ms
+16:16:18 [200] /uz/ 4ms
+16:16:19 [200] /ru/ 3ms
+16:16:19 [200] /uz/ 3ms
+16:16:19 [200] /en/ 2ms
+16:16:20 [200] /uz/ 4ms
+16:16:20 [200] /ru/ 3ms
+16:16:23 [404] /.well-known/appspecific/com.chrome.devtools.json 8ms
+16:16:23 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 8ms
+16:16:23 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 8ms
+16:16:23 [404] /assets/theme/assets/css/styles.css.map 2ms
+16:16:23 [404] /assets/theme/assets/css/bootstrap.min.css.map 2ms
+16:16:28 [200] /ru/ 3ms
+16:16:28 [404] /.well-known/appspecific/com.chrome.devtools.json 3ms
+16:16:28 [404] /assets/theme/assets/css/bootstrap.min.css.map 2ms
+16:16:28 [404] /assets/theme/assets/css/styles.css.map 1ms
+16:16:28 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+16:16:28 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 2ms
+16:16:34 [200] /uz/ 4ms
+16:16:34 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+16:16:34 [404] /assets/theme/assets/css/bootstrap.min.css.map 10ms
+16:16:34 [404] /assets/theme/assets/css/styles.css.map 3ms
+16:16:34 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 2ms
+16:16:34 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 1ms
+16:16:35 [200] /en/ 6ms
+16:16:35 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+16:16:35 [404] /assets/theme/assets/css/bootstrap.min.css.map 1ms
+16:16:35 [404] /assets/theme/assets/css/styles.css.map 2ms
+16:16:35 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 2ms
+16:16:35 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 2ms
+16:16:48 [200] /en/auto-service/ 3ms
+16:16:52 [200] /en/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 3ms
+16:16:59 [200] /uz/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 4ms
+16:17:01 [200] /ru/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 2ms
+16:17:09 [200] /uz/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 2ms
+16:22:05 [watch] src/lib/product-content.js
+16:22:05 [watch] src/pages/product/[slug].astro
+16:22:05 [watch] src/components/ProductDetail.astro
+16:22:06 [200] /uz/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 4ms
+16:22:07 [200] /ru/ 3ms
+16:22:46 [watch] src/components/ProductDetail.astro
+16:22:46 [200] /uz/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 4ms
+16:22:47 [200] /ru/ 5ms
+16:23:51 [200] /uz/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 3ms
+16:23:52 [200] /en/product/tester-stekol-i-plenok-linshan-ls110h-izmeritel-svetopropuskaniya-uf-ik/ 2ms
+16:24:09 [200] /uz/ 3ms
+16:24:09 [200] /uz/catalog/ 5ms
+16:24:10 [200] /uz/auto-service/ 2ms
+16:24:11 [200] /uz/blog/ 2ms
+16:24:12 [200] /uz/blog/kak-vybrat-izmeritelnyi-pribor/ 2ms
+16:24:13 [200] /uz/wishlist/ 5ms
+16:24:14 [200] /en/ 2ms
+16:24:15 [200] /en/catalog/ 7ms
+16:24:15 [200] /en/auto-service/ 2ms
+16:24:16 [200] /en/blog/ 1ms
+16:24:17 [200] /en/blog/kak-vybrat-izmeritelnyi-pribor/ 1ms
+16:24:18 [200] /en/wishlist/ 7ms

@@ -1,0 +1,62 @@
+{
+    "kak-vybrat-izmeritelnyi-pribor":  {
+                                           "category":  "Guides",
+                                           "title":  "How to choose a measuring device for a task",
+                                           "excerpt":  "Let\u0027s look at what to look for before purchasing: measurement range, accuracy, operating conditions and equipment.",
+                                           "content":  [
+                                                           "Before purchasing a measuring device, it is important to understand what quantity you will be monitoring and under what conditions the device will operate.",
+                                                           "Compare measurement range, accuracy, housing protection and availability of the required sensors. For field work, moisture protection, a large display and easy calibration are useful.",
+                                                           "If the device is needed for professional purposes, please check the equipment, instructions and the possibility of testing in advance before paying."
+                                                       ]
+                                       },
+    "teplovizor-dlya-diagnostiki":  {
+                                        "category":  "Diagnostics",
+                                        "title":  "When do you need a thermal imager and how to use it",
+                                        "excerpt":  "A thermal imager helps find overheating, heat leaks, electrical problems and hidden defects.",
+                                        "content":  [
+                                                        "A thermal imager is useful where the problem is difficult to see with the naked eye: in electrical cabinets, pipes, insulation, ventilation and equipment.",
+                                                        "Before measuring, let the object enter operating mode, remove direct reflections and compare the temperature with neighboring zones.",
+                                                        "For accurate diagnostics, consider the distance to the object, matrix resolution and temperature range of the device."
+                                                    ]
+                                    },
+    "detektory-bezopasnosti":  {
+                                   "category":  "Security",
+                                   "title":  "Safety Detectors: Wiring, Gas, Water and Radiation",
+                                   "excerpt":  "A short guide to devices that help you find hidden risks in time at home, in the workshop and on site.",
+                                   "content":  [
+                                                   "Detectors help to quickly check an area before repairing, installing or operating equipment.",
+                                                   "For wiring, the modes for searching for metal and live cables are important; for gas and water, sensitivity and clear indication are important.",
+                                                   "Use specialized devices strictly according to the manufacturer’s instructions and do not replace professional expertise in dangerous situations."
+                                               ]
+                               },
+    "avto-tester-pod-zadachu":  {
+                                    "category":  "Auto",
+                                    "title":  "Autotesters: what is useful in service and detailing",
+                                    "excerpt":  "Window testers, TPMS and UV lights help you quickly check the condition of your vehicle and consumables.",
+                                    "content":  [
+                                                    "For autowork, devices are useful that reduce inspection time and give clear results on the spot.",
+                                                    "A light transmittance tester helps evaluate glass and films, a TPMS monitors tire pressure, and a UV light helps look for signs of repairs and leaks.",
+                                                    "Before purchasing, check the compatibility, measurement range and conditions of use of a particular device."
+                                                ]
+                                },
+    "uhod-za-priborami":  {
+                              "category":  "Service",
+                              "title":  "How to store and maintain measuring instruments",
+                              "excerpt":  "A few simple rules that help extend the life of sensors, batteries and housing.",
+                              "content":  [
+                                              "It is best to store measuring instruments in a dry place, protected from shock, dust and sudden changes in temperature.",
+                                              "After use, clean the housing and sensors, do not leave batteries in the device for long-term storage and use a cover or case.",
+                                              "For calibrated instruments, periodically check accuracy against reference values or manufacturer\u0027s recommendations."
+                                          ]
+                          },
+    "instrumenty-dlya-masterskoi":  {
+                                        "category":  "Workshop",
+                                        "title":  "Minimum set of equipment for a workshop",
+                                        "excerpt":  "Things to keep on hand: Meters, testers, level, packer and basic repair equipment.",
+                                        "content":  [
+                                                        "A good workshop starts with tools that help you measure, inspect and quickly find faults.",
+                                                        "The basic set can include a laser level, multi-tester, moisture meter, range finder, socket tester and equipment for packaging or maintenance.",
+                                                        "Choose devices based on actual tasks, and not just on price: convenience, reliability and clear display save time every day."
+                                                    ]
+                                    }
+}

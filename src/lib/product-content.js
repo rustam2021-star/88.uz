@@ -57,22 +57,30 @@ function fallbackCopy(product) {
   };
 }
 
-export function getProfessionalProductContent(product) {
+export function getProfessionalProductContent(product, locale = "ru") {
   const sourceDescription = cleanText(product.description);
   const sourceShortDescription = cleanText(product.short_description);
   const fallback = fallbackCopy(product);
-  const hasUsefulDescription = sourceDescription.length > 180 && !GENERIC_DESCRIPTION.test(sourceDescription) && !LISTING_NOISE.test(sourceDescription);
+  const isLocalized = locale === "uz" || locale === "en";
+  const hasUsefulDescription = isLocalized
+    ? sourceDescription.length > 0
+    : sourceDescription.length > 180 && !GENERIC_DESCRIPTION.test(sourceDescription) && !LISTING_NOISE.test(sourceDescription);
   const description = hasUsefulDescription ? sourceDescription : fallback.description;
-  const shortDescription = sourceShortDescription.length > 80 && !GENERIC_DESCRIPTION.test(sourceShortDescription) && !LISTING_NOISE.test(sourceShortDescription)
+  const shortDescription = (isLocalized ? sourceShortDescription.length > 0 : sourceShortDescription.length > 80 && !GENERIC_DESCRIPTION.test(sourceShortDescription) && !LISTING_NOISE.test(sourceShortDescription))
     ? sourceShortDescription
     : fallback.shortDescription;
   const specs = { ...(product.specs || {}) };
-  specs["Состояние"] = "Новое";
-  if (product.brand && !/без бренда/i.test(product.brand)) specs["Бренд"] = product.brand;
-  if (product.model) specs["Модель"] = product.model;
+  const labels = locale === "uz"
+    ? { condition: "Holati", new: "Yangi", brand: "Brend", model: "Model", parameter: "Asosiy parametr" }
+    : locale === "en"
+      ? { condition: "Condition", new: "New", brand: "Brand", model: "Model", parameter: "Key parameter" }
+      : { condition: "Состояние", new: "Новое", brand: "Бренд", model: "Модель", parameter: "Ключевой параметр" };
+  specs[labels.condition] = labels.new;
+  if (product.brand && !/без бренда/i.test(product.brand)) specs[labels.brand] = product.brand;
+  if (product.model) specs[labels.model] = isLocalized ? product.title : product.model;
   for (const parameter of getTechnicalParameters(product)) {
     if (!Object.values(specs).some((value) => String(value).toLowerCase() === parameter.value.toLowerCase())) {
-      specs[`Ключевой параметр (${parameter.label})`] = parameter.value;
+      specs[`${labels.parameter}`] = parameter.value;
     }
   }
   return { description, shortDescription, specs };

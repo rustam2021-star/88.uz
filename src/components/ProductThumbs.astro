@@ -1,6 +1,9 @@
 ---
 import { CATALOG_URL, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductCardImage, getProductImage } from "../lib/catalog.js";
-import products from "../data/products.json";
+import { getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
+
+const products = getLocalizedProducts(getLocale(Astro.url.pathname));
 
 const slides = products.slice(0, 4).map((product) => ({
   image: product.gallery?.[0] || getProductImage(product),

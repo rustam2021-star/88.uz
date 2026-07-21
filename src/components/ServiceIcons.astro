@@ -1,10 +1,23 @@
 ---
-const items = [
+import { getLocale } from "../i18n/index.js";
+const locale = getLocale(Astro.url.pathname);
+const itemSets = { ru: [
   { icon: "icon-Headset", title: "Консультация", text: "Поможем уточнить наличие, цену и комплектацию товара." },
   { icon: "icon-Package", title: "Получение", text: "Доставка или самовывоз согласуются индивидуально." },
   { icon: "icon-SealPercent", title: "Актуальные цены", text: "Цены указаны в сумах и подтверждаются перед заказом." },
   { icon: "icon-ArrowUDownLeft", title: "Проверка товара", text: "Проверяйте характеристики и инструкцию производителя." }
-];
+], uz: [
+  { icon: "icon-Headset", title: "Maslahat", text: "Mahsulot mavjudligi, narxi va to‘plamini aniqlashga yordam beramiz." },
+  { icon: "icon-Package", title: "Qabul qilish", text: "Yetkazib berish yoki olib ketish alohida kelishiladi." },
+  { icon: "icon-SealPercent", title: "Amaldagi narxlar", text: "Narxlar so‘mda ko‘rsatilgan va buyurtmadan oldin tasdiqlanadi." },
+  { icon: "icon-ArrowUDownLeft", title: "Mahsulotni tekshirish", text: "Xususiyatlar va ishlab chiqaruvchi yo‘riqnomasini tekshiring." }
+], en: [
+  { icon: "icon-Headset", title: "Consultation", text: "We’ll help confirm availability, price and what is included." },
+  { icon: "icon-Package", title: "Pickup and delivery", text: "Delivery or pickup is arranged individually." },
+  { icon: "icon-SealPercent", title: "Current prices", text: "Prices are shown in UZS and confirmed before ordering." },
+  { icon: "icon-ArrowUDownLeft", title: "Product inspection", text: "Check the specifications and manufacturer’s instructions." }
+] };
+const items = itemSets[locale] || itemSets.ru;
 ---
 <div class="flat-spacing">
   <div class="container">

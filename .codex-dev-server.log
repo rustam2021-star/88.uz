@@ -2,11 +2,107 @@
 > tfamerce-astro-template@0.1.0 dev
 > astro dev --host 127.0.0.1 --port 4321
 
-22:28:48 [types] Generated 3ms
+10:30:31 [types] Generated 1ms
 
- astro  v4.16.19 ready in 328 ms
+ astro  v4.16.19 ready in 387 ms
 
 ┃ Local    http://127.0.0.1:4321/
 
-22:28:48 watching for file changes...
-22:28:51 [200] / 22ms
+10:30:32 watching for file changes...
+10:30:33 [200] / 13ms
+
+ update  ▶ New version of Astro available: 7.0.9
+  Run npx @astrojs/upgrade to update
+
+10:30:47 [200] / 5ms
+10:51:46 [200] / 4ms
+10:57:13 Configuration file updated. Restarting...
+10:57:13 [watch] src/layouts/MainLayout.astro
+10:57:13 [watch] src/components/TemplateHead.astro
+10:57:13 [watch] src/components/Header.astro
+10:57:13 [types] Generated 4ms
+10:59:23 Configuration file updated. Restarting...
+10:59:23 [types] Generated 1ms
+11:00:53 [302] / 10ms
+11:00:54 [200] /ru/ 3ms
+11:00:54 [200] /uz/ 3ms
+11:00:54 [200] /en/ 2ms
+13:31:53 [200] /ru/ 13ms
+13:31:56 [200] /uz/ 3ms
+13:36:06 [200] /uz/ 5ms
+13:36:09 [200] /ru/ 3ms
+13:36:10 [200] /uz/ 4ms
+13:36:14 [200] /en/ 3ms
+13:42:36 [watch] src/layouts/MainLayout.astro
+13:42:37 [200] /en/ 4ms
+13:44:30 [watch] src/i18n/ui.js
+13:44:30 [watch] src/layouts/MainLayout.astro
+13:44:30 [watch] /src/components/Header.astro?astro&type=style&index=0&lang.css
+13:44:31 [200] /en/ 4ms
+13:45:06 [watch] src/components/Header.astro
+13:45:06 [watch] src/components/Footer.astro
+13:45:07 [200] /en/ 5ms
+13:46:41 [200] /en/ 5ms
+13:46:43 [200] /en/ 3ms
+13:46:45 [200] /ru/ 3ms
+13:46:47 [200] /uz/ 3ms
+13:48:42 [200] /uz/catalog/ 8ms
+13:48:45 [200] /uz/thermal-detectors/ 5ms
+13:48:45 [200] /uz/auto-service/ 2ms
+13:48:46 [200] /uz/blog/ 2ms
+13:48:47 [200] /uz/catalog/ 7ms
+13:48:48 [200] /uz/ 3ms
+13:49:17 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
+13:49:17 [404] /assets/theme/assets/js/plugin/bootstrap.bundle.min.js.map 1ms
+13:49:17 [404] /assets/theme/assets/js/plugin/swiper-bundle.min.js.map 3ms
+13:49:17 [404] /assets/theme/assets/css/bootstrap.min.css.map 3ms
+13:49:17 [404] /assets/theme/assets/css/styles.css.map 2ms
+13:49:40 [200] /uz/ 3ms
+13:49:41 [200] /uz/ 3ms
+14:18:36 [watch] src/pages/catalog.astro
+14:18:36 [watch] src/pages/[category].astro
+14:18:36 [watch] src/pages/blog/index.astro
+14:18:36 [200] /uz/ 6ms
+14:19:08 [watch] src/components/BestSellerTabs.astro
+14:19:08 [watch] src/components/CategorySlider.astro
+14:19:08 [watch] src/components/Footer.astro
+14:19:08 [watch] src/components/Header.astro
+14:19:08 [watch] src/components/ProductThumbs.astro
+14:19:08 [watch] src/components/InsightsBlog.astro
+14:19:08 [watch] src/components/Testimonials.astro
+14:19:09 [200] /uz/ 6ms
+14:19:40 [watch] src/lib/seo.js
+14:19:40 [200] /uz/ 4ms
+14:20:01 [watch] src/pages/index.astro
+14:20:01 [watch] src/pages/catalog.astro
+14:20:01 [watch] src/lib/seo.js
+14:20:01 [watch] src/pages/[category].astro
+14:20:01 [watch] src/pages/blog/index.astro
+14:20:02 [200] /uz/ 7ms
+14:21:38 [200] /uz/ 10ms
+14:21:55 [200] /uz/ 7ms
+14:22:05 [watch] src/data/i18n/products.en.json
+14:22:05 [watch] src/data/i18n/categories.en.json
+14:22:05 [watch] src/data/i18n/blog.en.json
+14:22:05 [watch] src/data/i18n/products.uz.json
+14:22:05 [watch] src/data/i18n/categories.uz.json
+14:22:05 [watch] src/data/i18n/blog.uz.json
+14:22:06 [200] /uz/ 4ms
+14:26:29 [200] /uz/ 5ms
+14:26:31 [200] /ru/ 5ms
+14:26:33 [200] /uz/ 4ms
+14:26:35 [200] /en/ 4ms
+14:26:37 [200] /en/auto-service/ 3ms
+14:26:49 [200] /en/ 3ms
+14:28:12 [watch] src/components/PrecisionBanner.astro
+14:28:50 [watch] src/i18n/ui.js
+14:29:45 [watch] src/i18n/ui.js
+14:30:26 [watch] src/components/Header.astro
+14:33:02 [watch] src/components/HelpFaq.astro
+14:33:02 [watch] src/components/ServiceIcons.astro
+14:33:02 [watch] src/components/Testimonials.astro
+15:10:26 [200] /ru/ 4ms
+15:11:04 [watch] src/components/Header.astro
+15:41:59 [200] /ru/ 6ms
+15:41:59 [200] /uz/ 4ms
+15:42:00 [200] /en/ 3ms

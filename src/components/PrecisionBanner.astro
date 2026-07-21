@@ -1,7 +1,10 @@
 ---
 import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
+import { getLocale, localePath } from "../i18n/index.js";
 
-const slides = [
+const locale = getLocale(Astro.url.pathname);
+const slideTranslations = {
+  ru: [
   {
     image: "/assets/theme/assets/images/slider/slider-34.jpg",
     eyebrow: "НАДЕЖНО ДЛЯ РАБОТЫ",
@@ -22,8 +25,20 @@ const slides = [
     title: "Профессиональные приборы для работы",
     description: "UTi320E, SNDWAY SW-50G, AR991, лазерный уровень и токовые клещи UNI-T UT202A — точность и надежность в одном разделе.",
     dark: true
-  }
-];
+  }],
+  uz: [
+    { image: "/assets/theme/assets/images/slider/slider-34.jpg", eyebrow: "ISH UCHUN ISHONCHLI", title: "Aniq vazifalar uchun asboblar va uskunalar", description: "Ta’mirlash, diagnostika va kundalik ishlar uchun ishonchli o‘lchash asboblari, detektorlar va vositalarni tanlang.", dark: false },
+    { image: "/assets/theme/assets/images/slider/slider-35.jpg", eyebrow: "ANIQLIK NAZORAT OSTIDA", title: "Mutaxassislar uchun o‘lchash asboblari", description: "Multimetrlar, namlik o‘lchagichlar, pH metrlar va testerlar parametrlarni tezroq tekshirishga yordam beradi.", dark: true },
+    { image: "/assets/theme/assets/images/slider/slider-36-instruments.webp", eyebrow: "HAR QANDAY VAZIFA UCHUN ANIQ O‘LCHOV", title: "Ish uchun professional asboblar", description: "UTi320E, SNDWAY SW-50G, AR991, lazer darajasi va UNI-T UT202A tok qisqichlari — bir bo‘limda aniqlik va ishonchlilik.", dark: true }
+  ],
+  en: [
+    { image: "/assets/theme/assets/images/slider/slider-34.jpg", eyebrow: "RELIABLE FOR EVERY JOB", title: "Instruments and equipment for precise tasks", description: "Choose reliable measuring instruments, detectors and tools for repairs, diagnostics and everyday work.", dark: false },
+    { image: "/assets/theme/assets/images/slider/slider-35.jpg", eyebrow: "PRECISION UNDER CONTROL", title: "Measuring instruments for professionals", description: "Multimeters, moisture meters, pH meters and testers help you check parameters faster and work confidently.", dark: true },
+    { image: "/assets/theme/assets/images/slider/slider-36-instruments.webp", eyebrow: "ACCURATE MEASUREMENTS FOR EVERY TASK", title: "Professional instruments for work", description: "UTi320E, SNDWAY SW-50G, AR991, a laser level and UNI-T UT202A clamp meter — precision and reliability in one section.", dark: true }
+  ]
+};
+const slides = slideTranslations[locale] || slideTranslations.ru;
+const catalogLabel = locale === "en" ? "View catalog" : locale === "uz" ? "Katalogni ko‘rish" : "Смотреть каталог";
 ---
 <section class="themesFlat construction-hero-section">
   <div class="container-full">
@@ -72,7 +87,7 @@ const slides = [
                     {slide.description}
                   </p>
                   <div class="fade-item fade-item-4">
-                    <a class="tf-btn btn-white animate-btn animate-dark" href="/catalog/">Смотреть каталог</a>
+                    <a class="tf-btn btn-white animate-btn animate-dark" href={localePath("/catalog/", locale)}>{catalogLabel}</a>
                   </div>
                 </div>
               </div>

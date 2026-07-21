@@ -1,8 +1,12 @@
 ---
 import ProductCard from "./ProductCard.astro";
-import categories from "../data/categories.json";
-import products from "../data/products.json";
+import { getLocalizedCategories, getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
 import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
+
+const locale = getLocale(Astro.url.pathname);
+const categories = getLocalizedCategories(locale);
+const products = getLocalizedProducts(locale);
 
 const tabSlugs = ["measuring-tools", "thermal-detectors", "auto-service", "tools-equipment"];
 const fallbackProducts = products.filter((product) => product.in_stock !== false);

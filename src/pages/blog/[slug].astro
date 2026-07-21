@@ -1,22 +1,25 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import posts from "../../data/blog.json";
-import products from "../../data/products.json";
+import { basePosts, getLocalizedPosts, getLocalizedProducts } from "../../lib/content.js";
+import { getLocale } from "../../i18n/index.js";
 import { getPostImage, getPostUrl } from "../../lib/blog.js";
 import { getImageSrcset, getImageVariant } from "../../lib/catalog.js";
 import SeoBreadcrumbs from "../../components/SeoBreadcrumbs.astro";
 import { getBlogPostSeo, getBreadcrumbItems, getPageSchema } from "../../lib/seo.js";
 
 export function getStaticPaths() {
-  return posts.map((post) => ({
+  return basePosts.map((post) => ({
     params: { slug: post.slug },
     props: { post }
   }));
 }
 
-const { post } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const posts = getLocalizedPosts(locale);
+const products = getLocalizedProducts(locale);
+const post = posts.find((item) => item.slug === Astro.props.post.slug) || Astro.props.post;
 const relatedPosts = posts.filter((item) => item.slug !== post.slug).slice(0, 3);
-const seo = getBlogPostSeo(post);
+const seo = getBlogPostSeo(post, locale);
 const breadcrumbs = getBreadcrumbItems([
   { name: "Главная", url: "/" },
   { name: "Блог", url: "/blog/" },

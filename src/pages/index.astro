@@ -9,8 +9,10 @@ import ProductThumbs from "../components/ProductThumbs.astro";
 import ServiceIcons from "../components/ServiceIcons.astro";
 import Testimonials from "../components/Testimonials.astro";
 import { getBreadcrumbItems, getHomeSeo, getPageSchema } from "../lib/seo.js";
+import { getLocale } from "../i18n/index.js";
 
-const seo = getHomeSeo();
+const locale = getLocale(Astro.url.pathname);
+const seo = getHomeSeo(locale);
 const breadcrumbs = getBreadcrumbItems([{ name: "Главная", url: "/" }]);
 ---
 <MainLayout

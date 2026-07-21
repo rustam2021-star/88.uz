@@ -1,11 +1,26 @@
 ---
-const faqs = [
+import { getLocale } from "../i18n/index.js";
+const locale = getLocale(Astro.url.pathname);
+const faqSets = { ru: [
   { question: "Как оформить заказ?", answer: "Выберите товар и нажмите “Заказать”, чтобы написать продавцу в Telegram." },
   { question: "Как быстро доставляете?", answer: "Срок и способ получения согласуются с продавцом перед заказом." },
   { question: "Можно ли вернуть товар?", answer: "Условия возврата и проверки товара нужно уточнить до оплаты." },
   { question: "Есть ли поддержка?", answer: "Да, можно написать в Telegram или позвонить по телефону из шапки сайта." },
   { question: "Как узнать наличие?", answer: "Актуальное наличие, цену и комплектацию лучше подтвердить перед заказом." }
-];
+], uz: [
+  { question: "Qanday buyurtma beriladi?", answer: "Mahsulotni tanlang va Telegram’da sotuvchiga yozish uchun “Buyurtma berish” tugmasini bosing." },
+  { question: "Yetkazib berish qancha vaqt oladi?", answer: "Olish muddati va usuli buyurtmadan oldin sotuvchi bilan kelishiladi." },
+  { question: "Mahsulotni qaytarish mumkinmi?", answer: "Qaytarish va tekshirish shartlarini to‘lovdan oldin aniqlang." },
+  { question: "Yordam xizmati bormi?", answer: "Telegram’da yozishingiz yoki saytdagi raqamga qo‘ng‘iroq qilishingiz mumkin." },
+  { question: "Mavjudligini qanday bilaman?", answer: "Buyurtmadan oldin mavjudligi, narxi va to‘plamini tasdiqlang." }
+], en: [
+  { question: "How do I place an order?", answer: "Choose a product and click “Order” to message the seller on Telegram." },
+  { question: "How quickly do you deliver?", answer: "Timing and delivery method are agreed with the seller before ordering." },
+  { question: "Can I return a product?", answer: "Confirm return and inspection terms before payment." },
+  { question: "Is support available?", answer: "Message us on Telegram or call the number in the site header." },
+  { question: "How can I check availability?", answer: "Confirm current availability, price and included items before ordering." }
+] };
+const faqs = faqSets[locale] || faqSets.ru;
 ---
 <section class="themesFlat">
   <div class="container">

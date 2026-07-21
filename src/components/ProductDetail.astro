@@ -4,8 +4,31 @@ import SeoBreadcrumbs from "./SeoBreadcrumbs.astro";
 import { STORE_PHONE, formatPrice, getImageSrcset, getImageVariant, getOrderUrl, getProductImage } from "../lib/catalog.js";
 import { getProfessionalProductContent } from "../lib/product-content.js";
 
-const { product, category, breadcrumbs = [], relatedProducts = [], previousProduct, nextProduct } = Astro.props;
-const content = getProfessionalProductContent(product);
+const { locale = "ru", product, category, breadcrumbs = [], relatedProducts = [], previousProduct, nextProduct } = Astro.props;
+const text = {
+  ru: {
+    new: "Новое", inStock: "В наличии у продавца", availability: "Наличие уточняется", code: "Код:",
+    confirm: "Перед заказом уточните наличие, комплектацию и способ получения.", city: "Город:", tashkent: "Ташкент", quantity: "Количество:", order: "Заказать", call: "Позвонить продавцу",
+    wishlist: "В избранное", ask: "Задать вопрос", share: "Поделиться", deliveryLead: "Доставка и получение:", arranged: "по договоренности", deliveryTail: "условия уточняются перед заказом.",
+    check: "Проверяйте характеристики, комплектацию и инструкцию производителя перед покупкой.", safe: "Безопасная покупка:", safeText: "Наличие, цену и условия передачи товара нужно подтвердить перед оплатой.",
+    description: "Описание", specs: "Характеристики", ordering: "Заказ", category: "Категория", how: "Как заказать", howText: "Нажмите «Заказать» и напишите продавцу в Telegram. Уточните наличие, цену и комплектацию.", delivery: "Доставка", deliveryText: "Способ получения и сроки доставки согласуются индивидуально.", related: "Похожие товары", recent: "Недавно смотрели"
+  },
+  uz: {
+    new: "Yangi", inStock: "Sotuvchida mavjud", availability: "Mavjudligi aniqlanmoqda", code: "Kod:",
+    confirm: "Buyurtmadan oldin mavjudligi, to‘plami va olish usulini aniqlang.", city: "Shahar:", tashkent: "Toshkent", quantity: "Miqdor:", order: "Buyurtma berish", call: "Sotuvchiga qo‘ng‘iroq",
+    wishlist: "Sevimlilarga", ask: "Savol berish", share: "Ulashish", deliveryLead: "Yetkazib berish va olish:", arranged: "kelishuv asosida", deliveryTail: "shartlar buyurtmadan oldin aniqlanadi.",
+    check: "Xarid qilishdan oldin xususiyatlar, to‘plam va ishlab chiqaruvchi yo‘riqnomasini tekshiring.", safe: "Xavfsiz xarid:", safeText: "To‘lovdan oldin mahsulot mavjudligi, narxi va topshirish shartlarini tasdiqlang.",
+    description: "Tavsif", specs: "Xususiyatlar", ordering: "Buyurtma", category: "Toifa", how: "Qanday buyurtma beriladi", howText: "«Buyurtma berish» tugmasini bosing va Telegram orqali sotuvchiga yozing. Mavjudligi, narxi va to‘plamini aniqlang.", delivery: "Yetkazib berish", deliveryText: "Olish usuli va yetkazib berish muddati alohida kelishiladi.", related: "O‘xshash mahsulotlar", recent: "Yaqinda ko‘rilgan"
+  },
+  en: {
+    new: "New", inStock: "Available from the seller", availability: "Availability to be confirmed", code: "Code:",
+    confirm: "Confirm availability, package contents and pickup or delivery method before ordering.", city: "City:", tashkent: "Tashkent", quantity: "Quantity:", order: "Order", call: "Call seller",
+    wishlist: "Add to wishlist", ask: "Ask a question", share: "Share", deliveryLead: "Delivery and pickup:", arranged: "by arrangement", deliveryTail: "terms are confirmed before ordering.",
+    check: "Check the specifications, package contents and manufacturer’s instructions before purchase.", safe: "Secure purchase:", safeText: "Confirm availability, price and handover terms before payment.",
+    description: "Description", specs: "Specifications", ordering: "Ordering", category: "Category", how: "How to order", howText: "Click “Order” and message the seller on Telegram. Confirm availability, price and package contents.", delivery: "Delivery", deliveryText: "The pickup or delivery method and timing are arranged individually.", related: "Related products", recent: "Recently viewed"
+  }
+}[locale];
+const content = getProfessionalProductContent(product, locale);
 const price = formatPrice(product.price, product.currency);
 const oldPrice = product.old_price ? formatPrice(product.old_price, product.currency) : "";
 const gallery = product.gallery?.length ? product.gallery : [getProductImage(product)];
@@ -27,7 +50,7 @@ const normalizeSpecValue = (key, value) => {
 const specs = Object.entries(content.specs || {})
   .filter(([key]) => key !== "Источник")
   .map(([key, value]) => [key, normalizeSpecValue(key, value)]);
-const condition = "Новое";
+const condition = text.new;
 const orderUrl = getOrderUrl(product);
 const recentlyViewedProduct = {
   id: product.slug,
@@ -105,10 +128,10 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                 <div class="br-line type-vertical"></div>
                 <div class="meta_sold">
                   <i class="icon icon-Lightning text-primary"></i>
-                  <span class="text-caption-01 cl-text-2">{product.in_stock ? "В наличии у продавца" : "Наличие уточняется"}</span>
+                  <span class="text-caption-01 cl-text-2">{product.in_stock ? text.inStock : text.availability}</span>
                 </div>
                 <div class="br-line type-vertical"></div>
-                <div class="meta_prd_code text-caption-01"><span class="cl-text-2">Код:</span><span>{product.source_id || product.id}</span></div>
+                <div class="meta_prd_code text-caption-01"><span class="cl-text-2">{text.code}</span><span>{product.source_id || product.id}</span></div>
               </div>
               <div class="product-infor-price mb-12">
                 <h4 class="price-on-sale">{price}</h4>
@@ -118,7 +141,7 @@ const phoneUrl = `tel:${STORE_PHONE}`;
               <p class="product-infor-desc cl-text-2 mb-12">{content.shortDescription}</p>
               <div class="product-infor-reality lh-24">
                 <div class="ic d-flex"><i class="icon icon-Eye"></i></div>
-                <span class="text-caption-01">Перед заказом уточните наличие, комплектацию и способ получения.</span>
+                <span class="text-caption-01">{text.confirm}</span>
               </div>
             </div>
 
@@ -126,20 +149,20 @@ const phoneUrl = `tel:${STORE_PHONE}`;
             <div class="tf-product-variant">
               <div class="variant-picker-item">
                 <div class="variant-picker-label">
-                  <div>Город: <span class="variant-picker-label-value fw-medium">Ташкент</span></div>
+                  <div>{text.city} <span class="variant-picker-label-value fw-medium">{text.tashkent}</span></div>
                 </div>
               </div>
               <div class="tf-product-total-quantity">
-                <p>Количество:</p>
+                <p>{text.quantity}</p>
                 <div class="group-action">
                   <div class="wg-quantity">
                     <button class="btn-quantity btn-decrease"><i class="icon icon-minus"></i></button>
                     <input class="quantity-product" name="number" type="text" value="1" />
                     <button class="btn-quantity btn-increase"><i class="icon icon-plus"></i></button>
                   </div>
-                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" href={orderUrl} rel="noopener" target="_blank">Заказать</a>
+                  <a class="btn-action-price tf-btn type-xl animate-btn w-100" href={orderUrl} rel="noopener" target="_blank">{text.order}</a>
                 </div>
-                <a class="tf-btn type-xl btn-primary animate-btn w-100" href={phoneUrl}>Позвонить продавцу</a>
+                <a class="tf-btn type-xl btn-primary animate-btn w-100" href={phoneUrl}>{text.call}</a>
               </div>
             </div>
 
@@ -154,18 +177,18 @@ const phoneUrl = `tel:${STORE_PHONE}`;
                 data-wishlist-price={price}
                 data-wishlist-url={`/product/${product.slug}/`}
                 href="#"
-              ><i class="icon icon-heart"></i><span class="wishlist-label">В избранное</span></a>
-              <a class="product-extra-icon link" href={orderUrl} rel="noopener" target="_blank"><i class="icon icon-Question"></i>Задать вопрос</a>
-              <a class="product-extra-icon link" data-bs-toggle="modal" href="#share"><i class="icon icon-ShareNetwork"></i>Поделиться</a>
+              ><i class="icon icon-heart"></i><span class="wishlist-label">{text.wishlist}</span></a>
+              <a class="product-extra-icon link" href={orderUrl} rel="noopener" target="_blank"><i class="icon icon-Question"></i>{text.ask}</a>
+              <a class="product-extra-icon link" data-bs-toggle="modal" href="#share"><i class="icon icon-ShareNetwork"></i>{text.share}</a>
             </div>
             <div class="br-line"></div>
             <div class="tf-product-delivery-return">
-              <div class="product-delivery"><i class="icon icon-Timer"></i><p>Доставка и получение: <span class="fw-semibold">по договоренности</span>, условия уточняются перед заказом.</p></div>
-              <div class="product-delivery return"><i class="icon icon-ArrowClockwise"></i><p>Проверяйте характеристики, комплектацию и инструкцию производителя перед покупкой.</p></div>
+              <div class="product-delivery"><i class="icon icon-Timer"></i><p>{text.deliveryLead} <span class="fw-semibold">{text.arranged}</span>, {text.deliveryTail}</p></div>
+              <div class="product-delivery return"><i class="icon icon-ArrowClockwise"></i><p>{text.check}</p></div>
             </div>
             <div class="tf-product-trust-seal">
-              <p class="h6 text-seal">Безопасная покупка:</p>
-              <p class="text-caption-01 cl-text-2">Наличие, цену и условия передачи товара нужно подтвердить перед оплатой.</p>
+              <p class="h6 text-seal">{text.safe}</p>
+              <p class="text-caption-01 cl-text-2">{text.safeText}</p>
             </div>
           </div>
         </div>
@@ -177,26 +200,26 @@ const phoneUrl = `tel:${STORE_PHONE}`;
 <section class="section-product-description flat-spacing flat-animate-tab">
   <div class="container">
     <ul class="tab-btn-wrap-v1" role="tablist">
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#description" role="tab"><span class="h5 fw-medium">Описание</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#customer-reviews" role="tab"><span class="h5 fw-medium">Характеристики</span></a></li>
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#shipping-returns" role="tab"><span class="h5 fw-medium">Заказ</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#description" role="tab"><span class="h5 fw-medium">{text.description}</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#customer-reviews" role="tab"><span class="h5 fw-medium">{text.specs}</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#shipping-returns" role="tab"><span class="h5 fw-medium">{text.ordering}</span></a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active show" id="description" role="tabpanel">
         <div class="tab-content_desc tf-grid-layout md-col-2">
-          <div class="box-desc"><h5 class="desc_title">{product.model}</h5><div class="desc_info">{content.description.split(/\n\s*\n/).map((paragraph) => <p class="cl-text-2">{paragraph}</p>)}</div></div>
-          <div class="box-desc"><h5 class="desc_title">Категория</h5><p class="cl-text-2">{category.description_top}</p><p class="cl-text-2">{category.description_bottom}</p></div>
+          <div class="box-desc"><h5 class="desc_title">{locale === "ru" ? product.model : product.title}</h5><div class="desc_info">{content.description.split(/\n\s*\n/).map((paragraph) => <p class="cl-text-2">{paragraph}</p>)}</div></div>
+          <div class="box-desc"><h5 class="desc_title">{text.category}</h5><p class="cl-text-2">{category.description_top}</p><p class="cl-text-2">{category.description_bottom}</p></div>
         </div>
       </div>
       <div class="tab-pane" id="customer-reviews" role="tabpanel">
         <div class="tab-content_desc tf-grid-layout md-col-2">
-          <div class="box-desc"><h5 class="desc_title">Характеристики</h5><ul class="list">{specs.map(([key, value]) => <li class="cl-text-2">- {key}: {value}</li>)}</ul></div>
+          <div class="box-desc"><h5 class="desc_title">{text.specs}</h5><ul class="list">{specs.map(([key, value]) => <li class="cl-text-2">- {key}: {value}</li>)}</ul></div>
         </div>
       </div>
       <div class="tab-pane" id="shipping-returns" role="tabpanel">
         <div class="tab-content_desc desc-2 tf-grid-layout sm-col-2 xl-col-4">
-          <div class="box-desc"><h5 class="desc_title">Как заказать</h5><p class="cl-text-2">Нажмите “Заказать” и напишите продавцу в Telegram. Уточните наличие, цену и комплектацию.</p></div>
-          <div class="box-desc"><h5 class="desc_title">Доставка</h5><p class="cl-text-2">Способ получения и сроки доставки согласуются индивидуально.</p></div>
+          <div class="box-desc"><h5 class="desc_title">{text.how}</h5><p class="cl-text-2">{text.howText}</p></div>
+          <div class="box-desc"><h5 class="desc_title">{text.delivery}</h5><p class="cl-text-2">{text.deliveryText}</p></div>
         </div>
       </div>
     </div>
@@ -206,8 +229,8 @@ const phoneUrl = `tel:${STORE_PHONE}`;
 <div class="flat-spacing flat-animate-tab pt-0">
   <div class="container">
     <ul class="tab-btn-wrap-v1 style-2 justify-content-sm-center" role="tablist">
-      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#related" role="tab"><span class="h4 fw-medium">Похожие товары</span></a></li>
-      <li class="nav-tab-item" data-recently-tab hidden role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#recently" role="tab"><span class="h4 fw-medium">Недавно смотрели</span></a></li>
+      <li class="nav-tab-item" role="presentation"><a class="tf-btn-tab active" data-bs-toggle="tab" href="#related" role="tab"><span class="h4 fw-medium">{text.related}</span></a></li>
+      <li class="nav-tab-item" data-recently-tab hidden role="presentation"><a class="tf-btn-tab" data-bs-toggle="tab" href="#recently" role="tab"><span class="h4 fw-medium">{text.recent}</span></a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active show" id="related" role="tabpanel">

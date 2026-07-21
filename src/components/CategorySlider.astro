@@ -1,6 +1,8 @@
 ---
-import categories from "../data/categories.json";
+import { getLocalizedCategories } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
 import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
+const categories = getLocalizedCategories(getLocale(Astro.url.pathname));
 ---
 <section class="section-categories-construction flat-spacing">
   <div class="container">

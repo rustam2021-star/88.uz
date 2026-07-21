@@ -1,6 +1,10 @@
 ---
 import { formatPrice, getImageSrcset, getProductCardImage, getProductImage } from "../lib/catalog.js";
-import products from "../data/products.json";
+import { getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
+
+const locale = getLocale(Astro.url.pathname);
+const products = getLocalizedProducts(locale);
 
 const avatars = [
   "/assets/theme/assets/images/avatar/avatar-1.jpg",
@@ -9,12 +13,23 @@ const avatars = [
   "/assets/theme/assets/images/avatar/avatar-4.jpg"
 ];
 
-const reviews = [
+const reviewSets = { ru: [
   "Удобно, когда характеристики, цена и контакт продавца собраны в одном месте. Быстро выбрали прибор и уточнили наличие.",
   "Помогли подобрать товар под задачу, ответили по комплектации и способу получения. Заказ прошел спокойно и понятно.",
   "Понравилось, что можно сразу перейти к товару, посмотреть фото и написать продавцу без лишних шагов.",
   "Ассортимент собран аккуратно: приборы, детекторы и оборудование легко подобрать по категориям и цене."
-];
+], uz: [
+  "Xususiyatlar, narx va sotuvchi aloqasi bir joyda bo‘lishi qulay. Asbobni tez tanlab, mavjudligini aniqladik.",
+  "Vazifaga mos mahsulotni tanlashga yordam berishdi, to‘plami va olish usulini tushuntirishdi.",
+  "Mahsulotga o‘tish, rasmlarni ko‘rish va sotuvchiga yozish uchun ortiqcha qadamlar yo‘q.",
+  "Assortiment tartibli: asboblar, detektorlar va uskunalarni toifa va narx bo‘yicha topish oson."
+], en: [
+  "It is convenient to have specifications, price and seller contact in one place. We quickly chose an instrument and confirmed availability.",
+  "They helped us choose the right product and explained what was included and how to receive it.",
+  "It is easy to open a product, view the photos and message the seller without unnecessary steps.",
+  "The range is well organized: instruments, detectors and equipment are easy to find by category and price."
+] };
+const reviews = reviewSets[locale] || reviewSets.ru;
 
 const authors = ["Алексей Миронов", "Мадина Каримова", "Игорь Ли", "Дилшод Рахимов"];
 

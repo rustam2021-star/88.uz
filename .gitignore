@@ -11,3 +11,6 @@ reference_downloader/__pycache__/
 .env
 .DS_Store
 Thumbs.db
+
+# Generated translation request cache (language overlays are committed)
+src/data/i18n/translation-cache.json

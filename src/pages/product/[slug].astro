@@ -1,18 +1,21 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import ProductDetail from "../../components/ProductDetail.astro";
-import products from "../../data/products.json";
-import categories from "../../data/categories.json";
+import { baseProducts, getLocalizedCategories, getLocalizedProducts } from "../../lib/content.js";
+import { getLocale } from "../../i18n/index.js";
 import { getBreadcrumbItems, getPageSchema, getProductSchema, getProductSeo } from "../../lib/seo.js";
 
 export function getStaticPaths() {
-  return products.map((product) => ({
+  return baseProducts.map((product) => ({
     params: { slug: product.slug },
     props: { product }
   }));
 }
 
-const { product } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const products = getLocalizedProducts(locale);
+const categories = getLocalizedCategories(locale);
+const product = products.find((item) => item.slug === Astro.props.product.slug) || Astro.props.product;
 const category = categories.find((item) => item.slug === product.category_slug) ?? categories[0];
 const categoryProducts = products.filter((item) => item.category_slug === product.category_slug && item.slug !== product.slug);
 const manualRelated = products.filter((item) => product.related_products?.includes(item.slug) && item.slug !== product.slug);
@@ -24,7 +27,7 @@ const navigationProducts = products.filter((item) => item.category_slug === prod
 const navigationIndex = navigationProducts.findIndex((item) => item.slug === product.slug);
 const previousProduct = navigationProducts[(navigationIndex - 1 + navigationProducts.length) % navigationProducts.length];
 const nextProduct = navigationProducts[(navigationIndex + 1) % navigationProducts.length];
-const seo = getProductSeo(product, category);
+const seo = getProductSeo(product, category, locale);
 const breadcrumbs = getBreadcrumbItems([
   { name: "Главная", url: "/" },
   { name: "Каталог", url: "/catalog/" },
@@ -39,10 +42,11 @@ const breadcrumbs = getBreadcrumbItems([
   robots={seo.robots}
   ogImage={product.main_image}
   ogType="product"
-  jsonLd={getPageSchema({ seo, breadcrumbs, pageSchema: getProductSchema(product, category) })}
+  jsonLd={getPageSchema({ seo, breadcrumbs, pageSchema: getProductSchema(product, category, locale) })}
   productAssets={true}
 >
   <ProductDetail
+    locale={locale}
     product={product}
     category={category}
     breadcrumbs={breadcrumbs}

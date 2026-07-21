@@ -1,6 +1,12 @@
 ---
-import categories from "../data/categories.json";
+import { getLocalizedCategories } from "../lib/content.js";
 import { BLOG_URL } from "../lib/catalog.js";
+import { localePath } from "../i18n/index.js";
+
+const { locale = "ru" } = Astro.props;
+const categories = getLocalizedCategories(locale);
+const catalogUrl = localePath("/catalog/", locale);
+const blogUrl = localePath(BLOG_URL, locale);
 ---
 <footer class="tf-footer footer-s2 type-reverse bg-dark">
   <div class="position-relative">
@@ -14,7 +20,7 @@ import { BLOG_URL } from "../lib/catalog.js";
               <p class="footer-desc cl-text-3 mb-16">
                 Каталог измерительных приборов, детекторов, автоинструментов, электроники и оборудования.
               </p>
-              <a class="tf-btn animate-btn" href="/catalog/">Смотреть каталог</a>
+              <a class="tf-btn animate-btn" href={catalogUrl}>Смотреть каталог</a>
             </div>
           </div>
         </div>
@@ -24,9 +30,9 @@ import { BLOG_URL } from "../lib/catalog.js";
             <p class="footer-heading footer-heading-mobile text-white">КАТАЛОГ</p>
             <div class="tf-collapse-content">
               <ul class="footer-menu-list">
-                <li><a class="cl-text-3 link" href="/catalog/">Все товары</a></li>
+                <li><a class="cl-text-3 link" href={catalogUrl}>Все товары</a></li>
                 {categories.slice(0, 4).map((category) => (
-                  <li><a class="cl-text-3 link" href={`/${category.slug}/`}>{category.title}</a></li>
+                  <li><a class="cl-text-3 link" href={localePath(`/${category.slug}/`, locale)}>{category.title}</a></li>
                 ))}
               </ul>
             </div>
@@ -36,10 +42,10 @@ import { BLOG_URL } from "../lib/catalog.js";
             <div class="tf-collapse-content">
               <ul class="footer-menu-list">
                 {categories.slice(4).map((category) => (
-                  <li><a class="cl-text-3 link" href={`/${category.slug}/`}>{category.title}</a></li>
+                  <li><a class="cl-text-3 link" href={localePath(`/${category.slug}/`, locale)}>{category.title}</a></li>
                 ))}
-                <li><a class="cl-text-3 link" href={BLOG_URL}>Блог</a></li>
-                <li><a class="cl-text-3 link" href="/wishlist/">Избранное</a></li>
+                <li><a class="cl-text-3 link" href={blogUrl}>Блог</a></li>
+                <li><a class="cl-text-3 link" href={localePath("/wishlist/", locale)}>Избранное</a></li>
               </ul>
             </div>
           </div>

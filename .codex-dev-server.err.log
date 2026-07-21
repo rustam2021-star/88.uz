@@ -1,0 +1,20 @@
+14:19:09 [ERROR] product.badges?.filter is not a function
+  Stack trace:
+    at D:\projects\88.uz\src\components\ProductCard.astro:48:22
+    [...] See full stack trace in the browser, or rerun with --verbose.
+14:19:40 [ERROR] product.badges?.filter is not a function
+  Stack trace:
+    at D:\projects\88.uz\src\components\ProductCard.astro:48:22
+    [...] See full stack trace in the browser, or rerun with --verbose.
+14:20:02 [ERROR] product.badges?.filter is not a function
+  Stack trace:
+    at D:\projects\88.uz\src\components\ProductCard.astro:48:22
+    [...] See full stack trace in the browser, or rerun with --verbose.
+14:21:38 [ERROR] product.badges?.filter is not a function
+  Stack trace:
+    at D:\projects\88.uz\src\components\ProductCard.astro:48:22
+    [...] See full stack trace in the browser, or rerun with --verbose.
+14:21:55 [ERROR] product.badges?.filter is not a function
+  Stack trace:
+    at D:\projects\88.uz\src\components\ProductCard.astro:48:22
+    [...] See full stack trace in the browser, or rerun with --verbose.

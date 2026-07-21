@@ -1,0 +1,62 @@
+{
+    "kak-vybrat-izmeritelnyi-pribor":  {
+                                           "category":  "Qo\u0027llanmalar",
+                                           "title":  "Vazifa uchun o\u0027lchash moslamasini qanday tanlash mumkin",
+                                           "excerpt":  "Keling, sotib olishdan oldin nimaga e\u0027tibor berish kerakligini ko\u0027rib chiqaylik: o\u0027lchov oralig\u0027i, aniqlik, ish sharoitlari va uskunalar.",
+                                           "content":  [
+                                                           "O\u0027lchov moslamasini sotib olishdan oldin, siz qaysi miqdorni kuzatib borishingiz va qurilma qanday sharoitlarda ishlashini tushunishingiz kerak.",
+                                                           "O\u0027lchov diapazoni, aniqligi, korpus muhofazasi va kerakli sensorlarning mavjudligini solishtiring. Dala ishlari uchun namlikdan himoya qilish, katta displey va oson kalibrlash foydalidir.",
+                                                           "Agar qurilma professional maqsadlarda kerak bo\u0027lsa, to\u0027lashdan oldin jihozni, ko\u0027rsatmalarni va sinovdan o\u0027tkazish imkoniyatini oldindan tekshiring."
+                                                       ]
+                                       },
+    "teplovizor-dlya-diagnostiki":  {
+                                        "category":  "Diagnostika",
+                                        "title":  "Sizga termal tasvir qachon kerak va undan qanday foydalanish kerak",
+                                        "excerpt":  "Termal tasvir qurilmasi haddan tashqari issiqlik, issiqlik qochqinlari, elektr muammolari va yashirin nuqsonlarni topishga yordam beradi.",
+                                        "content":  [
+                                                        "Issiqlik tasvirlagichi muammoni yalang\u0027och ko\u0027z bilan ko\u0027rish qiyin bo\u0027lgan joylarda foydalidir: elektr shkaflarida, quvurlarda, izolyatsiyalashda, shamollatish va uskunalarda.",
+                                                        "O\u0027lchashdan oldin ob\u0027ektni ish rejimiga kiriting, to\u0027g\u0027ridan-to\u0027g\u0027ri ko\u0027zgularni olib tashlang va haroratni qo\u0027shni zonalar bilan taqqoslang.",
+                                                        "To\u0027g\u0027ri tashxis qo\u0027yish uchun ob\u0027ektga masofani, matritsa o\u0027lchamlarini va qurilmaning harorat oralig\u0027ini hisobga oling."
+                                                    ]
+                                    },
+    "detektory-bezopasnosti":  {
+                                   "category":  "Xavfsizlik",
+                                   "title":  "Xavfsizlik detektorlari: simlar, gaz, suv va radiatsiya",
+                                   "excerpt":  "Uyda, ustaxonada va saytda yashirin xavflarni o\u0027z vaqtida topishga yordam beradigan qurilmalar bo\u0027yicha qisqacha qo\u0027llanma.",
+                                   "content":  [
+                                                   "Detektorlar uskunani ta\u0027mirlash, o\u0027rnatish yoki ishlatishdan oldin hududni tezda tekshirishga yordam beradi.",
+                                                   "Simlarni ulash uchun metall va jonli kabellarni qidirish rejimlari muhimdir; gaz va suv uchun sezgirlik va aniq ko\u0027rsatkich muhim ahamiyatga ega.",
+                                                   "Ishlab chiqaruvchining ko\u0027rsatmalariga muvofiq maxsus qurilmalardan foydalaning va xavfli vaziyatlarda professional tajribani almashtirmang."
+                                               ]
+                               },
+    "avto-tester-pod-zadachu":  {
+                                    "category":  "Avtomatik",
+                                    "title":  "Avtotesters: xizmat ko\u0027rsatish va detallashtirishda nima foydali",
+                                    "excerpt":  "Oyna testerlari, TPMS va UV chiroqlari avtomobilingiz va sarf materiallarining holatini tezda tekshirishga yordam beradi.",
+                                    "content":  [
+                                                    "Avtomatik ish uchun asboblar tekshirish vaqtini qisqartiradigan va joyida aniq natijalar beradigan foydalidir.",
+                                                    "Yorug\u0027lik o\u0027tkazuvchanligini tekshirgich shisha va plyonkalarni baholashga yordam beradi, TPMS shinalar bosimini nazorat qiladi va UV nuri ta\u0027mirlash va oqish belgilarini izlashga yordam beradi.",
+                                                    "Sotib olishdan oldin, ma\u0027lum bir qurilmaning mosligini, o\u0027lchov oralig\u0027ini va foydalanish shartlarini tekshiring."
+                                                ]
+                                },
+    "uhod-za-priborami":  {
+                              "category":  "Xizmat",
+                              "title":  "O\u0027lchov vositalarini qanday saqlash va saqlash kerak",
+                              "excerpt":  "Datchiklar, batareyalar va korpuslarning ishlash muddatini uzaytirishga yordam beradigan bir nechta oddiy qoidalar.",
+                              "content":  [
+                                              "O\u0027lchov asboblarini zarba, chang va haroratning keskin o\u0027zgarishidan himoyalangan quruq joyda saqlash yaxshidir.",
+                                              "Foydalanishdan keyin korpus va datchiklarni tozalang, batareyalarni uzoq muddatli saqlash uchun qurilmada qoldirmang va qopqoq yoki qutidan foydalaning.",
+                                              "Kalibrlangan asboblar uchun vaqti-vaqti bilan mos yozuvlar qiymatlari yoki ishlab chiqaruvchining tavsiyalariga muvofiq aniqligini tekshiring."
+                                          ]
+                          },
+    "instrumenty-dlya-masterskoi":  {
+                                        "category":  "Seminar",
+                                        "title":  "Dastgoh uchun minimal jihozlar to\u0027plami",
+                                        "excerpt":  "Qo\u0027lda saqlanishi kerak bo\u0027lgan narsalar: hisoblagichlar, sinovchilar, daraja, qadoqlash va asosiy ta\u0027mirlash uskunalari.",
+                                        "content":  [
+                                                        "Yaxshi ustaxona nosozliklarni o\u0027lchash, tekshirish va tezda topishga yordam beradigan asboblardan boshlanadi.",
+                                                        "Asosiy to\u0027plamga lazer sathi, multi-tester, namlik o\u0027lchagich, masofa o\u0027lchagich, rozetkani tekshirgich va qadoqlash yoki texnik xizmat ko\u0027rsatish uchun uskunalar kirishi mumkin.",
+                                                        "Qurilmalarni nafaqat narxga qarab, balki haqiqiy vazifalarga qarab tanlang: qulaylik, ishonchlilik va aniq displey har kuni vaqtni tejaydi."
+                                                    ]
+                                    }
+}

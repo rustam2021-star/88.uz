@@ -1,6 +1,20 @@
 ---
-import categories from "../data/categories.json";
+import { getLocalizedCategories } from "../lib/content.js";
 import { BLOG_URL, CATALOG_URL, STORE_PHONE } from "../lib/catalog.js";
+import { languageNames, localePath, locales } from "../i18n/index.js";
+
+const { locale = "ru" } = Astro.props;
+const categories = getLocalizedCategories(locale);
+const currentPath = Astro.url.pathname;
+const homeUrl = localePath("/", locale);
+const catalogUrl = localePath(CATALOG_URL, locale);
+const blogUrl = localePath(BLOG_URL, locale);
+const wishlistUrl = localePath("/wishlist/", locale);
+const topbarText = locale === "en"
+  ? "Special offers on measuring instruments and equipment — confirm availability before ordering"
+  : locale === "uz"
+    ? "O‘lchash asboblari va uskunalar uchun maxsus takliflar — buyurtmadan oldin mavjudligini aniqlang"
+    : "Спецпредложения на измерительные приборы и оборудование - уточняйте наличие перед заказом";
 
 const primaryCategories = categories.slice(0, 4);
 const secondaryCategories = categories.slice(4);
@@ -8,7 +22,7 @@ const secondaryCategories = categories.slice(4);
 <div class="tf-topbar topbar-construction bg-dark">
   <div class="container">
     <p class="topbar-text text-center text-white fw-semibold">
-      Спецпредложения на измерительные приборы и оборудование - уточняйте наличие перед заказом
+      {topbarText}
     </p>
   </div>
 </div>
@@ -23,7 +37,7 @@ const secondaryCategories = categories.slice(4);
       </div>
 
       <div class="header-left">
-        <a href="/" class="logo-site">
+        <a href={homeUrl} class="logo-site">
           <img
             alt="88.uz"
             decoding="async"
@@ -40,21 +54,21 @@ const secondaryCategories = categories.slice(4);
       <nav class="header-center d-none d-xl-flex justify-content-center">
         <ul class="box-nav-menu">
           <li class="menu-item position-relative">
-            <a class="item-link" href="/">
+            <a class="item-link" href={homeUrl}>
               <span class="text cus-text">Главная</span>
               <i class="icon icon-CaretDown"></i>
             </a>
             <div class="sub-menu">
               <ul class="sub-menu_list">
-                <li><a class="sub-menu_link has-text" href="/"><span class="cus-text">Главная страница</span></a></li>
-                <li><a class="sub-menu_link has-text" href={CATALOG_URL}><span class="cus-text">Каталог товаров</span></a></li>
-                <li><a class="sub-menu_link has-text" href={BLOG_URL}><span class="cus-text">Блог</span></a></li>
+                <li><a class="sub-menu_link has-text" href={homeUrl}><span class="cus-text">Главная страница</span></a></li>
+                <li><a class="sub-menu_link has-text" href={catalogUrl}><span class="cus-text">Каталог товаров</span></a></li>
+                <li><a class="sub-menu_link has-text" href={blogUrl}><span class="cus-text">Блог</span></a></li>
               </ul>
             </div>
           </li>
 
           <li class="menu-item">
-            <a class="item-link" href={CATALOG_URL}>
+            <a class="item-link" href={catalogUrl}>
               <span class="text cus-text">Магазин</span>
               <i class="icon icon-CaretDown"></i>
             </a>
@@ -67,7 +81,7 @@ const secondaryCategories = categories.slice(4);
                       <ul class="sub-menu_list">
                         {primaryCategories.map((category) => (
                           <li>
-                            <a class="sub-menu_link has-text" href={`/${category.slug}/`}>
+                            <a class="sub-menu_link has-text" href={localePath(`/${category.slug}/`, locale)}>
                               <span class="cus-text">{category.title}</span>
                             </a>
                           </li>
@@ -81,7 +95,7 @@ const secondaryCategories = categories.slice(4);
                       <ul class="sub-menu_list">
                         {secondaryCategories.map((category) => (
                           <li>
-                            <a class="sub-menu_link has-text" href={`/${category.slug}/`}>
+                            <a class="sub-menu_link has-text" href={localePath(`/${category.slug}/`, locale)}>
                               <span class="cus-text">{category.title}</span>
                             </a>
                           </li>
@@ -101,28 +115,28 @@ const secondaryCategories = categories.slice(4);
 
           {primaryCategories.slice(1, 3).map((category) => (
             <li class="menu-item position-relative">
-              <a class="item-link" href={`/${category.slug}/`}>
+              <a class="item-link" href={localePath(`/${category.slug}/`, locale)}>
                 <span class="text cus-text">{category.title}</span>
               </a>
             </li>
           ))}
 
           <li class="menu-item position-relative">
-            <a class="item-link" href={BLOG_URL}>
+            <a class="item-link" href={blogUrl}>
               <span class="text cus-text">Блог</span>
               <i class="icon icon-CaretDown"></i>
             </a>
             <div class="sub-menu">
               <ul class="sub-menu_list">
-                <li><a class="sub-menu_link has-text" href={BLOG_URL}><span class="cus-text">Все статьи</span></a></li>
-                <li><a class="sub-menu_link has-text" href="/blog/kak-vybrat-izmeritelnyi-pribor/"><span class="cus-text">Как выбрать прибор</span></a></li>
-                <li><a class="sub-menu_link has-text" href="/blog/teplovizor-dlya-diagnostiki/"><span class="cus-text">Тепловизоры</span></a></li>
+                <li><a class="sub-menu_link has-text" href={blogUrl}><span class="cus-text">Все статьи</span></a></li>
+                <li><a class="sub-menu_link has-text" href={localePath("/blog/kak-vybrat-izmeritelnyi-pribor/", locale)}><span class="cus-text">Как выбрать прибор</span></a></li>
+                <li><a class="sub-menu_link has-text" href={localePath("/blog/teplovizor-dlya-diagnostiki/", locale)}><span class="cus-text">Тепловизоры</span></a></li>
               </ul>
             </div>
           </li>
 
           <li class="menu-item position-relative">
-            <a class="item-link" href={CATALOG_URL}>
+            <a class="item-link" href={catalogUrl}>
               <span class="text cus-text">Все товары</span>
             </a>
           </li>
@@ -132,12 +146,26 @@ const secondaryCategories = categories.slice(4);
       <div class="header-right">
         <ul class="nav-icon-list">
           <li>
+            <nav class="language-switcher" aria-label="Язык">
+              {locales.map((code) => (
+                <a
+                  aria-current={code === locale ? "page" : undefined}
+                  class:list={["language-switcher_link", { active: code === locale }]}
+                  href={localePath(currentPath, code)}
+                  hreflang={code}
+                  lang={code}
+                  title={languageNames[code]}
+                >{code.toUpperCase()}</a>
+              ))}
+            </nav>
+          </li>
+          <li>
             <a class="nav-icon-item link" data-bs-toggle="modal" href="#search" aria-label="Поиск">
               <i class="icon icon-MagnifyingGlass"></i>
             </a>
           </li>
           <li class="d-none d-sm-block">
-            <a class="nav-icon-item link" href="/wishlist/" aria-label="Избранное">
+            <a class="nav-icon-item link" href={wishlistUrl} aria-label="Избранное">
               <i class="icon icon-HeartStraight"></i>
             </a>
           </li>
@@ -150,19 +178,27 @@ const secondaryCategories = categories.slice(4);
 <div class="modal fade" id="search" tabindex="-1" aria-labelledby="searchTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered"><div class="modal-content search-modal-content">
     <div class="modal-header"><h5 class="modal-title" id="searchTitle">Поиск товаров</h5><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"></button></div>
-    <form class="form-search-nav search-modal-form" action={CATALOG_URL}>
+    <form class="form-search-nav search-modal-form" action={catalogUrl}>
       <div class="search-input-wrap"><i class="icon icon-MagnifyingGlass"></i><input name="q" placeholder="Например, тепловизор" required type="search" /></div>
       <button class="tf-btn btn-dark" type="submit">Найти</button>
     </form>
   </div></div>
 </div>
 
+<script is:inline>
+  document.querySelectorAll("[data-language-switcher]").forEach(function (select) {
+    select.addEventListener("change", function () {
+      window.location.href = select.value;
+    });
+  });
+</script>
+
 <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
   <div class="canvas-header">
     <span class="icon-close-popup" data-bs-dismiss="offcanvas">
       <i class="icon icon-X2"></i>
     </span>
-    <form class="form-search-nav" action={CATALOG_URL}>
+    <form class="form-search-nav" action={catalogUrl}>
       <fieldset>
         <input name="q" placeholder="Что вы ищете?" required type="search" />
       </fieldset>
@@ -174,12 +210,12 @@ const secondaryCategories = categories.slice(4);
   <div class="canvas-body">
     <div class="mb-content-top">
       <ul class="nav-ul-mb">
-        <li class="nav-mb-item"><a class="mb-menu-link" href="/">Главная</a></li>
-        <li class="nav-mb-item"><a class="mb-menu-link" href={CATALOG_URL}>Все товары</a></li>
+        <li class="nav-mb-item"><a class="mb-menu-link" href={homeUrl}>Главная</a></li>
+        <li class="nav-mb-item"><a class="mb-menu-link" href={catalogUrl}>Все товары</a></li>
         {categories.map((category) => (
-          <li class="nav-mb-item"><a class="mb-menu-link" href={`/${category.slug}/`}>{category.title}</a></li>
+          <li class="nav-mb-item"><a class="mb-menu-link" href={localePath(`/${category.slug}/`, locale)}>{category.title}</a></li>
         ))}
-        <li class="nav-mb-item"><a class="mb-menu-link" href={BLOG_URL}>Блог</a></li>
+        <li class="nav-mb-item"><a class="mb-menu-link" href={blogUrl}>Блог</a></li>
       </ul>
     </div>
     <div class="need-help-wrap">
@@ -200,10 +236,8 @@ const secondaryCategories = categories.slice(4);
     </div>
     <div class="d-flex justify-content-center">
       <div class="tf-languages">
-        <select class="tf-dropdown-select style-default type-languages">
-          <option>Русский</option>
-          <option>Uzbek</option>
-          <option>English</option>
+        <select aria-label="Язык" class="tf-dropdown-select style-default type-languages" data-language-switcher>
+          {locales.map((code) => <option value={localePath(currentPath, code)} selected={code === locale}>{languageNames[code]}</option>)}
         </select>
       </div>
     </div>
@@ -242,6 +276,39 @@ const secondaryCategories = categories.slice(4);
   .header-construction .header-left,
   .header-construction .header-right {
     flex: 1 1 0;
+  }
+
+  .language-switcher {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+  }
+
+  .language-switcher_link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    min-height: 36px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .language-switcher_link.active {
+    color: var(--white);
+    background: var(--text);
+  }
+
+  .language-switcher_link:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
 
   .header-construction .logo-site img {
@@ -296,7 +363,17 @@ const secondaryCategories = categories.slice(4);
     }
 
     .header-construction .logo-site img {
-      width: 170px;
+      width: 130px;
+    }
+
+    .header-construction .nav-icon-list {
+      gap: 8px;
+    }
+
+    .language-switcher_link {
+      min-width: 28px;
+      padding-inline: 5px;
+      font-size: 11px;
     }
   }
 

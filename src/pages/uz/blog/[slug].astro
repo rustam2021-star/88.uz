@@ -1,0 +1,5 @@
+---
+import Page, { getStaticPaths as getPagePaths } from "../../blog/[slug].astro";
+export async function getStaticPaths() { return await getPagePaths(); }
+---
+<Page {...Astro.props} />

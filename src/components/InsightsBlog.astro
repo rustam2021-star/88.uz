@@ -1,8 +1,11 @@
 ---
-import posts from "../data/blog.json";
-import products from "../data/products.json";
+import { getLocalizedPosts, getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
 import { getPostImage, getPostUrl } from "../lib/blog.js";
 import { getImageSrcset, getImageVariant } from "../lib/catalog.js";
+const locale = getLocale(Astro.url.pathname);
+const posts = getLocalizedPosts(locale);
+const products = getLocalizedProducts(locale);
 ---
 <section class="section-insights flat-spacing">
   <div class="container">

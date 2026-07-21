@@ -8,8 +8,8 @@ import {
   getProductHoverCardImage,
   getProductHoverCardSrcset
 } from "../lib/catalog.js";
-import categories from "../data/categories.json";
-import products from "../data/products.json";
+import { baseCategories, getLocalizedCategories, getLocalizedProducts } from "../lib/content.js";
+import { getLocale } from "../i18n/index.js";
 import SeoBreadcrumbs from "../components/SeoBreadcrumbs.astro";
 import {
   getBreadcrumbItems,
@@ -19,15 +19,18 @@ import {
 } from "../lib/seo.js";
 
 export function getStaticPaths() {
-  return categories.map((category) => ({
+  return baseCategories.map((category) => ({
     params: { category: category.slug },
     props: { category }
   }));
 }
 
-const { category } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const categories = getLocalizedCategories(locale);
+const products = getLocalizedProducts(locale);
+const category = categories.find((item) => item.slug === Astro.props.category.slug) || Astro.props.category;
 const categoryProducts = products.filter((product) => product.category_slug === category.slug);
-const seo = getCategorySeo(category);
+const seo = getCategorySeo(category, locale);
 const breadcrumbs = getBreadcrumbItems([
   { name: "Главная", url: "/" },
   { name: "Каталог", url: "/catalog/" },

@@ -53,7 +53,7 @@ export function getProductBrand(product) {
   return brand && !NO_BRAND_PATTERN.test(brand) ? brand : "";
 }
 
-export function getProductSeo(product, category) {
+export function getProductSeo(product, category, locale = "ru") {
   const content = getProfessionalProductContent(product);
   const brand = getProductBrand(product);
   const model = clean(product?.model);
@@ -62,7 +62,8 @@ export function getProductSeo(product, category) {
   const productTitle = model && exactName.toLocaleLowerCase().includes(model.toLocaleLowerCase())
     ? exactName
     : modelQuery || exactName;
-  const title = `${productTitle} — купить в Ташкенте | ${SITE_NAME}`;
+  const localizedSuffix = locale === "en" ? `buy in Tashkent | ${SITE_NAME}` : locale === "uz" ? `Toshkentda xarid qilish | ${SITE_NAME}` : `купить в Ташкенте | ${SITE_NAME}`;
+  const title = product.seo_title || `${productTitle} — ${localizedSuffix}`;
   const fallbackDescription = `${exactName}. ${product.price ? `Цена: ${new Intl.NumberFormat("ru-RU").format(product.price)} сум. ` : ""}Наличие, комплектацию и способ получения уточняйте перед заказом в Ташкенте.`;
   const description = truncate(content.shortDescription || product.seo_description || fallbackDescription);
   const primaryKeyword = `купить ${exactName.toLocaleLowerCase("ru-RU")}`;
@@ -93,8 +94,8 @@ export function getProductSeo(product, category) {
   };
 }
 
-export function getCategorySeo(category) {
-  const config = categorySeoConfig[category.slug] || {};
+export function getCategorySeo(category, locale = "ru") {
+  const config = locale === "ru" ? (categorySeoConfig[category.slug] || {}) : {};
   const title = config.title || category.seo_title || `${category.title} — 88.uz`;
   const description = truncate(config.description || category.seo_description || category.description_top);
 
@@ -117,15 +118,24 @@ export function getCategorySeo(category) {
   };
 }
 
-export function getHomeSeo() {
+export function getHomeSeo(locale = "ru") {
+  const localized = locale === "en" ? {
+    title: "88.uz — measuring instruments and products in Tashkent",
+    description: "88.uz catalog in Tashkent: measuring instruments, detectors, automotive tools, electronics and equipment.",
+    h1: "Instruments and equipment for precise tasks"
+  } : locale === "uz" ? {
+    title: "88.uz — Toshkentdagi o‘lchash asboblari va mahsulotlar",
+    description: "Toshkentdagi 88.uz katalogi: o‘lchash asboblari, detektorlar, avto asboblar, elektronika va uskunalar.",
+    h1: "Aniq vazifalar uchun asboblar va uskunalar"
+  } : null;
   return {
     url: "/",
     pageType: "home",
     searchIntent: "commercial",
     ...homeSeo,
-    title: "88.uz — измерительные приборы и товары в Ташкенте",
-    description: "Каталог 88.uz в Ташкенте: измерительные приборы, детекторы, автоинструменты, электроника и оборудование. Выберите товар и уточните заказ у продавца.",
-    h1: "Приборы и оборудование для точных задач",
+    title: localized?.title || "88.uz — измерительные приборы и товары в Ташкенте",
+    description: localized?.description || "Каталог 88.uz в Ташкенте: измерительные приборы, детекторы, автоинструменты, электроника и оборудование. Выберите товар и уточните заказ у продавца.",
+    h1: localized?.h1 || "Приборы и оборудование для точных задач",
     canonical: getCanonicalUrl("/"),
     robots: "index, follow",
     parentCategory: "",
@@ -133,15 +143,24 @@ export function getHomeSeo() {
   };
 }
 
-export function getCatalogSeo() {
+export function getCatalogSeo(locale = "ru") {
+  const localized = locale === "en" ? {
+    title: "Product catalog in Tashkent — 88.uz",
+    description: "88.uz catalog: measuring instruments, detectors, automotive tools, electronics, equipment and home goods.",
+    h1: "Product catalog"
+  } : locale === "uz" ? {
+    title: "Toshkentdagi mahsulotlar katalogi — 88.uz",
+    description: "88.uz katalogi: o‘lchash asboblari, detektorlar, avto asboblar, elektronika, uskunalar va uy mahsulotlari.",
+    h1: "Mahsulotlar katalogi"
+  } : null;
   return {
     url: "/catalog/",
     pageType: "catalog",
     searchIntent: "commercial",
     ...catalogSeo,
-    title: "Каталог товаров в Ташкенте — 88.uz",
-    description: "Каталог 88.uz: измерительные приборы, детекторы, автоинструменты, электроника, оборудование и товары для дома с заказом в Ташкенте.",
-    h1: "Каталог товаров",
+    title: localized?.title || "Каталог товаров в Ташкенте — 88.uz",
+    description: localized?.description || "Каталог 88.uz: измерительные приборы, детекторы, автоинструменты, электроника, оборудование и товары для дома с заказом в Ташкенте.",
+    h1: localized?.h1 || "Каталог товаров",
     canonical: getCanonicalUrl("/catalog/"),
     robots: "index, follow",
     parentCategory: "",
@@ -149,15 +168,16 @@ export function getCatalogSeo() {
   };
 }
 
-export function getBlogIndexSeo() {
+export function getBlogIndexSeo(locale = "ru") {
+  const localized = locale === "en" ? { title: "88.uz blog — choosing instruments and tools", description: "Practical guides to measuring instruments, detectors, automotive tools and equipment.", h1: "Blog" } : locale === "uz" ? { title: "88.uz blogi — asboblar va uskunalarni tanlash", description: "O‘lchash asboblari, detektorlar, avto asboblar va uskunalar bo‘yicha amaliy qo‘llanmalar.", h1: "Blog" } : null;
   return {
     url: "/blog/",
     pageType: "blog",
     searchIntent: "informational",
     ...blogSeo,
-    title: "Блог 88.uz — выбор приборов и инструментов",
-    description: "Практические статьи 88.uz о выборе измерительных приборов, детекторов, автоинструментов и оборудования.",
-    h1: "Блог",
+    title: localized?.title || "Блог 88.uz — выбор приборов и инструментов",
+    description: localized?.description || "Практические статьи 88.uz о выборе измерительных приборов, детекторов, автоинструментов и оборудования.",
+    h1: localized?.h1 || "Блог",
     canonical: getCanonicalUrl("/blog/"),
     robots: "index, follow",
     parentCategory: "",
@@ -165,8 +185,8 @@ export function getBlogIndexSeo() {
   };
 }
 
-export function getBlogPostSeo(post) {
-  const title = `${post.title} — блог 88.uz`;
+export function getBlogPostSeo(post, locale = "ru") {
+  const title = `${post.title} — ${locale === "en" ? "88.uz blog" : locale === "uz" ? "88.uz blogi" : "блог 88.uz"}`;
 
   return {
     url: `/blog/${post.slug}/`,
@@ -277,8 +297,8 @@ export function getCollectionSchema({ name, url, products: items = [] }) {
   };
 }
 
-export function getProductSchema(product, category) {
-  const seo = getProductSeo(product, category);
+export function getProductSchema(product, category, locale = "ru") {
+  const seo = getProductSeo(product, category, locale);
   const image = (product.gallery?.length ? product.gallery : [product.main_image]).filter(Boolean).map(absoluteUrl);
   const schema = {
     "@type": "Product",

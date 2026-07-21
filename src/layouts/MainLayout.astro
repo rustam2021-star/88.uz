@@ -2,6 +2,8 @@
 import TemplateHead from "../components/TemplateHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { getLanguageAlternates, getLocale, localePath } from "../i18n/index.js";
+import { uiTranslations } from "../i18n/ui.js";
 
 const {
   title,
@@ -13,6 +15,11 @@ const {
   jsonLd,
   productAssets = false
 } = Astro.props;
+
+const locale = getLocale(Astro.url.pathname);
+const languageAlternates = getLanguageAlternates(Astro.url.pathname);
+const localizedCanonicalPath = canonicalPath === null ? null : localePath(canonicalPath || Astro.url.pathname, locale);
+const translations = uiTranslations[locale] || uiTranslations.ru;
 
 const themeScripts = [
   "/assets/theme/assets/js/plugin/bootstrap.min.js",
@@ -71,17 +78,19 @@ const themeLoader = `
 `;
 ---
 <!doctype html>
-<html lang="ru">
+<html lang={locale}>
   <head>
     <TemplateHead
       title={title}
       description={description}
-      canonicalPath={canonicalPath}
+      canonicalPath={localizedCanonicalPath}
       robots={robots}
       ogImage={ogImage}
       ogType={ogType}
       jsonLd={jsonLd}
       productAssets={productAssets}
+      locale={locale}
+      languageAlternates={languageAlternates}
     />
   </head>
   <body>
@@ -97,11 +106,91 @@ const themeLoader = `
       </span>
     </button>
     <main id="wrapper">
-      <Header />
+      <Header locale={locale} />
       <slot />
-      <Footer />
+      <Footer locale={locale} />
     </main>
     <script is:inline src="/assets/theme/assets/js/wishlist-local.js"></script>
+    <script is:inline define:vars={{ locale, translations }}>
+      (function () {
+        var supported = ["ru", "uz", "en"];
+        var excludedPrefixes = ["/assets/", "/favicon", "/sitemap", "/robots"];
+
+        function localizedUrl(value) {
+          if (!value || value[0] !== "/" || value.startsWith("//")) return value;
+          if (excludedPrefixes.some(function (prefix) { return value.startsWith(prefix); })) return value;
+          var parts = value.split("/");
+          if (supported.includes(parts[1])) parts.splice(1, 1);
+          var path = parts.join("/") || "/";
+          return "/" + locale + (path === "/" ? "/" : path);
+        }
+
+        function translateText(root) {
+          var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+          var nodes = [];
+          while (walker.nextNode()) nodes.push(walker.currentNode);
+          nodes.forEach(function (node) {
+            if (node.parentElement && ["SCRIPT", "STYLE"].includes(node.parentElement.tagName)) return;
+            var value = node.nodeValue || "";
+            var trimmed = value.trim();
+            if (trimmed && translations[trimmed]) {
+              node.nodeValue = value.replace(trimmed, translations[trimmed]);
+              return;
+            }
+            if (locale === "uz") {
+              node.nodeValue = value
+                .replace(/(\d+) товаров/g, "$1 ta mahsulot")
+                .replace(/Найдено:\s*(\d+)/g, "$1 ta topildi")
+                .replace(/По запросу «(.+?)» ничего не найдено\./g, "«$1» so‘rovi bo‘yicha hech narsa topilmadi.");
+            } else if (locale === "en") {
+              node.nodeValue = value
+                .replace(/(\d+) товаров/g, "$1 products")
+                .replace(/Найдено:\s*(\d+)/g, "$1 found")
+                .replace(/По запросу «(.+?)» ничего не найдено\./g, "No results found for “$1”.");
+            }
+          });
+        }
+
+        function localize(root) {
+          if (root.nodeType !== Node.ELEMENT_NODE && root !== document) return;
+          translateText(root);
+          root.querySelectorAll("a[href]:not([hreflang])").forEach(function (link) {
+            link.setAttribute("href", localizedUrl(link.getAttribute("href")));
+          });
+          root.querySelectorAll("form[action]").forEach(function (form) {
+            form.setAttribute("action", localizedUrl(form.getAttribute("action")));
+          });
+          root.querySelectorAll("[placeholder], [aria-label], [title]").forEach(function (element) {
+            ["placeholder", "aria-label", "title"].forEach(function (attribute) {
+              var value = element.getAttribute(attribute);
+              if (!value) return;
+              if (translations[value]) {
+                element.setAttribute(attribute, translations[value]);
+                return;
+              }
+              if (locale === "uz") {
+                element.setAttribute(attribute, value
+                  .replace(/^Добавить в избранное:/, "Sevimlilarga qo‘shish:")
+                  .replace(/^Быстрый просмотр:/, "Tezkor ko‘rish:")
+                  .replace(/^Смотреть товар:/, "Mahsulotni ko‘rish:"));
+              } else if (locale === "en") {
+                element.setAttribute(attribute, value
+                  .replace(/^Добавить в избранное:/, "Add to wishlist:")
+                  .replace(/^Быстрый просмотр:/, "Quick view:")
+                  .replace(/^Смотреть товар:/, "View product:"));
+              }
+            });
+          });
+        }
+
+        localize(document);
+        new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            mutation.addedNodes.forEach(localize);
+          });
+        }).observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
     <script is:inline set:html={themeLoader}></script>
   </body>
 </html>
