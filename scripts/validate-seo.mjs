@@ -9,6 +9,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const errors = [];
 const warnings = [];
+const defaultLocale = "ru";
+const localizeUrl = (url) => `/${defaultLocale}${url === "/" ? "/" : url}`;
+const localizedCanonical = (url) => getCanonicalUrl(localizeUrl(url));
 
 const addDuplicateIssues = (field) => {
   const groups = new Map();
@@ -90,9 +93,10 @@ const getDistFile = (url) => {
 };
 
 const readBuiltPage = (page) => {
-  const file = getDistFile(page.url);
+  const builtUrl = localizeUrl(page.url);
+  const file = getDistFile(builtUrl);
   if (!fs.existsSync(file)) {
-    errors.push(`${page.url}: missing built route (${file})`);
+    errors.push(`${builtUrl}: missing built route (${file})`);
     return "";
   }
 
@@ -115,7 +119,7 @@ for (const page of seoMap) {
   if (descriptionMatches.length !== 1 || !descriptionMatches[0].includes(`content="${page.description}"`)) {
     errors.push(`${page.url}: description does not match the SEO map`);
   }
-  if (canonicalMatches.length !== 1 || !canonicalMatches[0].includes(`href="${page.canonical}"`)) {
+  if (canonicalMatches.length !== 1 || !canonicalMatches[0].includes(`href="${localizedCanonical(page.url)}"`)) {
     errors.push(`${page.url}: canonical is missing or duplicated`);
   }
   if (h1Matches.length !== 1) {
@@ -139,7 +143,9 @@ for (const page of seoMap) {
 if (fs.existsSync(path.join(dist, "sitemap.xml"))) {
   const sitemap = fs.readFileSync(path.join(dist, "sitemap.xml"), "utf8");
   const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  const expectedSitemapUrls = seoMap.filter((page) => page.pageType !== "article" || page.robots === "index, follow").map((page) => page.canonical);
+  const expectedSitemapUrls = seoMap
+    .filter((page) => page.pageType !== "article" || page.robots === "index, follow")
+    .map((page) => localizedCanonical(page.url));
   const missingFromSitemap = expectedSitemapUrls.filter((url) => !sitemapUrls.includes(url));
   if (missingFromSitemap.length) warnings.push(`Sitemap does not contain ${missingFromSitemap.length} SEO-map URLs`);
   if (sitemapUrls.some((url) => /wishlist|\?/i.test(url))) errors.push("Sitemap contains a technical or parameter URL");

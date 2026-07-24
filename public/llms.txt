@@ -4,20 +4,20 @@
 
 ## Основные страницы
 
-- [Главная](https://88.uz/)
-- [Каталог товаров](https://88.uz/catalog/)
-- [Блог](https://88.uz/blog/)
+- [Главная](https://88.uz/ru/)
+- [Каталог товаров](https://88.uz/ru/catalog/)
+- [Блог](https://88.uz/ru/blog/)
 - [Карта сайта](https://88.uz/sitemap.xml)
 
 ## Категории
 
-- [Измерительные приборы](https://88.uz/measuring-tools/)
-- [Тепловизоры и детекторы](https://88.uz/thermal-detectors/)
-- [Автоинструменты](https://88.uz/auto-service/)
-- [Инструменты и оборудование](https://88.uz/tools-equipment/)
-- [Электроника](https://88.uz/smart-electronics/)
-- [Здоровье и красота](https://88.uz/health-beauty/)
-- [Товары для питомцев](https://88.uz/pet-products/)
+- [Измерительные приборы](https://88.uz/ru/measuring-tools/)
+- [Тепловизоры и детекторы](https://88.uz/ru/thermal-detectors/)
+- [Автоинструменты](https://88.uz/ru/auto-service/)
+- [Инструменты и оборудование](https://88.uz/ru/tools-equipment/)
+- [Электроника](https://88.uz/ru/smart-electronics/)
+- [Здоровье и красота](https://88.uz/ru/health-beauty/)
+- [Товары для питомцев](https://88.uz/ru/pet-products/)
 
 ## Контакты
 
